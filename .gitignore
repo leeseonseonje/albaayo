@@ -34,5 +34,4 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
-/main/resources/application.yml
+.vscode/application.yml
