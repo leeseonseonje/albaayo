@@ -1,7 +1,6 @@
-package albaAyo.albaayo.employer;
+package albaAyo.albaayo.member.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.company.Company;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,22 +8,22 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 @Getter
 @NoArgsConstructor
-public class Employer extends BaseTimeEntity {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "employer_id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(unique = true, updatable = false)
     private String email;
 
-    private String name;
-
     @Column(updatable = false)
     private LocalDate birth;
 
-
+    private String name;
 }

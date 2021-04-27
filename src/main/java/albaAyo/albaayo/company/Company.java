@@ -1,7 +1,7 @@
 package albaAyo.albaayo.company;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.employer.Employer;
+import albaAyo.albaayo.member.domain.Employer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

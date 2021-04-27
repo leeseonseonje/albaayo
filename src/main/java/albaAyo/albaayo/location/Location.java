@@ -1,7 +1,7 @@
 package albaAyo.albaayo.location;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.worker.Worker;
+import albaAyo.albaayo.member.domain.Worker;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
