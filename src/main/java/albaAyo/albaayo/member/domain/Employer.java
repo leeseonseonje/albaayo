@@ -11,4 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Employer extends Member {
 
+    @Column(unique = true, updatable = false)
+    private Integer businessRegistrationNumber;
 }

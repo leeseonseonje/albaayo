@@ -26,4 +26,6 @@ public class Member extends BaseTimeEntity {
     private LocalDate birth;
 
     private String name;
+
+    private String picture;
 }

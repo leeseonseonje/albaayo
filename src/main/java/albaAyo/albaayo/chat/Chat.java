@@ -29,6 +29,6 @@ public class Chat extends BaseTimeEntity {
     private Member member;
 
     @Column(updatable = false)
-    private String chatHistory;
+    private String chatContents;
 
 }

@@ -31,4 +31,6 @@ public class Notice extends BaseTimeEntity {
     private String title;
 
     private String contents;
+
+    private String image;
 }

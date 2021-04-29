@@ -12,7 +12,5 @@ import javax.persistence.*;
 public class Calendar extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "calendar_id")
-    private Long id;
+    private Integer date;
 }

@@ -22,6 +22,6 @@ public class PersonalChatHistory extends BaseTimeEntity {
     @JoinColumn(name = "personal_chat_group_id")
     private PersonalChatGroup personalChatGroup;
 
-    private String whisperHistory;
+    private String personalChatContents;
 
 }

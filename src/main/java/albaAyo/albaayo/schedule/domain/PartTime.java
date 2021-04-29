@@ -1,20 +1,21 @@
 package albaAyo.albaayo.schedule.domain;
 
-import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.Company;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Schedule extends BaseTimeEntity {
+public class PartTime {
 
     @Id
     @GeneratedValue
-    @Column(name = "schedule_id")
+    @Column(name = "part_time_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,5 +26,13 @@ public class Schedule extends BaseTimeEntity {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    private String workSchedule;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private Integer startTime;
+
+    private Integer endTime;
+
+    private String part;
 }

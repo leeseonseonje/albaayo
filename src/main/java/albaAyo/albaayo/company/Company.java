@@ -23,8 +23,5 @@ public class Company extends BaseTimeEntity {
 
     private String name;
 
-    @Column(unique = true, updatable = false)
-    private int businessRegistrationNumber;
-
     private String location;
 }
