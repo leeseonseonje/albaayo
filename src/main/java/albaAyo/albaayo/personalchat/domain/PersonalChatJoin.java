@@ -1,6 +1,6 @@
 package albaAyo.albaayo.personalchat.domain;
 
-import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

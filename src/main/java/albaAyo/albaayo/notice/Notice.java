@@ -2,7 +2,7 @@ package albaAyo.albaayo.notice;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

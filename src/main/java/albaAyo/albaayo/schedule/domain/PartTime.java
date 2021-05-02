@@ -1,10 +1,9 @@
 package albaAyo.albaayo.schedule.domain;
 
 import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 
