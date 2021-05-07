@@ -1,6 +1,6 @@
 package albaAyo.albaayo.personalchat.domain;
 
-import albaAyo.albaayo.member.Member;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +15,6 @@ public class PersonalChatJoin {
 
     @Id
     @GeneratedValue
-    @Column(name = "personal_chat_join_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

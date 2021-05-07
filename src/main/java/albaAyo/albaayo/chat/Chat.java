@@ -2,11 +2,12 @@ package albaAyo.albaayo.chat;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.Member;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -17,7 +18,6 @@ public class Chat extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "chat_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -28,7 +28,6 @@ public class Chat extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(updatable = false)
+    @Column(updatable = false, length = 500)
     private String chatContents;
-
 }

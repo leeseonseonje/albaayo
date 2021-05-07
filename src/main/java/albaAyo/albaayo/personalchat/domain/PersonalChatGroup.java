@@ -9,10 +9,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class PersonalChatGroup extends BaseTimeEntity {
+public class PersonalChatGroup{
 
     @Id
     @GeneratedValue
-    @Column(name = "personal_chat_group_id")
     private Long id;
 }

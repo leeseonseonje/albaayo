@@ -1,7 +1,7 @@
 package albaAyo.albaayo.schedule.domain;
 
 import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.Member;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +14,7 @@ public class PartTime {
 
     @Id
     @GeneratedValue
-    @Column(name = "part_time_id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendar_id")
-    private Calendar calendar;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
@@ -33,5 +28,6 @@ public class PartTime {
 
     private Integer endTime;
 
+    @Column(length = 50)
     private String part;
 }

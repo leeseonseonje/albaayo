@@ -2,11 +2,13 @@ package albaAyo.albaayo.notice;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.Member;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.*;
 
@@ -17,7 +19,6 @@ public class Notice extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "notice_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -28,9 +29,13 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(length = 50)
     private String title;
 
+    @Column(length = 1000)
     private String contents;
 
     private String image;
+
+    private LocalDateTime modifyTime;
 }

@@ -1,7 +1,8 @@
 package albaAyo.albaayo.member.employer;
 
-import albaAyo.albaayo.member.Member;
-import albaAyo.albaayo.member.Role;
+import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.domain.Role;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,11 +15,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Employer extends Member {
 
-    public Employer(Long id, String email, String name, String picture, String birth, Role role) {
-        super(id, email, name, picture, birth, role);
-    }
-
-    public Employer(String email, String name, String picture, String birth, Role role) {
-        super(email, name, picture, birth, role);
+    @Builder
+    public Employer(String userId, String password, String email, String name, String birth, Role role) {
+        super(userId, password, email, name, birth, role);
     }
 }

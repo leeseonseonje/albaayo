@@ -15,13 +15,13 @@ public class PersonalChatHistory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "personal_chat_history_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "personal_chat_group_id")
     private PersonalChatGroup personalChatGroup;
 
+    @Column(length = 500)
     private String personalChatContents;
 
 }

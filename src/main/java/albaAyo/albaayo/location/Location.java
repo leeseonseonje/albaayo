@@ -14,12 +14,12 @@ public class Location extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "location_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
     private Worker worker;
 
+    @Column(length = 100)
     private String departureLocation;
 }
