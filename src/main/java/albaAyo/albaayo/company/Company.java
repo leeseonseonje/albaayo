@@ -1,7 +1,7 @@
 package albaAyo.albaayo.company;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.member.employer.Employer;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class Company extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employer_id")
-    private Employer employer;
+    private Member member;
 
     @Column(updatable = false, nullable = false, unique = true)
     private String businessRegistrationNumber;
@@ -39,7 +39,7 @@ public class Company extends BaseTimeEntity {
         this.location = location;
     }
 
-    public void employerCreateCompany(Employer employer) {
-        this.employer = employer;
+    public void employerCreateCompany(Member member) {
+        this.member = member;
     }
 }

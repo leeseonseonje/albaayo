@@ -33,26 +33,29 @@ public class LoginService {
 
     @Transactional
     public CreateMemberResponse employerSignup(CreateMemberRequest request) {
-        if (memberRepository.existsByUserId(request.getUserId())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
-        }
 
-        Employer employer = request.toEmployer(passwordEncoder);
-        Employer savedEmployer = memberRepository.save(employer);
+        validateDuplicateMember(request);
+
+        Member member = request.toEmployer(passwordEncoder);
+        Member savedEmployer = memberRepository.save(member);
 
         return new CreateMemberResponse(savedEmployer.getId(), savedEmployer.getName());
     }
 
     @Transactional
     public CreateMemberResponse workerSignup(CreateMemberRequest request) {
+        validateDuplicateMember(request);
+
+        Member member = request.toWorker(passwordEncoder);
+        Member savedWorker = memberRepository.save(member);
+
+        return new CreateMemberResponse(savedWorker.getId(), savedWorker.getName());
+    }
+
+    public void validateDuplicateMember(CreateMemberRequest request) {
         if (memberRepository.existsByUserId(request.getUserId())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
-
-        Worker worker = request.toWorker(passwordEncoder);
-        Worker savedWorker = memberRepository.save(worker);
-
-        return new CreateMemberResponse(savedWorker.getId(), savedWorker.getName());
     }
 
     @Transactional

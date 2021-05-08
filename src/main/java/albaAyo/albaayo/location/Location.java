@@ -1,7 +1,7 @@
 package albaAyo.albaayo.location;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.member.worker.Worker;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +18,7 @@ public class Location extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
-    private Worker worker;
+    private Member member;
 
     @Column(length = 100)
     private String departureLocation;

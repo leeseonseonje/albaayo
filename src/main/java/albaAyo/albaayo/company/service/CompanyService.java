@@ -7,7 +7,6 @@ import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
-import albaAyo.albaayo.member.employer.Employer;
 import albaAyo.albaayo.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ public class CompanyService {
 
         validateCompany(company);
         Company savedCompany = companyRepository.save(company);
-        Employer employer = (Employer) memberRepository.findById(id).orElseGet(Employer::new);
-        savedCompany.employerCreateCompany(employer);
+        Member member =  memberRepository.findById(id).orElseGet(Member::new);
+        savedCompany.employerCreateCompany(member);
 
         return savedCompany;
     }

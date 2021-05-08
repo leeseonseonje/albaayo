@@ -1,5 +1,6 @@
 package albaAyo.albaayo.member.dto;
 
+import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
 import albaAyo.albaayo.member.employer.Employer;
 import albaAyo.albaayo.member.worker.Worker;
@@ -23,8 +24,8 @@ public class CreateMemberRequest {
     @NotNull
     private String birth;
 
-    public Employer toEmployer(PasswordEncoder passwordEncoder) {
-        return Employer.builder()
+    public Member toEmployer(PasswordEncoder passwordEncoder) {
+        return Member.builder()
                 .userId(userId)
                 .password(passwordEncoder.encode(password))
                 .email(email)
@@ -34,8 +35,8 @@ public class CreateMemberRequest {
                 .build();
     }
 
-    public Worker toWorker(PasswordEncoder passwordEncoder) {
-        return Worker.builder()
+    public Member toWorker(PasswordEncoder passwordEncoder) {
+        return Member.builder()
                 .userId(userId)
                 .password(passwordEncoder.encode(password))
                 .email(email)

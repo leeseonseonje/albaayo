@@ -1,7 +1,6 @@
 package albaAyo.albaayo.company;
 
 import albaAyo.albaayo.member.domain.Member;
-import albaAyo.albaayo.member.worker.Worker;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

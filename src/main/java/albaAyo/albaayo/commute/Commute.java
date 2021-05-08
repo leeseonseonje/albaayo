@@ -1,7 +1,6 @@
 package albaAyo.albaayo.commute;
 
-import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.member.worker.Worker;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class Commute{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
-    private Worker worker;
+    private Member member;
 
     private LocalDateTime startTime;
 
