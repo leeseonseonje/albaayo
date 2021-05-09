@@ -2,8 +2,6 @@ package albaAyo.albaayo.member.dto;
 
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
-import albaAyo.albaayo.member.employer.Employer;
-import albaAyo.albaayo.member.worker.Worker;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
