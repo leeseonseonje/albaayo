@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/albaayo
+    url: jdbc:mariadb://localhost:3306/albaayo?characterEncoding=utf8&serverTimezone=UTC
     driver-class-name: org.mariadb.jdbc.Driver
     username: seonje
     password: 12345678
