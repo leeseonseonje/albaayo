@@ -42,6 +42,7 @@ public class LoginService {
 
     @Transactional
     public CreateMemberResponse workerSignup(CreateMemberRequest request) {
+
         validateDuplicateMember(request);
 
         Member member = request.toWorker(passwordEncoder);
