@@ -4,6 +4,7 @@ import albaAyo.albaayo.company.Company;
 import albaAyo.albaayo.company.dto.RequestCreatCompanyDto;
 import albaAyo.albaayo.company.dto.RequestInviteWorkerDto;
 import albaAyo.albaayo.company.dto.ResponseCreatCompanyDto;
+import albaAyo.albaayo.company.dto.ResponseFindWorkerDto;
 import albaAyo.albaayo.company.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +42,13 @@ public class CompanyController {
         return new ResponseCreatCompanyDto(savedCompany.getId(), savedCompany.getName(), savedCompany.getLocation());
     }
 
-    @PostMapping("/employer/{employerId}/company/{companyId}")
-    public void inviteWorker(@PathVariable("employerId") Long employerId, @PathVariable("companyId") Long companyId,
+    @GetMapping("employer/{employerId}/company/{workerId}")
+    public ResponseFindWorkerDto workerFind(@PathVariable("workerId") String workerId) {
+        return companyService.findWorker(workerId);
+    }
+    @PostMapping("employer/{employerId}/company/{companyId}")
+    public void inviteWorker(@PathVariable("companyId") Long companyId,
                              @RequestBody @Valid RequestInviteWorkerDto request) {
-
-
+        companyService.inviteWorker(companyId, request);
     }
 }

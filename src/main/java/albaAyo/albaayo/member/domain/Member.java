@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn
 @Getter
 @NoArgsConstructor
 public class Member {
@@ -23,7 +21,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, updatable = false, length = 50)
+    @Column(unique = true, updatable = false, length = 50, nullable = false)
     private String email;
 
     @Column(updatable = false, nullable = false)

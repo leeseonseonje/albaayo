@@ -3,6 +3,7 @@ package albaAyo.albaayo.company.service;
 import albaAyo.albaayo.company.Company;
 import albaAyo.albaayo.company.JoinCompany;
 import albaAyo.albaayo.company.dto.RequestInviteWorkerDto;
+import albaAyo.albaayo.company.dto.ResponseFindWorkerDto;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
@@ -42,6 +43,13 @@ public class CompanyService {
 
     public List<Company> companies(Long id) {
         return companyRepository.findCompanies(id);
+    }
+
+    public ResponseFindWorkerDto findWorker(String workerId) {
+        Member member = memberRepository.findByUserId(workerId).orElseThrow(
+                () -> new RuntimeException("존재하지 않는 이용자 입니다."));
+
+        return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());
     }
 
     public void inviteWorker(Long id, RequestInviteWorkerDto request) {
