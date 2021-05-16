@@ -1,9 +1,8 @@
 package albaAyo.albaayo;
 
 import albaAyo.albaayo.company.Company;
+import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
-import albaAyo.albaayo.member.employer.Employer;
-import albaAyo.albaayo.member.worker.Worker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,7 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit1() {
-            Employer employerA = Employer.builder()
+            Member employerA = Member.builder().build().builder()
                     .userId("EMPLOYERA")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("leeseonje@gmail.com")
@@ -38,7 +37,7 @@ public class InitDb {
                     .role(Role.ROLE_EMPLOYER)
                     .build();
 
-            Employer employerB = Employer.builder()
+            Member employerB = Member.builder()
                     .userId("EMPLOYERB")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@naver.com")
@@ -47,7 +46,7 @@ public class InitDb {
                     .role(Role.ROLE_EMPLOYER)
                     .build();
 
-            Worker workerA = Worker.builder()
+            Member workerA = Member.builder()
                     .userId("workerA")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@g.com")
@@ -56,7 +55,7 @@ public class InitDb {
                     .role(Role.ROLE_WORKER)
                     .build();
 
-            Worker workerB = Worker.builder()
+            Member workerB = Member.builder()
                     .userId("workerB")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@gddddddd.com")

@@ -2,7 +2,6 @@ package albaAyo.albaayo.company.repository;
 
 import albaAyo.albaayo.company.Company;
 import albaAyo.albaayo.member.domain.Member;
-import albaAyo.albaayo.member.employer.Employer;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
