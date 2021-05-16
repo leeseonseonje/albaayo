@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class RefreshToken {
 
     @Id
-    private String key;
+    private String id;
 
     private String token;
 
@@ -23,8 +23,8 @@ public class RefreshToken {
     }
 
     @Builder
-    public RefreshToken(String key, String token) {
-        this.key = key;
+    public RefreshToken(String id, String token) {
+        this.id = id;
         this.token = token;
     }
 }

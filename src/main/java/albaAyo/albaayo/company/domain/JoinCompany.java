@@ -1,4 +1,4 @@
-package albaAyo.albaayo.company;
+package albaAyo.albaayo.company.domain;
 
 import albaAyo.albaayo.member.domain.Member;
 import lombok.Builder;
@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
@@ -16,17 +18,22 @@ public class JoinCompany {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private Accept workerInvite;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
     @Builder
-    public JoinCompany(Member member, Company company) {
+    public JoinCompany(Member member, Company company, Accept workerInvite) {
         this.member = member;
         this.company = company;
+        this.workerInvite = workerInvite;
     }
 }

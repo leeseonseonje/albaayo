@@ -1,7 +1,7 @@
 package albaAyo.albaayo.chat;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.company.Company;
+import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,13 +1,14 @@
 package albaAyo.albaayo.company.repository;
 
-import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.dto.CompanyDto;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static albaAyo.albaayo.company.QCompany.*;
+import static albaAyo.albaayo.company.domain.QCompany.*;
 
 public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
 
@@ -21,13 +22,13 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
 
 
     @Override
-    public List<Company> findCompanies(Long id) {
-
-        Member findEmployer = em.find(Member.class, id);
+    public List<CompanyDto> findCompanies(Long id) {
 
         return queryFactory
-                .selectFrom(company)
-                .where(company.member.eq(findEmployer))
+                .select(Projections.constructor(CompanyDto.class,
+                        company.id, company.name, company.location))
+                .from(company)
+                .where(company.member.id.eq(id))
                 .fetch();
     }
 }

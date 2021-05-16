@@ -1,11 +1,10 @@
 package albaAyo.albaayo.config;
 
-import albaAyo.albaayo.jwt.JwtAccessDeniedHandler;
-import albaAyo.albaayo.jwt.JwtAuthenticationEntryPoint;
-import albaAyo.albaayo.jwt.JwtSecurityConfig;
-import albaAyo.albaayo.jwt.TokenProvider;
+import albaAyo.albaayo.jwt.*;
+import albaAyo.albaayo.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -23,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,16 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity
-                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
+//                .addFilterBefore(jwtFilter(), BasicAuthenticationFilter.class)
                 .csrf().disable()
 
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
+//                .exceptionHandling()
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 // enable h2-console
-                .and()
+//                .and()
                 .headers()
                 .frameOptions()
                 .sameOrigin()
@@ -71,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider, refreshTokenRepository,
+                        memberRepository, authenticationManagerBuilder));
     }
 }
 

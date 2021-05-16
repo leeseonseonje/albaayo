@@ -1,54 +1,71 @@
 package albaAyo.albaayo.jwt;
 
+import albaAyo.albaayo.jwt.dto.TokenDto;
+import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.repository.MemberRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtFilter extends GenericFilterBean {
-
-
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String BEARER_PREFIX = "Bearer ";
+public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+            String accessToken = resolveAccessToken(request);
 
-        String jwt = resolveToken(httpServletRequest);
-        String requestURI = httpServletRequest.getRequestURI();
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
-        } else {
-            log.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
-        }
+            try {
+                if (StringUtils.hasText(accessToken) && tokenProvider.validateToken(accessToken)) {
+                    Authentication authentication = tokenProvider.getAuthentication(accessToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.debug("Security Context에 '{}' 인증 정보를 저장했습니다", authentication.getName());
+                } else {
+                    log.debug("유효한 JWT 토큰이 없습니다");
+                }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+            } catch (ExpiredJwtException e) {
+                String id = e.getClaims().getSubject();
+                Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new RuntimeException("dsa"));
+                Authentication authentication =
+                        new UsernamePasswordAuthenticationToken(member.getUserId(), member.getPassword());
+                TokenDto token = tokenProvider.createToken(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                response.setHeader("Authorization", token.getAccessToken());
+                response.setHeader("refresh", token.getRefreshToken());
+                log.info("accessToken: {}, refreshToken: {}", token.getAccessToken(), token.getRefreshToken());
+
+                String requestURI = request.getRequestURI();
+                RequestDispatcher dispatcher = request.getRequestDispatcher(requestURI);
+                dispatcher.forward(request, response);
+            }
+        filterChain.doFilter(request, response);
     }
 
-
-
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+    private String resolveAccessToken(HttpServletRequest request) {
+        String accessToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(accessToken) && accessToken.startsWith("Bearer ")) {
+            return accessToken.substring(7);
         }
         return null;
     }

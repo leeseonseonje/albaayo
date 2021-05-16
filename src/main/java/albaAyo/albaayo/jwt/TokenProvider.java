@@ -51,11 +51,11 @@ public class TokenProvider implements InitializingBean {
 
     public TokenDto createToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + 1000);
+        Date validity = new Date(now + tokenValidityInMilliseconds);
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
@@ -109,8 +109,6 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {

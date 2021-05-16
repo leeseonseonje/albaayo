@@ -1,6 +1,6 @@
 package albaAyo.albaayo.schedule.domain;
 
-import albaAyo.albaayo.company.Company;
+import albaAyo.albaayo.company.domain.Company;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

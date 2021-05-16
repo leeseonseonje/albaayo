@@ -1,10 +1,13 @@
 package albaAyo.albaayo.member.domain;
 
+import albaAyo.albaayo.company.domain.JoinCompany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +36,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
     private Role role;
+
+    @OneToMany(mappedBy = "member")
+    private List<JoinCompany> joinCompanies = new ArrayList<>();
 
     @Builder
     public Member(String userId, String password, String email, String name, String birth, Role role) {

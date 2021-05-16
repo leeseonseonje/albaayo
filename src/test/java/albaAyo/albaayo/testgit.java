@@ -3,7 +3,7 @@
 //
 //import albaAyo.albaayo.chat.Chat;
 //import albaAyo.albaayo.chat.repository.ChatRepository;
-//import albaAyo.albaayo.company.Company;
+//import albaAyo.albaayo.company.domain.Company;
 //import albaAyo.albaayo.company.repository.CompanyRepository;
 //import albaAyo.albaayo.member.domain.Employer;
 //import albaAyo.albaayo.member.domain.Worker;

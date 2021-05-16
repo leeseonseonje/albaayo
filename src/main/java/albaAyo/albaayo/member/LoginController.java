@@ -32,9 +32,9 @@ public class LoginController {
         return authService.login(request);
     }
 
-    @PostMapping("/reissue")
-    public TokenDto reissue(@RequestBody TokenRequestDto tokenRequestDto) {
-        return authService.reissue(tokenRequestDto);
-    }
+//    @PostMapping("/reissue")
+//    public TokenDto reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+//        return authService.reissue(tokenRequestDto);
+//    }
 }
 

@@ -1,4 +1,4 @@
-package albaAyo.albaayo.company;
+package albaAyo.albaayo.company.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.member.domain.Member;
@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +32,8 @@ public class Company extends BaseTimeEntity {
     @Column(length = 100, nullable = false)
     private String location;
 
-    private String picture;
+    @OneToMany(mappedBy = "company")
+    private List<JoinCompany> joinCompanies = new ArrayList<>();
 
     @Builder
     public Company(String businessRegistrationNumber, String name, String location) {

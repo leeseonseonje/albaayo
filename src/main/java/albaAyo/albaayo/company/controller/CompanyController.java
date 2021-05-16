@@ -1,10 +1,7 @@
 package albaAyo.albaayo.company.controller;
 
-import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.company.dto.RequestCreatCompanyDto;
-import albaAyo.albaayo.company.dto.RequestInviteWorkerDto;
-import albaAyo.albaayo.company.dto.ResponseCreatCompanyDto;
-import albaAyo.albaayo.company.dto.ResponseFindWorkerDto;
+import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.dto.*;
 import albaAyo.albaayo.company.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +16,16 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
+    //그룹 목록
     @GetMapping("/employer/{id}/company")
-    public List<ResponseCreatCompanyDto> companiesController(@PathVariable Long id) {
-        List<Company> companies = companyService.companies(id);
-
-        return companies.stream().map(c -> new ResponseCreatCompanyDto(c.getId(), c.getName(), c.getLocation()))
-                .collect(Collectors.toList());
+    public List<CompanyDto> companiesController(@PathVariable Long id) {
+        return companyService.companies(id);
     }
 
+    //그룹 생성
     @PostMapping("/employer/{id}/company")
-    public ResponseCreatCompanyDto createCompanyController(@PathVariable Long id,
-                                                           @RequestBody RequestCreatCompanyDto requestCreatCompanyDto) {
+    public CompanyDto createCompanyController(@PathVariable Long id,
+                                              @RequestBody RequestCreatCompanyDto requestCreatCompanyDto) {
 
         Company company = Company.builder()
                 .name(requestCreatCompanyDto.getName())
@@ -39,14 +35,23 @@ public class CompanyController {
 
         Company savedCompany = companyService.EmployerCreateCompany(id, company);
 
-        return new ResponseCreatCompanyDto(savedCompany.getId(), savedCompany.getName(), savedCompany.getLocation());
+        return new CompanyDto(savedCompany.getId(), savedCompany.getName(), savedCompany.getLocation());
     }
 
-    @GetMapping("employer/{employerId}/company/{workerId}")
-    public ResponseFindWorkerDto workerFind(@PathVariable("workerId") String workerId) {
+    //근로자 조회
+    @GetMapping("/company/worker")
+    public ResponseFindWorkerDto workerFind(String workerId) {
         return companyService.findWorker(workerId);
     }
-    @PostMapping("employer/{employerId}/company/{companyId}")
+
+    //그룹 메인
+    @GetMapping("/company/{companyId}")
+    public ResponseCompanyMainDto companyMain(@PathVariable("companyId") Long companyId) {
+        return companyService.companyMain(companyId);
+    }
+
+    //근로자 초대
+    @PostMapping("/company/{companyId}")
     public void inviteWorker(@PathVariable("companyId") Long companyId,
                              @RequestBody @Valid RequestInviteWorkerDto request) {
         companyService.inviteWorker(companyId, request);

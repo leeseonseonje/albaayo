@@ -1,8 +1,11 @@
 package albaAyo.albaayo.company.service;
 
-import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.company.JoinCompany;
+import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.domain.JoinCompany;
+import albaAyo.albaayo.company.domain.Accept;
+import albaAyo.albaayo.company.dto.CompanyDto;
 import albaAyo.albaayo.company.dto.RequestInviteWorkerDto;
+import albaAyo.albaayo.company.dto.ResponseCompanyMainDto;
 import albaAyo.albaayo.company.dto.ResponseFindWorkerDto;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
@@ -13,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -41,7 +46,7 @@ public class CompanyService {
         }
     }
 
-    public List<Company> companies(Long id) {
+    public List<CompanyDto> companies(Long id) {
         return companyRepository.findCompanies(id);
     }
 
@@ -50,6 +55,20 @@ public class CompanyService {
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
 
         return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());
+    }
+
+    public ResponseCompanyMainDto companyMain(Long companyId) {
+        Company findCompany = companyRepository.findByCompanyMain(companyId)
+                .orElseThrow(() -> new RuntimeException("ERROR"));
+
+        String companyName = findCompany.getName();// 이름
+        String employerName = findCompany.getMember().getName();// 사장
+        List<String> workersName = new ArrayList<>();
+        Collection<JoinCompany> joinCompanies = findCompany.getJoinCompanies();
+        for (JoinCompany joinCompany : joinCompanies) {
+            workersName.add(joinCompany.getMember().getName());
+        }
+        return new ResponseCompanyMainDto(findCompany.getId(), companyName, employerName, workersName);
     }
 
     public void inviteWorker(Long id, RequestInviteWorkerDto request) {
@@ -63,8 +82,8 @@ public class CompanyService {
             joinCompanyRepository.save(JoinCompany.builder()
                     .member(member)
                     .company(company)
+                    .workerInvite(Accept.NOT_ACCEPT)
                     .build());
         }
-
     }
 }
