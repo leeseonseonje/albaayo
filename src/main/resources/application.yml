@@ -2,16 +2,16 @@ server:
   port: 9000
 
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/albaayo
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
 #  datasource:
-#    url: jdbc:mariadb://albaayo.c0fevms7runj.us-east-2.rds.amazonaws.com:3306/albaayo
-#    username: seonje
-#    password: 12345678
-#    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:h2:tcp://localhost/~/albaayo
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+  datasource:
+    url: jdbc:mariadb://albaayo.c0fevms7runj.us-east-2.rds.amazonaws.com:3306/albaayo
+    username: seonje
+    password: 12345678
+    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
