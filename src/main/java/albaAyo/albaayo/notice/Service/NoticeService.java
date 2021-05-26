@@ -1,8 +1,8 @@
 package albaAyo.albaayo.notice.Service;
 
 
-import albaAyo.albaayo.company.Company;
-import albaAyo.albaayo.company.QCompany;
+import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.domain.QCompany;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.QMember;
 import albaAyo.albaayo.notice.Notice;
