@@ -3,6 +3,7 @@ package albaAyo.albaayo;
 import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.domain.JoinCompany;
+
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
 import lombok.RequiredArgsConstructor;
@@ -30,20 +31,20 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit1() {
-            Member employerA = Member.builder()
-                    .userId("employerA")
+            Member employerA = Member.builder().build().builder()
+                    .userId("EMPLOYERA")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("leeseonje@gmail.com")
-                    .name("이선제")
+                    .name("employerA")
                     .birth("1998.02.09")
                     .role(Role.ROLE_EMPLOYER)
                     .build();
 
             Member employerB = Member.builder()
-                    .userId("employerB")
+                    .userId("EMPLOYERB")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@naver.com")
-                    .name("이선제")
+                    .name("employerB")
                     .birth("1998.02.09")
                     .role(Role.ROLE_EMPLOYER)
                     .build();
