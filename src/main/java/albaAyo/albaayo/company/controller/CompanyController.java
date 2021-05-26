@@ -2,13 +2,13 @@ package albaAyo.albaayo.company.controller;
 
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.dto.*;
+import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
 import albaAyo.albaayo.company.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

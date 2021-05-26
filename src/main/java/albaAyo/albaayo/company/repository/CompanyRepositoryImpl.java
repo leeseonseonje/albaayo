@@ -1,6 +1,6 @@
 package albaAyo.albaayo.company.repository;
 
-import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.domain.QCompany;
 import albaAyo.albaayo.company.dto.CompanyDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static albaAyo.albaayo.company.domain.QCompany.*;
+
 
 public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
 
@@ -29,6 +30,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                         company.id, company.name, company.location))
                 .from(company)
                 .where(company.member.id.eq(id))
+                .orderBy(company.name.desc())
                 .fetch();
     }
 }

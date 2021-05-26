@@ -1,5 +1,7 @@
 package albaAyo.albaayo.jwt.dto;
 
+import albaAyo.albaayo.company.domain.Accept;
+import albaAyo.albaayo.member.domain.Role;
 import lombok.*;
 
 @Getter
@@ -15,4 +17,5 @@ public class TokenDto {
     private Long accessTokenExpiresIn;
     private Long id;
     private String name;
+    private Role role;
 }

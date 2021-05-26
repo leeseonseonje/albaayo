@@ -20,7 +20,7 @@ public class JoinCompany {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private Accept workerInvite;
+    private Accept accept;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -31,9 +31,9 @@ public class JoinCompany {
     private Company company;
 
     @Builder
-    public JoinCompany(Member member, Company company, Accept workerInvite) {
+    public JoinCompany(Member member, Company company, Accept accept) {
         this.member = member;
         this.company = company;
-        this.workerInvite = workerInvite;
+        this.accept = accept;
     }
 }

@@ -3,10 +3,9 @@ package albaAyo.albaayo.company.service;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.domain.JoinCompany;
 import albaAyo.albaayo.company.domain.Accept;
-import albaAyo.albaayo.company.dto.CompanyDto;
-import albaAyo.albaayo.company.dto.RequestInviteWorkerDto;
-import albaAyo.albaayo.company.dto.ResponseCompanyMainDto;
-import albaAyo.albaayo.company.dto.ResponseFindWorkerDto;
+import albaAyo.albaayo.company.dto.*;
+import albaAyo.albaayo.company.dto.company_main_dto.IdAndName;
+import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
@@ -40,6 +39,7 @@ public class CompanyService {
     }
 
     private void validateCompany(Company company) {
+
         List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(company.getBusinessRegistrationNumber());
         if (!findCompany.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회사입니다.");
@@ -63,15 +63,16 @@ public class CompanyService {
 
         String companyName = findCompany.getName();// 이름
         String employerName = findCompany.getMember().getName();// 사장
-        List<String> workersName = new ArrayList<>();
+        List<IdAndName> workersIdAndName = new ArrayList<>();
         Collection<JoinCompany> joinCompanies = findCompany.getJoinCompanies();
         for (JoinCompany joinCompany : joinCompanies) {
-            workersName.add(joinCompany.getMember().getName());
+            workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(), joinCompany.getMember().getName()));
         }
-        return new ResponseCompanyMainDto(findCompany.getId(), companyName, employerName, workersName);
+        return new ResponseCompanyMainDto(findCompany.getId(), companyName, employerName, workersIdAndName);
     }
 
     public void inviteWorker(Long id, RequestInviteWorkerDto request) {
+
         Member member = memberRepository.findByUserId(request.getUserId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
 
@@ -82,7 +83,7 @@ public class CompanyService {
             joinCompanyRepository.save(JoinCompany.builder()
                     .member(member)
                     .company(company)
-                    .workerInvite(Accept.NOT_ACCEPT)
+                    .accept(Accept.NOT_ACCEPT)
                     .build());
         }
     }

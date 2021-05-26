@@ -1,5 +1,6 @@
 package albaAyo.albaayo.member.service;
 
+import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.jwt.RefreshToken;
 import albaAyo.albaayo.jwt.RefreshTokenRepository;
 import albaAyo.albaayo.jwt.TokenProvider;
@@ -58,6 +59,12 @@ public class LoginService {
         }
     }
 
+    public void validateDuplicateMember(String userId) {
+        if (memberRepository.existsByUserId(userId)) {
+            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+        }
+    }
+
     @Transactional
     public TokenDto login(LoginMemberRequest request) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
@@ -77,8 +84,6 @@ public class LoginService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName() + ":::");
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -121,7 +126,9 @@ public class LoginService {
                 .orElseThrow(() -> new RuntimeException("없는 ID 입니다."));
 
         tokenDto.setId(member.getId());
+        System.out.println(member.getId());
         tokenDto.setName(member.getName());
+        tokenDto.setRole(member.getRole());
         return tokenDto;
     }
 }

@@ -31,19 +31,19 @@ public class InitDb {
 
         public void dbInit1() {
             Member employerA = Member.builder()
-                    .userId("EMPLOYERA")
+                    .userId("employerA")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("leeseonje@gmail.com")
-                    .name("employerA")
+                    .name("이선제")
                     .birth("1998.02.09")
                     .role(Role.ROLE_EMPLOYER)
                     .build();
 
             Member employerB = Member.builder()
-                    .userId("EMPLOYERB")
+                    .userId("employerB")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@naver.com")
-                    .name("employerB")
+                    .name("이선제")
                     .birth("1998.02.09")
                     .role(Role.ROLE_EMPLOYER)
                     .build();
@@ -52,7 +52,7 @@ public class InitDb {
                     .userId("workerA")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@g.com")
-                    .name("workerA")
+                    .name("이선제")
                     .birth("1998.02.09")
                     .role(Role.ROLE_WORKER)
                     .build();
@@ -61,7 +61,7 @@ public class InitDb {
                     .userId("workerB")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@gddddddd.com")
-                    .name("workerB")
+                    .name("이선제")
                     .birth("1998.02.09")
                     .role(Role.ROLE_WORKER)
                     .build();
@@ -70,7 +70,7 @@ public class InitDb {
                     .userId("workerC")
                     .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
                     .email("seon9323@dasgddddddd.com")
-                    .name("workerC")
+                    .name("이선제")
                     .birth("1998.02.09")
                     .role(Role.ROLE_WORKER)
                     .build();
@@ -82,8 +82,8 @@ public class InitDb {
             em.persist(workerC);
 
             Company companyA = Company.builder()
-                    .name("A")
-                    .location("대구")
+                    .name("영진전문대 복현캠퍼스")
+                    .location("대구광역시 달성군 다사읍 서재로120 107동 905호")
                     .businessRegistrationNumber("1234567890")
                     .build();
 
@@ -106,22 +106,94 @@ public class InitDb {
                     .businessRegistrationNumber("456548675")
                     .build();
 
-            JoinCompany joinCompanyA = JoinCompany.builder()
+            JoinCompany joinCompanyOne = JoinCompany.builder()
                     .member(workerA)
                     .company(companyA)
-                    .workerInvite(Accept.NOT_ACCEPT)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyTwo = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyThree = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyFour = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyFive = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanySix = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanySeven = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyEight = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyNine = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyTen = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyTenA = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyA)
+                    .accept(Accept.NOT_ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyTenB = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyB)
+                    .accept(Accept.NOT_ACCEPT)
+                    .build();
+
+            JoinCompany joinCompanyTenC = JoinCompany.builder()
+                    .member(workerA)
+                    .company(companyC)
+                    .accept(Accept.NOT_ACCEPT)
                     .build();
 
             JoinCompany joinCompanyB = JoinCompany.builder()
                     .member(workerB)
                     .company(companyA)
-                    .workerInvite(Accept.NOT_ACCEPT)
+                    .accept(Accept.ACCEPT)
                     .build();
 
             JoinCompany joinCompanyC = JoinCompany.builder()
                     .member(workerC)
                     .company(companyA)
-                    .workerInvite(Accept.ACCEPT)
+                    .accept(Accept.ACCEPT)
                     .build();
 
             companyA.employerCreateCompany(employerA);
@@ -134,9 +206,22 @@ public class InitDb {
             em.persist(companyC);
             em.persist(companyD);
 
-            em.persist(joinCompanyA);
             em.persist(joinCompanyB);
             em.persist(joinCompanyC);
+
+            em.persist(joinCompanyOne);
+            em.persist(joinCompanyTwo);
+            em.persist(joinCompanyThree);
+            em.persist(joinCompanyFour);
+            em.persist(joinCompanyFive);
+            em.persist(joinCompanySix);
+            em.persist(joinCompanySeven);
+            em.persist(joinCompanyEight);
+            em.persist(joinCompanyNine);
+            em.persist(joinCompanyTen);
+            em.persist(joinCompanyTenA);
+            em.persist(joinCompanyTenB);
+            em.persist(joinCompanyTenC);
         }
     }
 }

@@ -1,6 +1,5 @@
-package albaAyo.albaayo.personalchat.domain;
+package albaAyo.albaayo.personal_chat.domain;
 
-import albaAyo.albaayo.BaseTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

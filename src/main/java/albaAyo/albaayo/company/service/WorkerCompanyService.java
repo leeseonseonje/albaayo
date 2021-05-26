@@ -16,7 +16,16 @@ public class WorkerCompanyService {
 
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public List<CompanyAcceptDto> acceptCompany(Long workerId, Accept accept) {
-        return joinCompanyRepository.CompanyAcceptList(workerId, accept);
+    public List<CompanyAcceptDto> acceptCompanyList(Long workerId, Accept accept) {
+        return joinCompanyRepository.acceptCompanyList(workerId, accept);
     }
+
+    public Long notAcceptCompanyCount(Long workerId) {
+        return joinCompanyRepository.notAcceptCompanyCount(workerId);
+    }
+
+    public void acceptCompany(Long workerId, Long companyId) {
+        joinCompanyRepository.companyAccept(workerId, companyId);
+    }
+
 }
