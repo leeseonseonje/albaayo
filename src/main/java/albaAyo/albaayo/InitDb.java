@@ -205,7 +205,7 @@ public class InitDb {
                     .of(1,1,1,1,1)).build();
 
             Commute commuteC = Commute.builder().member(workerA).company(companyA).startTime(LocalDateTime
-                    .of(2,2,2,2,2)).build();
+                    .of(5,5,25,5,45)).build();
 
             companyA.employerCreateCompany(employerA);
             companyB.employerCreateCompany(employerA);

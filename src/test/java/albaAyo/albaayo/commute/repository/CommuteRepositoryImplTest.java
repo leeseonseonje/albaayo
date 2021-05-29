@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static albaAyo.albaayo.commute.QCommute.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,6 +42,14 @@ class CommuteRepositoryImplTest {
                 .fetchOne();
 
         System.out.println("commute = " + commute.getId());
+    }
+
+    @Test
+    public void localDateTimeTest() {
+        LocalDateTime date = LocalDateTime.parse("1998-02-09 12:22",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        System.out.println("date = " + date);
     }
 
 }

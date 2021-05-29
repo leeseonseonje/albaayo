@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class RequestCommuteDto {
+import java.time.LocalDateTime;
 
-    private Long workerId;
-    private Long companyId;
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class RequestUpdateCommuteDto {
+
+    private Long id;
+    private String updateTime;
 }

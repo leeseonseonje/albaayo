@@ -1,6 +1,7 @@
 package albaAyo.albaayo.schedule.domain;
 
 import albaAyo.albaayo.company.domain.Company;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,16 @@ public class Schedule {
     private String workSchedule;
 
     private Integer date;
+
+    @Builder
+    public Schedule(Company company, String workSchedule, Integer date) {
+        this.company = company;
+        this.workSchedule = workSchedule;
+        this.date = date;
+    }
+
+    public void updateSchedule(String workSchedule, Integer date) {
+        this.workSchedule = workSchedule;
+        this.date = date;
+    }
 }

@@ -37,6 +37,10 @@ public class Commute{
         this.startTime = startTime;
     }
 
+    public void goToWorkTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
     public void offWorkTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
