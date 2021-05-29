@@ -1,5 +1,6 @@
 package albaAyo.albaayo;
 
+import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.domain.JoinCompany;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -197,6 +199,14 @@ public class InitDb {
                     .accept(Accept.ACCEPT)
                     .build();
 
+            Commute commute = Commute.builder().member(workerA).company(companyA).startTime(LocalDateTime.now()).build();
+
+            Commute commuteB = Commute.builder().member(workerA).company(companyA).startTime(LocalDateTime
+                    .of(1,1,1,1,1)).build();
+
+            Commute commuteC = Commute.builder().member(workerA).company(companyA).startTime(LocalDateTime
+                    .of(2,2,2,2,2)).build();
+
             companyA.employerCreateCompany(employerA);
             companyB.employerCreateCompany(employerA);
             companyC.employerCreateCompany(employerB);
@@ -223,6 +233,10 @@ public class InitDb {
             em.persist(joinCompanyTenA);
             em.persist(joinCompanyTenB);
             em.persist(joinCompanyTenC);
+
+            em.persist(commute);
+            em.persist(commuteB);
+            em.persist(commuteC);
         }
     }
 }

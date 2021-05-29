@@ -40,7 +40,8 @@ public class CompanyService {
 
     private void validateCompany(Company company) {
 
-        List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(company.getBusinessRegistrationNumber());
+        List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(
+                company.getBusinessRegistrationNumber());
         if (!findCompany.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회사입니다.");
         }
@@ -66,9 +67,11 @@ public class CompanyService {
         List<IdAndName> workersIdAndName = new ArrayList<>();
         Collection<JoinCompany> joinCompanies = findCompany.getJoinCompanies();
         for (JoinCompany joinCompany : joinCompanies) {
-            workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(), joinCompany.getMember().getName()));
+            workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(),
+                    joinCompany.getMember().getName()));
         }
-        return new ResponseCompanyMainDto(findCompany.getId(), companyName, employerName, workersIdAndName);
+        return new ResponseCompanyMainDto(findCompany.getId(), findCompany.getMember().getId(),
+                companyName, employerName, workersIdAndName);
     }
 
     public void inviteWorker(Long id, RequestInviteWorkerDto request) {
@@ -86,5 +89,9 @@ public class CompanyService {
                     .accept(Accept.NOT_ACCEPT)
                     .build());
         }
+    }
+
+    public Member memberInfo(Long memberId) {
+        return memberRepository.findById(memberId).orElseGet(Member::new);
     }
 }

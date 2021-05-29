@@ -4,6 +4,7 @@ import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.dto.*;
 import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
 import albaAyo.albaayo.company.service.CompanyService;
+import albaAyo.albaayo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,5 +56,19 @@ public class CompanyController {
     public void inviteWorker(@PathVariable("companyId") Long companyId,
                              @RequestBody @Valid RequestInviteWorkerDto request) {
         companyService.inviteWorker(companyId, request);
+    }
+
+    //멤버 상제 정보
+    @GetMapping("/company/member/{memberId}")
+    public ResponseMemberInformationDto memberInformation(@PathVariable("memberId") Long memberId) {
+
+        Member findMember = companyService.memberInfo(memberId);
+
+        return ResponseMemberInformationDto.builder()
+                .name(findMember.getName())
+                .userId(findMember.getUserId())
+                .birth(findMember.getBirth())
+                .role(findMember.getRole())
+                .build();
     }
 }
