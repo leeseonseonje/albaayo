@@ -7,6 +7,7 @@ import albaAyo.albaayo.commute.service.CommuteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,13 +30,13 @@ public class CommuteController {
 
     //출근 시간 수정
     @PatchMapping("/commute/go-to-work")
-    public void updateGotoWork(@RequestBody RequestUpdateCommuteDto request) {
+    public void updateGotoWork(@RequestBody @Valid RequestUpdateCommuteDto request) {
         commuteService.updateGoToWork(request);
     }
 
     //퇴근 시간 수정
     @PatchMapping("/commute/off-work")
-    public void updateOffWork(@RequestBody RequestUpdateCommuteDto request) {
+    public void updateOffWork(@RequestBody @Valid RequestUpdateCommuteDto request) {
         commuteService.updateOffWork(request);
     }
 

@@ -26,7 +26,7 @@ public class CompanyController {
     //그룹 생성
     @PostMapping("/employer/{id}/company")
     public CompanyDto createCompanyController(@PathVariable Long id,
-                                              @RequestBody RequestCreatCompanyDto requestCreatCompanyDto) {
+                                              @RequestBody @Valid RequestCreatCompanyDto requestCreatCompanyDto) {
 
         Company company = Company.builder()
                 .name(requestCreatCompanyDto.getName())

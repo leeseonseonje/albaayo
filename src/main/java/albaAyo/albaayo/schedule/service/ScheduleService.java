@@ -40,8 +40,7 @@ public class ScheduleService {
     }
 
     public void deleteSchedule(RequestDeleteScheduleDto request) {
-        Schedule schedule = scheduleRepository.findById(request.getId()).orElseThrow(
-                () -> new RuntimeException("null"));
+        Schedule schedule = scheduleRepository.findById(request.getId()).orElseGet(Schedule::new);
 
         scheduleRepository.delete(schedule);
     }

@@ -1,11 +1,9 @@
 package albaAyo.albaayo.member.service;
 
-import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.jwt.RefreshToken;
 import albaAyo.albaayo.jwt.RefreshTokenRepository;
 import albaAyo.albaayo.jwt.TokenProvider;
 import albaAyo.albaayo.jwt.dto.TokenDto;
-import albaAyo.albaayo.jwt.dto.TokenRequestDto;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.dto.CreateMemberRequest;
 import albaAyo.albaayo.member.dto.CreateMemberResponse;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +31,8 @@ public class LoginService {
     @Transactional
     public CreateMemberResponse employerSignup(CreateMemberRequest request) {
 
-        validateDuplicateMember(request);
+        validateDuplicateUserId(request.getUserId());
+        validateDuplicateEmail(request.getEmail());
 
         Member member = request.toEmployer(passwordEncoder);
         Member savedEmployer = memberRepository.save(member);
@@ -45,7 +43,8 @@ public class LoginService {
     @Transactional
     public CreateMemberResponse workerSignup(CreateMemberRequest request) {
 
-        validateDuplicateMember(request);
+        validateDuplicateUserId(request.getUserId());
+        validateDuplicateEmail(request.getEmail());
 
         Member member = request.toWorker(passwordEncoder);
         Member savedWorker = memberRepository.save(member);
@@ -53,15 +52,15 @@ public class LoginService {
         return new CreateMemberResponse(savedWorker.getId(), savedWorker.getName());
     }
 
-    public void validateDuplicateMember(CreateMemberRequest request) {
-        if (memberRepository.existsByUserId(request.getUserId())) {
+    public void validateDuplicateUserId(String userId) {
+        if (memberRepository.existsByUserId(userId)) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
     }
 
-    public void validateDuplicateMember(String userId) {
-        if (memberRepository.existsByUserId(userId)) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+    public void validateDuplicateEmail(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new RuntimeException("이미 등록되어 있는 이메일입니다.");
         }
     }
 

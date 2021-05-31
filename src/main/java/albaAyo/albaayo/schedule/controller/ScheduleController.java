@@ -6,6 +6,7 @@ import albaAyo.albaayo.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,13 +17,13 @@ public class ScheduleController {
 
     //일정 등록
     @PostMapping("/schedule")
-    public void registerSchedule(@RequestBody RequestScheduleDto request) {
+    public void registerSchedule(@RequestBody @Valid RequestScheduleDto request) {
         scheduleService.registerSchedule(request);
     }
 
     //일정 수정
     @PatchMapping("/schedule")
-    public void updateSchedule(@RequestBody RequestUpdateScheduleDto request) {
+    public void updateSchedule(@RequestBody @Valid RequestUpdateScheduleDto request) {
         scheduleService.updateSchedule(request);
     }
 

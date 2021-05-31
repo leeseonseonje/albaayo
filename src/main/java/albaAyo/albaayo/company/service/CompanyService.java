@@ -32,7 +32,8 @@ public class CompanyService {
 
         validateCompany(company);
         Company savedCompany = companyRepository.save(company);
-        Member member =  memberRepository.findById(id).orElseGet(Member::new);
+        Member member =  memberRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("존재하지 않는 회원 입니다."));
         savedCompany.employerCreateCompany(member);
 
         return savedCompany;
@@ -43,7 +44,7 @@ public class CompanyService {
         List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(
                 company.getBusinessRegistrationNumber());
         if (!findCompany.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회사입니다.");
+            throw new RuntimeException("이미 존재하는 회사입니다.");
         }
     }
 
@@ -60,7 +61,7 @@ public class CompanyService {
 
     public ResponseCompanyMainDto companyMain(Long companyId) {
         Company findCompany = companyRepository.findByCompanyMain(companyId)
-                .orElseThrow(() -> new RuntimeException("ERROR"));
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 회사 입니다."));
 
         String companyName = findCompany.getName();// 이름
         String employerName = findCompany.getMember().getName();// 사장
@@ -81,17 +82,20 @@ public class CompanyService {
 
         if (member.getRole() == Role.ROLE_WORKER) {
             Company company = companyRepository.findById(id).orElseThrow(
-                    () -> new RuntimeException("존재하지 않는 Company 입니다."));
+                    () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
             joinCompanyRepository.save(JoinCompany.builder()
                     .member(member)
                     .company(company)
                     .accept(Accept.NOT_ACCEPT)
                     .build());
+        } else {
+            throw new RuntimeException("근로자가 아닙니다.");
         }
     }
 
     public Member memberInfo(Long memberId) {
-        return memberRepository.findById(memberId).orElseGet(Member::new);
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new RuntimeException("존재 하지 않는 회원 입니다."));
     }
 }
