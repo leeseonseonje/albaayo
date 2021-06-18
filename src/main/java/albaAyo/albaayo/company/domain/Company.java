@@ -32,14 +32,18 @@ public class Company extends BaseTimeEntity {
     @Column(length = 100, nullable = false)
     private String location;
 
+    @Column(length = 1000)
+    private String picture;
+
     @OneToMany(mappedBy = "company")
     private List<JoinCompany> joinCompanies = new ArrayList<>();
 
     @Builder
-    public Company(String businessRegistrationNumber, String name, String location) {
+    public Company(String businessRegistrationNumber, String name, String location, String picture) {
         this.businessRegistrationNumber = businessRegistrationNumber;
         this.name = name;
         this.location = location;
+        this.picture = picture;
     }
 
     public void employerCreateCompany(Member member) {

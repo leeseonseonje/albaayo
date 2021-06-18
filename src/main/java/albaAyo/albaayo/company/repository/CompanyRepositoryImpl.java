@@ -24,13 +24,12 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
 
     @Override
     public List<CompanyDto> findCompanies(Long id) {
-
         return queryFactory
                 .select(Projections.constructor(CompanyDto.class,
-                        company.id, company.name, company.location))
+                        company.id, company.name, company.location, company.picture))
                 .from(company)
                 .where(company.member.id.eq(id))
-                .orderBy(company.name.desc())
+                .orderBy(company.name.asc())
                 .fetch();
     }
 }

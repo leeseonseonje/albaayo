@@ -12,12 +12,23 @@ import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
 import albaAyo.albaayo.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.stream.FileImageOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,7 +39,25 @@ public class CompanyService {
     private final MemberRepository memberRepository;
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public Company EmployerCreateCompany(Long id, Company company) {
+    public Company EmployerCreateCompany(Long id, RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {
+
+        Company company = null;
+        if (requestCreatCompanyDto.getPicture() != null) {
+            UUID uuid = imageUpload(requestCreatCompanyDto);
+
+            company = Company.builder()
+                    .name(requestCreatCompanyDto.getName())
+                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
+                    .location(requestCreatCompanyDto.getLocation())
+                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpg")
+                    .build();
+        } else {
+            company = Company.builder()
+                    .name(requestCreatCompanyDto.getName())
+                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
+                    .location(requestCreatCompanyDto.getLocation())
+                    .build();
+        }
 
         validateCompany(company);
         Company savedCompany = companyRepository.save(company);
@@ -37,6 +66,16 @@ public class CompanyService {
         savedCompany.employerCreateCompany(member);
 
         return savedCompany;
+    }
+
+    private UUID imageUpload(RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {
+        byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
+        UUID uuid = UUID.randomUUID();
+        FileImageOutputStream image = new FileImageOutputStream(
+                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpg"));
+        image.write(bytes, 0, bytes.length);
+        image.close();
+        return uuid;
     }
 
     private void validateCompany(Company company) {
@@ -48,8 +87,23 @@ public class CompanyService {
         }
     }
 
-    public List<CompanyDto> companies(Long id) {
-        return companyRepository.findCompanies(id);
+    public List<CompanyDto> companies(Long id) throws IOException {
+        List<CompanyDto> companies = companyRepository.findCompanies(id);
+        imageDownload(companies);
+        return companies;
+    }
+
+    private void imageDownload(List<CompanyDto> companies) throws IOException {
+        for (CompanyDto company : companies) {
+            if (company.getPicture() != null) {
+                Path path = Paths.get(company.getPicture());
+                Resource resource = new InputStreamResource(Files.newInputStream(path));
+                InputStream inputStream = resource.getInputStream();
+                byte[] bytes = inputStream.readAllBytes();
+                String picture = Base64.encodeBase64String(bytes);
+                company.setPicture(picture);
+            }
+        }
     }
 
     public ResponseFindWorkerDto findWorker(String workerId) {
@@ -75,7 +129,7 @@ public class CompanyService {
                 companyName, employerName, workersIdAndName);
     }
 
-    public void inviteWorker(Long id, RequestInviteWorkerDto request) {
+    public Member inviteWorker(Long id, RequestInviteWorkerDto request) {
 
         Member member = memberRepository.findByUserId(request.getUserId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
@@ -92,6 +146,7 @@ public class CompanyService {
         } else {
             throw new RuntimeException("근로자가 아닙니다.");
         }
+        return member;
     }
 
     public Member memberInfo(Long memberId) {

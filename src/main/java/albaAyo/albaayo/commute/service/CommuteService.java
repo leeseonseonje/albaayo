@@ -32,12 +32,8 @@ public class CommuteService {
         Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
-        if (company.getLocation().equals(request.getLocation())) {
             Commute findCommute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             commuteGeneration(request, findCommute);
-        } else {
-            throw new RuntimeException("출근을 등록할 수 있는 곳이 아닙니다.");
-        }
     }
 
     private void commuteGeneration(RequestCommuteDto request, Commute findCommute) {
@@ -62,16 +58,12 @@ public class CommuteService {
         Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
-        if (company.getLocation().equals(request.getLocation())) {
             Commute commute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             if (commute != null && commute.getEndTime() == null) {
                 commute.offWorkTime(LocalDateTime.now());
             } else {
                 throw new RuntimeException("출근을 하지 않았습니다.");
             }
-        } else {
-            throw new RuntimeException("퇴근을 등록할 수 있는 곳이 아닙니다");
-        }
     }
 
     public void updateGoToWork(RequestUpdateCommuteDto request) {

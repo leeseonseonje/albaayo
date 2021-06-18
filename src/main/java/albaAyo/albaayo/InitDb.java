@@ -7,6 +7,7 @@ import albaAyo.albaayo.company.domain.JoinCompany;
 
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
+import albaAyo.albaayo.notice.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +89,7 @@ public class InitDb {
                     .name("영진전문대 복현캠퍼스")
                     .location("대구광역시 달성군 다사읍 서재로120 107동 905호")
                     .businessRegistrationNumber("1234567890")
+                    .picture("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg")
                     .build();
 
 
@@ -237,6 +239,33 @@ public class InitDb {
             em.persist(commute);
             em.persist(commuteB);
             em.persist(commuteC);
+
+            Notice noticeA = Notice.builder().title("3").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeB = Notice.builder().title("5").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeC = Notice.builder().title("2").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeD = Notice.builder().title("1").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeE = Notice.builder().title("7").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeF = Notice.builder().title("6").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+            Notice noticeG = Notice.builder().title("4").contents("contents")
+                    .member(workerA).company(companyA).image("C:\\Users\\seon\\groupImage\\01da7af9-5182-4bcd-936c-46a7596758ab.jpg").date("2021-06-21").build();
+
+            em.persist(noticeA);
+            em.persist(noticeB);
+            em.persist(noticeC);
+            em.persist(noticeD);
+            em.persist(noticeE);
+            em.persist(noticeF);
+            em.persist(noticeG);
+
+
+
+
         }
     }
 }

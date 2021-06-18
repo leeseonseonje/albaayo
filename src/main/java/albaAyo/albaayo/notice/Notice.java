@@ -3,12 +3,12 @@ package albaAyo.albaayo.notice;
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.notice.dto.RequestNoticeUpdateDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.*;
 
@@ -37,25 +37,33 @@ public class Notice extends BaseTimeEntity {
 
     private String image;
 
-    private LocalDateTime modifyTime;
+    private String date;
 
-    public Notice(Long id, Company company, Member member, String title, String contents, String image) {
-        this.id = id;
+    @Builder
+    public Notice(Company company, Member member, String title, String contents, String image, String date) {
         this.company = company;
         this.member = member;
         this.title = title;
         this.contents = contents;
         this.image = image;
+        this.date = date;
+    }
+
+    public void updateNotice(RequestNoticeUpdateDto requestNoticeUpdateDto, String date) {
+        this.title = requestNoticeUpdateDto.getTitle();
+        this.contents = requestNoticeUpdateDto.getContents();
+        this.image = requestNoticeUpdateDto.getImage();
+        this.date = date;
     }
     public void changeContents(String contents) {
         this.contents = contents;
     }
 
-    public void changemage(String image) {
+    public void changeImage(String image) {
         this.image = image;
     }
 
-    public void changetitle(String title){
+    public void changeTitle(String title){
         this.title = title;
     }
 

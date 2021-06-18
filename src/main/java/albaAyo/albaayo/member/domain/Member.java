@@ -33,6 +33,8 @@ public class Member {
     @Column(length = 50, nullable = false)
     private String name;
 
+    private String picture;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
     private Role role;
@@ -41,13 +43,15 @@ public class Member {
     private List<JoinCompany> joinCompanies = new ArrayList<>();
 
     @Builder
-    public Member(String userId, String password, String email, String name, String birth, Role role) {
+    public Member(String userId, String password, String email, String name,
+                  String birth, Role role, String picture) {
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.name = name;
         this.birth = birth;
         this.role = role;
+        this.picture = picture;
     }
 
 //    public Member update(String name, String picture) {

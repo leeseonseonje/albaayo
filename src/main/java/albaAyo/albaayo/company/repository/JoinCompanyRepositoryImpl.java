@@ -4,7 +4,9 @@ import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.domain.QCompany;
 import albaAyo.albaayo.company.domain.QJoinCompany;
 import albaAyo.albaayo.company.dto.CompanyAcceptDto;
+import albaAyo.albaayo.company.dto.CompanyDto;
 import albaAyo.albaayo.company.dto.QCompanyAcceptDto;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -25,10 +27,11 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
     }
 
     @Override
-    public List<CompanyAcceptDto> acceptCompanyList(Long workerId, Accept accept) {
+    public List<CompanyDto> acceptCompanyList(Long workerId, Accept accept) {
 
         return queryFactory
-                .select(new QCompanyAcceptDto(company.id, company.name, company.location))
+                .select(Projections.constructor(CompanyDto.class,
+                        company.id, company.name, company.location, company.picture))
                 .from(joinCompany)
                 .join(company)
                 .on(company.eq(joinCompany.company))

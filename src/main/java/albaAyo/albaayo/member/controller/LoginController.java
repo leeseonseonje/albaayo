@@ -5,8 +5,16 @@ import albaAyo.albaayo.member.dto.*;
 import albaAyo.albaayo.member.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.swing.filechooser.FileSystemView;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,6 +48,15 @@ public class LoginController {
     @PostMapping("/login")
     public TokenDto login(@RequestBody LoginMemberRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping(value = "/test/file")
+    public String fileTest(MultipartFile file) throws IOException {
+        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+        String filePath = rootPath + "\\" + file.getOriginalFilename();
+        File dest = new File(filePath);
+        file.transferTo(dest); // 파일 업로드 작업 수행
+        return "";
     }
 }
 
