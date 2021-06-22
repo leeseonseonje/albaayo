@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,5 +13,5 @@ public class RequestNoticeDto {
 
     private String title;
     private String contents;
-    private String image;
+    private List<NoticeImageDto> image;
 }

@@ -4,7 +4,7 @@
 //import albaAyo.albaayo.company.domain.Company;
 //import albaAyo.albaayo.member.domain.Member;
 //import albaAyo.albaayo.member.domain.Role;
-//import albaAyo.albaayo.notice.Notice;
+//import albaAyo.albaayo.notice.domain.Notice;
 //import albaAyo.albaayo.notice.repository.NoticeRepository;
 //import org.junit.Test;
 //import org.junit.jupiter.api.Assertions;

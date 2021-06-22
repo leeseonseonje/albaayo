@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestNoticeUpdateDto {
+public class NoticeImageDto {
 
-    private Long noticeId;
-    private String title;
-    private String contents;
+    private String image;
+    private String imageContent;
 }

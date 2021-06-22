@@ -60,12 +60,11 @@ public class CompanyService {
         }
 
         validateCompany(company);
-        Company savedCompany = companyRepository.save(company);
         Member member =  memberRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원 입니다."));
-        savedCompany.employerCreateCompany(member);
+        company.employerCreateCompany(member);
 
-        return savedCompany;
+        return companyRepository.save(company);
     }
 
     private UUID imageUpload(RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {

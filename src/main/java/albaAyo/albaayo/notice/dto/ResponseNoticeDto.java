@@ -2,6 +2,8 @@ package albaAyo.albaayo.notice.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -13,6 +15,14 @@ public class ResponseNoticeDto {
     private String name;
     private String title;
     private String contents;
-    private String image;
     private String date;
+    private List<NoticeImageDto> imageList;
+
+    public ResponseNoticeDto(Long noticeId, String name, String title, String contents, String date) {
+        this.noticeId = noticeId;
+        this.name = name;
+        this.title = title;
+        this.contents = contents;
+        this.date = date;
+    }
 }

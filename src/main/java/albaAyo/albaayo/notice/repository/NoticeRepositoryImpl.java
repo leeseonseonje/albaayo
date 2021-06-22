@@ -1,7 +1,8 @@
 package albaAyo.albaayo.notice.repository;
 
+import albaAyo.albaayo.company.domain.QCompany;
 import albaAyo.albaayo.member.domain.QMember;
-import albaAyo.albaayo.notice.QNotice;
+import albaAyo.albaayo.notice.domain.QNotice;
 import albaAyo.albaayo.notice.dto.ResponseNoticeDto;
 import albaAyo.albaayo.notice.dto.ResponseNoticeListDto;
 import com.querydsl.core.QueryResults;
@@ -15,7 +16,8 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static albaAyo.albaayo.company.domain.QCompany.company;
+import static albaAyo.albaayo.company.domain.QCompany.*;
+
 
 public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
@@ -55,7 +57,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
         return queryFactory
                 .select(Projections.constructor(ResponseNoticeDto.class,
                         QNotice.notice.id, QMember.member.name, QNotice.notice.title, QNotice.notice.contents,
-                        QNotice.notice.image, QNotice.notice.date))
+                        QNotice.notice.date))
                 .from(QNotice.notice)
                 .where(QNotice.notice.id.eq(noticeId))
                 .join(QMember.member)

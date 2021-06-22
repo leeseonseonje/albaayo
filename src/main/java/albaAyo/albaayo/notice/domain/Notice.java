@@ -1,7 +1,8 @@
-package albaAyo.albaayo.notice;
+package albaAyo.albaayo.notice.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.domain.JoinCompany;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.notice.dto.RequestNoticeUpdateDto;
 import lombok.Builder;
@@ -9,6 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
@@ -29,38 +33,34 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(length = 50)
+    @OneToMany(mappedBy = "notice")
+    private List<NoticeImage> noticeImages = new ArrayList<>();
+
+    @Column(length = 50, nullable = false)
     private String title;
 
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = false)
     private String contents;
 
-    private String image;
-
+    @Column(length = 50, nullable = false)
     private String date;
 
     @Builder
-    public Notice(Company company, Member member, String title, String contents, String image, String date) {
+    public Notice(Company company, Member member, String title, String contents, String date) {
         this.company = company;
         this.member = member;
         this.title = title;
         this.contents = contents;
-        this.image = image;
         this.date = date;
     }
 
     public void updateNotice(RequestNoticeUpdateDto requestNoticeUpdateDto, String date) {
         this.title = requestNoticeUpdateDto.getTitle();
         this.contents = requestNoticeUpdateDto.getContents();
-        this.image = requestNoticeUpdateDto.getImage();
         this.date = date;
     }
     public void changeContents(String contents) {
         this.contents = contents;
-    }
-
-    public void changeImage(String image) {
-        this.image = image;
     }
 
     public void changeTitle(String title){
