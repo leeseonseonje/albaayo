@@ -49,7 +49,7 @@ public class CompanyService {
                     .name(requestCreatCompanyDto.getName())
                     .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
                     .location(requestCreatCompanyDto.getLocation())
-                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpg")
+                    .picture("/home/ec2-user/groupImage" + uuid.toString() + ".jpg")
                     .build();
         } else {
             company = Company.builder()
@@ -71,7 +71,7 @@ public class CompanyService {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
         UUID uuid = UUID.randomUUID();
         FileImageOutputStream image = new FileImageOutputStream(
-                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpg"));
+                new File("/home/ec2-user/groupImage" + uuid.toString() + ".jpg"));
         image.write(bytes, 0, bytes.length);
         image.close();
         return uuid;
