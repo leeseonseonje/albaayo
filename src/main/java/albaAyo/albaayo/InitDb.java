@@ -1,48 +1,48 @@
-//package albaAyo.albaayo;
-//
-//import albaAyo.albaayo.commute.Commute;
-//import albaAyo.albaayo.company.domain.Accept;
-//import albaAyo.albaayo.company.domain.Company;
-//import albaAyo.albaayo.company.domain.JoinCompany;
-//
-//import albaAyo.albaayo.member.domain.Member;
-//import albaAyo.albaayo.member.domain.Role;
-//import albaAyo.albaayo.notice.domain.Notice;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Component;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import javax.annotation.PostConstruct;
-//import javax.persistence.EntityManager;
-//import java.time.LocalDateTime;
-//
-//@Component
-//@RequiredArgsConstructor
-//public class InitDb {
-//
-//    private final InitService initService;
-//
-//    @PostConstruct
-//    public void init() {
-//        initService.dbInit1();
-//    }
-//
-//    @Component
-//    @Transactional
-//    @RequiredArgsConstructor
-//    static class InitService {
-//        private final EntityManager em;
-//
-//        public void dbInit1() {
-//            Member employerA = Member.builder().build().builder()
-//                    .userId("EMPLOYERA")
-//                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
-//                    .email("leeseonje@gmail.com")
-//                    .name("employerA")
-//                    .birth("1998.02.09")
-//                    .role(Role.ROLE_EMPLOYER)
-//                    .build();
-//
+package albaAyo.albaayo;
+
+import albaAyo.albaayo.commute.Commute;
+import albaAyo.albaayo.company.domain.Accept;
+import albaAyo.albaayo.company.domain.Company;
+import albaAyo.albaayo.company.domain.JoinCompany;
+
+import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.member.domain.Role;
+import albaAyo.albaayo.notice.domain.Notice;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+
+@Component
+@RequiredArgsConstructor
+public class InitDb {
+
+    private final InitService initService;
+
+    @PostConstruct
+    public void init() {
+        initService.dbInit1();
+    }
+
+    @Component
+    @Transactional
+    @RequiredArgsConstructor
+    static class InitService {
+        private final EntityManager em;
+
+        public void dbInit1() {
+            Member employerA = Member.builder().build().builder()
+                    .userId("employer")
+                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
+                    .email("leeseonje@gmail.com")
+                    .name("정성권")
+                    .birth("1998.02.09")
+                    .role(Role.ROLE_EMPLOYER)
+                    .build();
+
 //            Member employerB = Member.builder()
 //                    .userId("EMPLOYERB")
 //                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
@@ -51,16 +51,16 @@
 //                    .birth("1998.02.09")
 //                    .role(Role.ROLE_EMPLOYER)
 //                    .build();
-//
-//            Member workerA = Member.builder()
-//                    .userId("workerA")
-//                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
-//                    .email("seon9323@g.com")
-//                    .name("이선제")
-//                    .birth("1998.02.09")
-//                    .role(Role.ROLE_WORKER)
-//                    .build();
-//
+
+            Member workerA = Member.builder()
+                    .userId("worker")
+                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
+                    .email("seon9323@g.com")
+                    .name("이선제")
+                    .birth("1998.02.09")
+                    .role(Role.ROLE_WORKER)
+                    .build();
+
 //            Member workerB = Member.builder()
 //                    .userId("workerB")
 //                    .password("$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi")
@@ -79,9 +79,9 @@
 //                    .role(Role.ROLE_WORKER)
 //                    .build();
 //
-//            em.persist(employerA);
+            em.persist(employerA);
 //            em.persist(employerB);
-//            em.persist(workerA);
+            em.persist(workerA);
 //            em.persist(workerB);
 //            em.persist(workerC);
 //
@@ -260,12 +260,14 @@
 //            em.persist(noticeC);
 //            em.persist(noticeD);
 //            em.persist(noticeE);
-////            em.persist(noticeF);
-////            em.persist(noticeG);
+//            em.persist(noticeF);
+//            em.persist(noticeG);
 //
 //
 //
 //
 //        }
 //    }
-//}
+        }
+    }
+}

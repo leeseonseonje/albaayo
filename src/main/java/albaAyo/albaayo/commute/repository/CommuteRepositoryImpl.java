@@ -1,6 +1,7 @@
 package albaAyo.albaayo.commute.repository;
 
 import albaAyo.albaayo.commute.Commute;
+import albaAyo.albaayo.commute.QCommute;
 import albaAyo.albaayo.commute.dto.ResponseCommuteListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -33,14 +34,13 @@ public class CommuteRepositoryImpl implements CommuteRepositoryCustom {
     }
 
     @Override
-    public List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId) {
+    public List<Commute> commuteList(Long workerId, Long companyId) {
 
-        return queryFactory.select(Projections.constructor(ResponseCommuteListDto.class,
-                commute.id, commute.startTime, commute.endTime))
+        return queryFactory.select(commute)
                 .from(commute)
                 .where(commute.member.id.eq(workerId)
                         .and(commute.company.id.eq(companyId)))
-                .orderBy(commute.startTime.asc())
+                .orderBy(commute.startTime.desc())
                 .fetch();
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.*;
 
-
 @Getter
 public class CreateMemberRequest {
 
@@ -29,7 +28,6 @@ public class CreateMemberRequest {
     private String name;
 
     @NotBlank(message = "생년월일을 입력해 주세요.")
-    @Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$")
     private String birth;
 
     public Member toEmployer(PasswordEncoder passwordEncoder) {

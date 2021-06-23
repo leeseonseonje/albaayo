@@ -65,29 +65,29 @@ public class NoticeService {
             byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
             UUID uuid = UUID.randomUUID();
             FileImageOutputStream image = new FileImageOutputStream(
-                    new File("/home/ec2-user/groupNotice" + uuid.toString() + ".jpeg"));
+                    new File("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg"));
             image.write(bytes, 0, bytes.length);
             image.close();
             result.add(NoticeImage.builder().notice(notice)
-                    .image("/home/ec2-user/groupNotice" + uuid.toString() + ".jpeg")
+                    .image("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg")
                     .imageContent(noticeImageDto.getImageContent()).build());
         }
         return result;
     }
 
-//    //공지수정
-//    public void noticeUpdate(RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
-//        Notice notice = noticeRepository.findById(requestNoticeUpdateDto.getNoticeId())
-//                .orElseThrow(() -> new RuntimeException("존재하지 않는 공지사항 입니다."));
-//        String imagePath = null;
-////        if (requestNoticeUpdateDto.getImage() != null) {
-////            UUID uuid = imageUpload(requestNoticeUpdateDto.getImage());
-////            imagePath = "C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpg";
-////        }
-////        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
-////        requestNoticeUpdateDto.setImage(imagePath);
-////        notice.updateNotice(requestNoticeUpdateDto, date);
-//    }
+    //공지수정
+    public void noticeUpdate(RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
+        Notice notice = noticeRepository.findById(requestNoticeUpdateDto.getNoticeId())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 공지사항 입니다."));
+
+        if (requestNoticeUpdateDto.getImageList().size() != 0) {
+            noticeImageRepository.noticeImageDelete(requestNoticeUpdateDto.getNoticeId());
+            noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
+        }
+
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        notice.updateNotice(requestNoticeUpdateDto, date);
+    }
 
     //조회
     public Page<ResponseNoticeListDto> noticeList(Long companyId, int page) {
@@ -96,11 +96,12 @@ public class NoticeService {
 
     public ResponseNoticeDto noticeContent(Long noticeId) throws IOException {
         ResponseNoticeDto notice = noticeRepository.noticeContent(noticeId);
-        List<NoticeImageDto> imageList = noticeImageRepository.findNoticeImage(noticeId);
+        List<NoticeImageDto> imageList = noticeImageRepository.findNoticeImageDto(noticeId);
         if (imageList != null) {
             imageDownload(imageList);
             notice.setImageList(imageList);
         }
+        System.out.println("\"성공\" = " + "성공");
         return notice;
     }
 
@@ -139,7 +140,10 @@ public class NoticeService {
 //    }
 
     //공지 삭제
-    public void removeNotice(Notice notice) {
-        noticeRepository.delete(notice);
+    public void removeNotice(Long noticeId) {
+//        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글 입니다."));
+//        noticeRepository.delete(notice);
+        noticeImageRepository.noticeImageDelete(noticeId);
+        noticeRepository.noticeDelete(noticeId);
     }
 }

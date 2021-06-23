@@ -33,9 +33,6 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "notice")
-    private List<NoticeImage> noticeImages = new ArrayList<>();
-
     @Column(length = 50, nullable = false)
     private String title;
 

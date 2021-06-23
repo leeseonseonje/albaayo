@@ -37,7 +37,7 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
                 .on(company.eq(joinCompany.company))
                 .where(joinCompany.member.id.eq(workerId)
                         .and(joinCompany.accept.eq(accept)))
-                .orderBy(company.name.desc())
+                .orderBy(company.name.asc())
                 .fetch();
     }
 

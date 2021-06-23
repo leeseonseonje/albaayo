@@ -9,13 +9,17 @@ import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.repository.MemberRepository;
+import albaAyo.albaayo.notice.domain.Notice;
 import albaAyo.albaayo.schedule.domain.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -88,6 +92,19 @@ public class CommuteService {
     }
 
     public List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId) {
-        return commuteRepository.commuteList(workerId, companyId);
+        List<Commute> commutes = commuteRepository.commuteList(workerId, companyId);
+        List<ResponseCommuteListDto> list = new ArrayList<>();
+        String startTime = "";
+        String endTime = "출근중";
+        for (Commute commute : commutes) {
+            if (commute.getStartTime() != null) {
+                startTime = commute.getStartTime().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일 H시m분"));
+            }
+            if (commute.getEndTime() != null) {
+                endTime = commute.getEndTime().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일 H시m분"));
+            }
+            list.add(ResponseCommuteListDto.builder().id(commute.getId()).startTime(startTime).EndTime(endTime).build());
+        }
+        return list;
     }
 }

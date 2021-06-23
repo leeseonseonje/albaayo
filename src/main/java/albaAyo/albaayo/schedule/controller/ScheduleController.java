@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    ScheduleService scheduleService;
+    private final ScheduleService scheduleService;
 
     //일정 등록
     @PostMapping("/schedule")
@@ -21,29 +21,33 @@ public class ScheduleController {
         scheduleService.registerSchedule(request);
     }
 
-    //일정 수정
-    @PatchMapping("/schedule")
-    public void updateSchedule(@RequestBody @Valid RequestUpdateScheduleDto request) {
-        scheduleService.updateSchedule(request);
-    }
+//    //일정 수정
+//    @PatchMapping("/schedule")
+//    public void updateSchedule(@RequestBody @Valid RequestUpdateScheduleDto request) {
+//        scheduleService.updateSchedule(request);
+//    }
 
-    //일정 삭제
-    @DeleteMapping("/schedule")
-    public void deleteSchedule(@RequestBody RequestDeleteScheduleDto request) {
-        scheduleService.deleteSchedule(request);
-    }
+//    //일정 삭제
+//    @DeleteMapping("/schedule")
+//    public void deleteSchedule(@RequestBody RequestDeleteScheduleDto request) {
+//        scheduleService.deleteSchedule(request);
+//    }
 
-    //일정 전체 조회
-    @GetMapping("/schedule/{companyId}/{date}")
-    public List<ResponseScheduleListDto> scheduleList(@PathVariable Long companyId, @PathVariable Integer date) {
-        return scheduleService.scheduleList(companyId, date);
-    }
+//    //일정 전체 조회
+//    @GetMapping("/schedule/{companyId}/{date}")
+//    public List<ResponseScheduleListDto> scheduleList(@PathVariable Long companyId, @PathVariable Integer date) {
+//        return scheduleService.scheduleList(companyId, date);
+//    }
 
     //일정 단건 조회(상세)
-    @GetMapping("/schedule/{scheduleId}")
-    public ResponseScheduleDto schedule(@PathVariable Long scheduleId) {
-        Schedule schedule = scheduleService.schedule(scheduleId);
+    @GetMapping("/schedule/{companyId}/{date}")
+    public ResponseScheduleDto schedule(@PathVariable Long companyId, @PathVariable String date) {
+        Schedule schedule = scheduleService.schedule(companyId, date);
 
-        return new ResponseScheduleDto(schedule.getId(), schedule.getWorkSchedule());
+        if (schedule != null) {
+            return new ResponseScheduleDto(schedule.getId(), schedule.getWorkSchedule());
+        } else {
+            return new ResponseScheduleDto(1L, "");
+        }
     }
 }

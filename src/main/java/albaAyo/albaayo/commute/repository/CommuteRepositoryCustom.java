@@ -9,5 +9,5 @@ public interface CommuteRepositoryCustom {
 
     Commute commute(Long workerId, Long companyId);
 
-    List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId);
+    List<Commute> commuteList(Long workerId, Long companyId);
 }

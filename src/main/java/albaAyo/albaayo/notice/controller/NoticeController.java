@@ -24,10 +24,10 @@ public class NoticeController {
         noticeService.noticeRegister(memberId, companyId, requestNoticeDto);
     }
 
-//    @PostMapping("/notice")
-//    public void noticeUpdate(@RequestBody RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
-//        noticeService.noticeUpdate(requestNoticeUpdateDto);
-//    }
+    @PostMapping("/notice")
+    public void noticeUpdate(@RequestBody RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
+        noticeService.noticeUpdate(requestNoticeUpdateDto);
+    }
 
     @GetMapping("/notice/{companyId}/{page}")
     public List<ResponseNoticeListDto> noticeList(@PathVariable Long companyId, @PathVariable int page) {
@@ -39,5 +39,10 @@ public class NoticeController {
     @GetMapping("/notice/{noticeId}")
     public ResponseNoticeDto noticeContent(@PathVariable Long noticeId) throws IOException {
         return noticeService.noticeContent(noticeId);
+    }
+
+    @DeleteMapping("/notice/{noticeId}")
+    public void removeNotice(@PathVariable Long noticeId) {
+        noticeService.removeNotice(noticeId);
     }
 }

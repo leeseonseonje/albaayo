@@ -23,17 +23,16 @@ public class Schedule {
     @Column(length = 200)
     private String workSchedule;
 
-    private Integer date;
+    private String date;
 
     @Builder
-    public Schedule(Company company, String workSchedule, Integer date) {
+    public Schedule(Company company, String workSchedule, String date) {
         this.company = company;
         this.workSchedule = workSchedule;
         this.date = date;
     }
 
-    public void updateSchedule(String workSchedule, Integer date) {
+    public void updateSchedule(String workSchedule) {
         this.workSchedule = workSchedule;
-        this.date = date;
     }
 }

@@ -56,7 +56,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     public ResponseNoticeDto noticeContent(Long noticeId) {
         return queryFactory
                 .select(Projections.constructor(ResponseNoticeDto.class,
-                        QNotice.notice.id, QMember.member.name, QNotice.notice.title, QNotice.notice.contents,
+                        QNotice.notice.id, QMember.member.id, QMember.member.name, QNotice.notice.title, QNotice.notice.contents,
                         QNotice.notice.date))
                 .from(QNotice.notice)
                 .where(QNotice.notice.id.eq(noticeId))

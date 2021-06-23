@@ -6,23 +6,11 @@ import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
 import albaAyo.albaayo.company.service.CompanyService;
 import albaAyo.albaayo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.stream.FileImageOutputStream;
-import javax.swing.filechooser.FileSystemView;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor

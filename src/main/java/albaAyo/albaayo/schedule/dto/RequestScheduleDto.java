@@ -13,13 +13,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class RequestScheduleDto {
 
-    private Long id;
+    private Long companyId;
 
-    @Size(max = 200, message = "최대 200자 입니다.")
-    @NotBlank(message = "내용을 입력해 주세요.")
     private String workSchedule;
 
-    @Max(value = 5)
-    @NotBlank(message = "날짜를 확인해 주세요.")
-    private Integer date;
+    private String date;
 }

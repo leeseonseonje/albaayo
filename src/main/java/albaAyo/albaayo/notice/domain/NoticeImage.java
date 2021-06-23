@@ -31,4 +31,9 @@ public class NoticeImage {
         this.image = image;
         this.imageContent = imageContent;
     }
+
+    public void updateImage(String image, String imageContent) {
+        this.image = image;
+        this.imageContent = imageContent;
+    }
 }

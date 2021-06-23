@@ -49,7 +49,7 @@ public class CompanyService {
                     .name(requestCreatCompanyDto.getName())
                     .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
                     .location(requestCreatCompanyDto.getLocation())
-                    .picture("/home/ec2-user/groupImage" + uuid.toString() + ".jpg")
+                    .picture("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg")
                     .build();
         } else {
             company = Company.builder()
@@ -71,7 +71,7 @@ public class CompanyService {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
         UUID uuid = UUID.randomUUID();
         FileImageOutputStream image = new FileImageOutputStream(
-                new File("/home/ec2-user/groupImage" + uuid.toString() + ".jpg"));
+                new File("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg"));
         image.write(bytes, 0, bytes.length);
         image.close();
         return uuid;
@@ -109,7 +109,11 @@ public class CompanyService {
         Member member = memberRepository.findByUserId(workerId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
 
-        return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());
+        if (member.getRole() == Role.ROLE_WORKER) {
+            return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());
+        } else {
+            throw new RuntimeException("근로자가 아닙니다.");
+        }
     }
 
     public ResponseCompanyMainDto companyMain(Long companyId) {
@@ -121,8 +125,10 @@ public class CompanyService {
         List<IdAndName> workersIdAndName = new ArrayList<>();
         Collection<JoinCompany> joinCompanies = findCompany.getJoinCompanies();
         for (JoinCompany joinCompany : joinCompanies) {
-            workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(),
-                    joinCompany.getMember().getName()));
+            if (joinCompany.getAccept() == Accept.ACCEPT) {
+                workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(),
+                        joinCompany.getMember().getName()));
+            }
         }
         return new ResponseCompanyMainDto(findCompany.getId(), findCompany.getMember().getId(),
                 companyName, employerName, workersIdAndName);
