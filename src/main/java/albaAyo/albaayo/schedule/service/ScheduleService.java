@@ -51,9 +51,9 @@ public class ScheduleService {
 //        scheduleRepository.delete(schedule);
 //    }
 
-    public List<ResponseScheduleListDto> scheduleList(Long companyId, Integer date) {
-        return scheduleRepository.scheduleList(companyId, date);
-    }
+//    public List<ResponseScheduleListDto> scheduleList(Long companyId, Integer date) {
+//        return scheduleRepository.scheduleList(companyId, date);
+//    }
 
     public Schedule schedule(Long companyId, String date) {
         return scheduleRepository.findByDate(companyId, date);
