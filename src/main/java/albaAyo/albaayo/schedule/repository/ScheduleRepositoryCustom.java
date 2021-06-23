@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ScheduleRepositoryCustom {
 
-    List<ResponseScheduleListDto> scheduleList(Long companyId, Integer date);
+//    List<ResponseScheduleListDto> scheduleList(Long companyId, Integer date);
 }

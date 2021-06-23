@@ -20,15 +20,15 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
-    public List<ResponseScheduleListDto> scheduleList(Long companyId, Integer date) {
-
-        return queryFactory.select(Projections.constructor(ResponseScheduleListDto.class,
-                schedule.id, schedule.workSchedule))
-                .from(schedule)
-                .where(schedule.company.id.eq(companyId)
-                        .and(schedule.date.eq(date)))
-                .orderBy(schedule.id.desc())
-                .fetch();
-    }
+//    @Override
+//    public List<ResponseScheduleListDto> scheduleList(Long companyId, String date) {
+//
+//        return queryFactory.select(Projections.constructor(ResponseScheduleListDto.class,
+//                schedule.id, schedule.workSchedule))
+//                .from(schedule)
+//                .where(schedule.company.id.eq(companyId)
+//                        .and(schedule.date.eq(date)))
+//                .orderBy(schedule.id.desc())
+//                .fetch();
+//    }
 }
