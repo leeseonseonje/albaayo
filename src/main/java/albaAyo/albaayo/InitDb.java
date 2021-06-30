@@ -1,20 +1,13 @@
 package albaAyo.albaayo;
 
-import albaAyo.albaayo.commute.Commute;
-import albaAyo.albaayo.company.domain.Accept;
-import albaAyo.albaayo.company.domain.Company;
-import albaAyo.albaayo.company.domain.JoinCompany;
-
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
-import albaAyo.albaayo.notice.domain.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor

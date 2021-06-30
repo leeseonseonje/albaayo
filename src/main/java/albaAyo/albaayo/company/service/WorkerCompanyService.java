@@ -52,6 +52,10 @@ public class WorkerCompanyService {
         joinCompanyRepository.companyAccept(workerId, companyId);
     }
 
+    public void notAcceptCompany(Long workerId, Long companyId) {
+        joinCompanyRepository.notAcceptCompany(workerId, companyId);
+    }
+
     public List<CompanyDto> notAcceptCompanyList(Long workerId, Accept accept) {
         return joinCompanyRepository.acceptCompanyList(workerId, accept);
     }

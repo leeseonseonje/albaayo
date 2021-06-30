@@ -49,7 +49,7 @@ public class CompanyService {
                     .name(requestCreatCompanyDto.getName())
                     .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
                     .location(requestCreatCompanyDto.getLocation())
-                    .picture("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg")
+                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg")
                     .build();
         } else {
             company = Company.builder()
@@ -71,7 +71,7 @@ public class CompanyService {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
         UUID uuid = UUID.randomUUID();
         FileImageOutputStream image = new FileImageOutputStream(
-                new File("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg"));
+                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg"));
         image.write(bytes, 0, bytes.length);
         image.close();
         return uuid;
@@ -143,11 +143,16 @@ public class CompanyService {
             Company company = companyRepository.findById(id).orElseThrow(
                     () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
-            joinCompanyRepository.save(JoinCompany.builder()
-                    .member(member)
-                    .company(company)
-                    .accept(Accept.NOT_ACCEPT)
-                    .build());
+            JoinCompany findJoinCompany = joinCompanyRepository.findJoinCompany(company.getId(), member.getId());
+            if (findJoinCompany == null) {
+                joinCompanyRepository.save(JoinCompany.builder()
+                        .member(member)
+                        .company(company)
+                        .accept(Accept.NOT_ACCEPT)
+                        .build());
+            } else {
+                throw new RuntimeException("이미 초대한 근로자 입니다.");
+            }
         } else {
             throw new RuntimeException("근로자가 아닙니다.");
         }

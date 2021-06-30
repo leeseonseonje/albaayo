@@ -21,19 +21,26 @@ public class WorkerCompanyController {
 
     // 수락하지 않은 그룹리스트
     @GetMapping("/worker/{workerId}/company/invite")
-    public List<CompanyDto> notAcceptCompanyList(@PathVariable("workerId") Long workerId) throws IOException {
+    public List<CompanyDto> notAcceptCompanyList(@PathVariable Long workerId) throws IOException {
         return workerCompanyService.notAcceptCompanyList(workerId, NOT_ACCEPT);
     }
 
     // 수락 버튼 눌렀을때
-    @PostMapping("/worker/{workerId}/company/invite")
-    public void acceptCompany(@PathVariable("workerId") Long workerId, @RequestBody RequestCompanyAcceptDto request) {
-        workerCompanyService.acceptCompany(workerId, request.getId());
+    @PostMapping("/worker/{workerId}/{companyId}/invite")
+    public void acceptCompany(@PathVariable Long workerId, @PathVariable Long companyId) {
+        workerCompanyService.acceptCompany(workerId, companyId);
+    }
+
+    //거절 했을때
+    @DeleteMapping("/worker/{workerId}/{companyId}/invite")
+    public void notAcceptCompany(@PathVariable() Long workerId, @PathVariable Long companyId) {
+        workerCompanyService.notAcceptCompany(workerId, companyId);
     }
 
     // 수락한 그룹 리스트
     @GetMapping("/worker/{workerId}/company")
     public Result<List<CompanyDto>> acceptCompanyList(@PathVariable("workerId") Long workerId) throws IOException {
+
         List<CompanyDto> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
         Long count = workerCompanyService.notAcceptCompanyCount(workerId);
 

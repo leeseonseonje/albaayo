@@ -65,11 +65,11 @@ public class NoticeService {
             byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
             UUID uuid = UUID.randomUUID();
             FileImageOutputStream image = new FileImageOutputStream(
-                    new File("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg"));
+                    new File("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg"));
             image.write(bytes, 0, bytes.length);
             image.close();
             result.add(NoticeImage.builder().notice(notice)
-                    .image("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg")
+                    .image("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg")
                     .imageContent(noticeImageDto.getImageContent()).build());
         }
         return result;
@@ -80,13 +80,24 @@ public class NoticeService {
         Notice notice = noticeRepository.findById(requestNoticeUpdateDto.getNoticeId())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 공지사항 입니다."));
 
-        if (requestNoticeUpdateDto.getImageList().size() != 0) {
-            noticeImageRepository.noticeImageDelete(requestNoticeUpdateDto.getNoticeId());
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+
+        if (requestNoticeUpdateDto.getImageList().isEmpty()) {
+            System.out.println("\"1111111111111111111111\" = " + "1111111111111111111111");
+            notice.updateNotice(requestNoticeUpdateDto, date);
+            noticeImageRepository.noticeImageDelete(notice.getId());
+            
+        } else {
+            System.out.println("\"22222222222222222222222\" = " + "22222222222222222222222");
+            notice.updateNotice(requestNoticeUpdateDto, date);
+            noticeImageRepository.noticeImageDelete(notice.getId());
             noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
         }
 
-        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        notice.updateNotice(requestNoticeUpdateDto, date);
+//        System.out.println("\"3333333333333333333333333\" = " + "3333333333333333333333333");
+//        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        notice.updateNotice(requestNoticeUpdateDto, date);
     }
 
     //조회

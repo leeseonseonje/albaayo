@@ -3,16 +3,11 @@ package albaAyo.albaayo.schedule.service;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.schedule.domain.Schedule;
-import albaAyo.albaayo.schedule.dto.RequestDeleteScheduleDto;
 import albaAyo.albaayo.schedule.dto.RequestScheduleDto;
-import albaAyo.albaayo.schedule.dto.RequestUpdateScheduleDto;
-import albaAyo.albaayo.schedule.dto.ResponseScheduleListDto;
 import albaAyo.albaayo.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
