@@ -1,6 +1,7 @@
 package albaAyo.albaayo.notice.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
+import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.domain.JoinCompany;
 import albaAyo.albaayo.member.domain.Member;
@@ -33,7 +34,10 @@ public class Notice extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(length = 50, nullable = false)
+    @OneToMany(mappedBy = "notice", cascade = {CascadeType.REMOVE})
+    private List<NoticeImage> noticeImages = new ArrayList<>();
+
+    @Column(length = 30, nullable = false)
     private String title;
 
     @Column(length = 1000, nullable = false)

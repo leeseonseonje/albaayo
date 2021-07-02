@@ -27,7 +27,7 @@ public class CompanyController {
     //그룹 생성
     @PostMapping("/employer/{id}/company")
     public CompanyDto createCompanyController(@PathVariable Long id,
-                                              @RequestBody @Valid RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {
+                                              @RequestBody @Valid RequestCompanyDto requestCreatCompanyDto) throws IOException {
         Company company = companyService.EmployerCreateCompany(id, requestCreatCompanyDto);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
@@ -46,7 +46,7 @@ public class CompanyController {
     }
 
     //근로자 초대
-    @PostMapping("/company/{companyId}")
+    @PostMapping("/company/invite/{companyId}")
     public ResponseFindWorkerDto inviteWorker(@PathVariable("companyId") Long companyId,
                              @RequestBody @Valid RequestInviteWorkerDto request) {
         Member member = companyService.inviteWorker(companyId, request);
@@ -67,4 +67,17 @@ public class CompanyController {
                 .role(findMember.getRole())
                 .build();
     }
+
+    //그룹 삭제
+    @DeleteMapping("/company/{companyId}")
+    public void removeCompany(@PathVariable Long companyId) {
+        companyService.removeCompany(companyId);
+    }
+
+    //그룹 정보 수정
+    @PatchMapping("/company/{companyId}")
+    public void updateCompany(@PathVariable Long companyId, @RequestBody RequestCompanyDto request) throws IOException {
+        companyService.updateCompany(companyId, request);
+    }
+
 }

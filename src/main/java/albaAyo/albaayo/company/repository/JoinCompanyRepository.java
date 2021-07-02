@@ -16,5 +16,6 @@ public interface JoinCompanyRepository extends JpaRepository<JoinCompany, Long>,
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from JoinCompany j where j.member.id = :workerId and j.company.id = :companyId")
-    void notAcceptCompany(@Param("workerId")Long workerId, @Param("companyId")Long companyId);
+    void joinCompanyDelete(@Param("workerId") Long workerId, @Param("companyId") Long companyId);
+
 }

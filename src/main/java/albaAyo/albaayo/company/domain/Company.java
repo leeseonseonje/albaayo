@@ -1,7 +1,12 @@
 package albaAyo.albaayo.company.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
+import albaAyo.albaayo.chat.Chat;
+import albaAyo.albaayo.commute.Commute;
+import albaAyo.albaayo.company.dto.RequestCompanyDto;
 import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.notice.domain.Notice;
+import albaAyo.albaayo.schedule.domain.Schedule;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +40,20 @@ public class Company extends BaseTimeEntity {
     @Column(length = 1000)
     private String picture;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.REMOVE})
     private List<JoinCompany> joinCompanies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.REMOVE})
+    private List<Notice> notices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.REMOVE})
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.REMOVE})
+    private List<Commute> commutes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.REMOVE})
+    private List<Chat> chats = new ArrayList<>();
 
     @Builder
     public Company(String businessRegistrationNumber, String name, String location, String picture) {
@@ -48,5 +65,11 @@ public class Company extends BaseTimeEntity {
 
     public void employerCreateCompany(Member member) {
         this.member = member;
+    }
+
+    public void updateCompany(RequestCompanyDto request) {
+        this.name = request.getName();
+        this.location = request.getLocation();
+        this.picture = request.getPicture();
     }
 }

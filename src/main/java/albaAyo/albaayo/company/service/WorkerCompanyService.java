@@ -1,7 +1,6 @@
 package albaAyo.albaayo.company.service;
 
 import albaAyo.albaayo.company.domain.Accept;
-import albaAyo.albaayo.company.dto.CompanyAcceptDto;
 import albaAyo.albaayo.company.dto.CompanyDto;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,10 +52,15 @@ public class WorkerCompanyService {
     }
 
     public void notAcceptCompany(Long workerId, Long companyId) {
-        joinCompanyRepository.notAcceptCompany(workerId, companyId);
+        joinCompanyRepository.joinCompanyDelete(workerId, companyId);
     }
 
     public List<CompanyDto> notAcceptCompanyList(Long workerId, Accept accept) {
         return joinCompanyRepository.acceptCompanyList(workerId, accept);
+    }
+
+    //그룹 퇴장
+    public void companyExit(Long workerId, Long companyId) {
+        joinCompanyRepository.joinCompanyDelete(workerId, companyId);
     }
 }

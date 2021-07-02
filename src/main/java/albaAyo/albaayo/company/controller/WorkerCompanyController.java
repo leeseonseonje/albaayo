@@ -46,4 +46,10 @@ public class WorkerCompanyController {
 
         return new Result<>(companies, count);
     }
+
+    //그룹 퇴장
+    @DeleteMapping("/company/{workerId}/{companyId}")
+    public void companyExit(@PathVariable Long workerId, @PathVariable Long companyId) {
+        workerCompanyService.companyExit(workerId, companyId);
+    }
 }

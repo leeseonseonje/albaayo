@@ -1,12 +1,14 @@
 package albaAyo.albaayo.company.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
-public class RequestCreatCompanyDto {
+@Setter
+public class RequestCompanyDto {
 
     @Size(max = 50, message = "최대 50자 입니다.")
     @NotBlank(message = "이름을 입력해 주세요.")

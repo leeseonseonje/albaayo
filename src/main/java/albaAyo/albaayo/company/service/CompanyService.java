@@ -39,7 +39,7 @@ public class CompanyService {
     private final MemberRepository memberRepository;
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public Company EmployerCreateCompany(Long id, RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {
+    public Company EmployerCreateCompany(Long id, RequestCompanyDto requestCreatCompanyDto) throws IOException {
 
         Company company = null;
         if (requestCreatCompanyDto.getPicture() != null) {
@@ -67,7 +67,7 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    private UUID imageUpload(RequestCreatCompanyDto requestCreatCompanyDto) throws IOException {
+    private UUID imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
         UUID uuid = UUID.randomUUID();
         FileImageOutputStream image = new FileImageOutputStream(
@@ -162,5 +162,22 @@ public class CompanyService {
     public Member memberInfo(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new RuntimeException("존재 하지 않는 회원 입니다."));
+    }
+
+    public void removeCompany(Long companyId) {
+        Company findCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new RuntimeException("존재하지 않는 회사 입니다."));
+
+        companyRepository.delete(findCompany);
+    }
+
+    public void updateCompany(Long companyId, RequestCompanyDto request) throws IOException {
+        Company findCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new RuntimeException("존재하지 않는 회사입니다."));
+
+        UUID uuid = imageUpload(request);
+        request.setPicture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg");
+
+        findCompany.updateCompany(request);
     }
 }

@@ -84,12 +84,10 @@ public class NoticeService {
 
 
         if (requestNoticeUpdateDto.getImageList().isEmpty()) {
-            System.out.println("\"1111111111111111111111\" = " + "1111111111111111111111");
             notice.updateNotice(requestNoticeUpdateDto, date);
             noticeImageRepository.noticeImageDelete(notice.getId());
             
         } else {
-            System.out.println("\"22222222222222222222222\" = " + "22222222222222222222222");
             notice.updateNotice(requestNoticeUpdateDto, date);
             noticeImageRepository.noticeImageDelete(notice.getId());
             noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
