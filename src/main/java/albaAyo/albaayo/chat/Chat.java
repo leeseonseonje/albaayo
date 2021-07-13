@@ -3,6 +3,7 @@ package albaAyo.albaayo.chat;
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.member.domain.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,11 @@ public class Chat extends BaseTimeEntity {
 
     @Column(updatable = false, length = 500)
     private String chatContents;
+
+    @Builder
+    public Chat(Company company, Member member, String chatContents) {
+        this.company = company;
+        this.member = member;
+        this.chatContents = chatContents;
+    }
 }

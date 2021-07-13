@@ -65,11 +65,11 @@ public class NoticeService {
             byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
             UUID uuid = UUID.randomUUID();
             FileImageOutputStream image = new FileImageOutputStream(
-                    new File("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg"));
+                    new File("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg"));
             image.write(bytes, 0, bytes.length);
             image.close();
             result.add(NoticeImage.builder().notice(notice)
-                    .image("/home/ec2-user/groupNotice/" + uuid.toString() + ".jpeg")
+                    .image("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg")
                     .imageContent(noticeImageDto.getImageContent()).build());
         }
         return result;

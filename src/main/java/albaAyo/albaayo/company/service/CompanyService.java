@@ -49,7 +49,7 @@ public class CompanyService {
                     .name(requestCreatCompanyDto.getName())
                     .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
                     .location(requestCreatCompanyDto.getLocation())
-                    .picture("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg")
+                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg")
                     .build();
         } else {
             company = Company.builder()
@@ -71,7 +71,7 @@ public class CompanyService {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
         UUID uuid = UUID.randomUUID();
         FileImageOutputStream image = new FileImageOutputStream(
-                new File("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg"));
+                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg"));
         image.write(bytes, 0, bytes.length);
         image.close();
         return uuid;
@@ -176,7 +176,7 @@ public class CompanyService {
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
         UUID uuid = imageUpload(request);
-        request.setPicture("/home/ec2-user/groupImage/" + uuid.toString() + ".jpeg");
+        request.setPicture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg");
 
         findCompany.updateCompany(request);
     }
