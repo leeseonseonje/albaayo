@@ -1,6 +1,6 @@
 package albaAyo.albaayo.chat.service;
 
-import albaAyo.albaayo.chat.Chat;
+import albaAyo.albaayo.chat.domain.Chat;
 import albaAyo.albaayo.chat.dto.RequestChattingMessage;
 import albaAyo.albaayo.chat.dto.ResponseChatMessage;
 import albaAyo.albaayo.chat.repository.ChatRepository;
@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,7 +26,7 @@ public class ChatService {
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
 
-    //채팅 내용 저장 (memberId, companyId, time, content)
+    //채팅 내용 저장
     public void saveChat(RequestChattingMessage request) {
         Member findMember = memberRepository.findById(request.getMemberId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원입니다."));
@@ -39,6 +39,10 @@ public class ChatService {
 
     //채팅 내용 조회
     public List<ResponseChatMessage> chatContents(Long companyId) {
-        return chatRepository.chatContents(companyId);
+        List<Chat> chats = chatRepository.chatContents(companyId);
+        return chats.stream()
+                .map(c -> new ResponseChatMessage(c.getMember().getId(), c.getMember().getName(),
+                        c.getChatContents(), c.getCreatedDate()))
+                .collect(Collectors.toList());
     }
 }

@@ -50,6 +50,11 @@ public class LoginController {
         return authService.login(request);
     }
 
+    @GetMapping("logout/{memberId}")
+    public void logout(@PathVariable Long memberId) {
+        logout(memberId);
+    }
+
     @PostMapping(value = "/test/file")
     public String fileTest(MultipartFile file) throws IOException {
         String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();

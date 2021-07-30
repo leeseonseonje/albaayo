@@ -3,6 +3,7 @@ package albaAyo.albaayo.company.controller;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.dto.*;
 import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
+import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.company.service.CompanyService;
 import albaAyo.albaayo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class CompanyController {
 
     //그룹 메인
     @GetMapping("/company/{companyId}")
-    public ResponseCompanyMainDto companyMain(@PathVariable("companyId") Long companyId) {
+    public List<ResponseCompanyWorkerListDto> companyMain(@PathVariable("companyId") Long companyId) {
         return companyService.companyMain(companyId);
     }
 

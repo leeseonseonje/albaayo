@@ -87,6 +87,11 @@ public class LoginService {
         return tokenDto;
     }
 
+    @Transactional
+    public void logout(Long memberId) {
+        refreshTokenRepository.refreshTokenDelete(memberId.toString());
+    }
+
 //    @Transactional
 //    public TokenDto reissue(TokenRequestDto tokenRequestDto) {
 //        // 1. Refresh Token 검증
@@ -126,6 +131,7 @@ public class LoginService {
 
         tokenDto.setId(member.getId());
         System.out.println(member.getId());
+        tokenDto.setUserId(member.getUserId());
         tokenDto.setName(member.getName());
         tokenDto.setRole(member.getRole());
         return tokenDto;

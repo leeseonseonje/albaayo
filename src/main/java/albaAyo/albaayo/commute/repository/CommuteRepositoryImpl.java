@@ -3,11 +3,13 @@ package albaAyo.albaayo.commute.repository;
 import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.commute.QCommute;
 import albaAyo.albaayo.commute.dto.ResponseCommuteListDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static albaAyo.albaayo.commute.QCommute.*;
@@ -41,6 +43,18 @@ public class CommuteRepositoryImpl implements CommuteRepositoryCustom {
                 .where(commute.member.id.eq(workerId)
                         .and(commute.company.id.eq(companyId)))
                 .orderBy(commute.startTime.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Commute> monthCommuteList(Long workerId, Long companyId, LocalDateTime date) {
+
+        return queryFactory.select(commute)
+                .from(commute)
+                .where(commute.member.id.eq(workerId)
+                        .and(commute.company.id.eq(companyId))
+                        .and(commute.startTime.year().eq(date.getYear())
+                                .and(commute.startTime.month().eq(date.getMonthValue()))))
                 .fetch();
     }
 }

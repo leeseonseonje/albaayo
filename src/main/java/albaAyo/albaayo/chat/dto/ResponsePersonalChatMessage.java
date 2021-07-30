@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseChatMessage {
+public class ResponsePersonalChatMessage {
 
-    private Long memberId;
+    private Long sendMemberId;
+    private Long recvMemberId;
     private String name;
     private String message;
 

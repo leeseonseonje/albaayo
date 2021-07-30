@@ -6,6 +6,7 @@ import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.dto.*;
 import albaAyo.albaayo.company.dto.company_main_dto.IdAndName;
 import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyMainDto;
+import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
@@ -116,22 +117,12 @@ public class CompanyService {
         }
     }
 
-    public ResponseCompanyMainDto companyMain(Long companyId) {
-        Company findCompany = companyRepository.findByCompanyMain(companyId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회사 입니다."));
-
-        String companyName = findCompany.getName();// 이름
-        String employerName = findCompany.getMember().getName();// 사장
-        List<IdAndName> workersIdAndName = new ArrayList<>();
-        Collection<JoinCompany> joinCompanies = findCompany.getJoinCompanies();
-        for (JoinCompany joinCompany : joinCompanies) {
-            if (joinCompany.getAccept() == Accept.ACCEPT) {
-                workersIdAndName.add(new IdAndName(joinCompany.getMember().getId(),
-                        joinCompany.getMember().getName()));
-            }
+    public List<ResponseCompanyWorkerListDto> companyMain(Long companyId) {
+        List<ResponseCompanyWorkerListDto> workerList = companyRepository.findCompanyWorkerList(companyId);
+        if (workerList.isEmpty()) {
+            workerList.add(companyRepository.findCompanyEmployer(companyId));
         }
-        return new ResponseCompanyMainDto(findCompany.getId(), findCompany.getMember().getId(),
-                companyName, employerName, workersIdAndName);
+        return workerList;
     }
 
     public Member inviteWorker(Long id, RequestInviteWorkerDto request) {

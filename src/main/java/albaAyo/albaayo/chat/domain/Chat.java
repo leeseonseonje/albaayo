@@ -1,4 +1,4 @@
-package albaAyo.albaayo.chat;
+package albaAyo.albaayo.chat.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.company.domain.Company;

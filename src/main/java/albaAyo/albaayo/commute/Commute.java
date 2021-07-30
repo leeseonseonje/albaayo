@@ -31,11 +31,13 @@ public class Commute{
     private LocalDateTime endTime;
 
     @Builder
-    public Commute(Member member, Company company, LocalDateTime startTime) {
+    public Commute(Member member, Company company, LocalDateTime startTime, LocalDateTime EndTime) {
         this.member = member;
         this.company = company;
         this.startTime = startTime;
+        this.endTime = EndTime;
     }
+
 
     public void goToWorkTime(LocalDateTime startTime) {
         this.startTime = startTime;

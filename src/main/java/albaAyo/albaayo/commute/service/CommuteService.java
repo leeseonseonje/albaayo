@@ -4,21 +4,19 @@ import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.commute.dto.RequestCommuteDto;
 import albaAyo.albaayo.commute.dto.RequestUpdateCommuteDto;
 import albaAyo.albaayo.commute.dto.ResponseCommuteListDto;
+import albaAyo.albaayo.commute.dto.ResponsePayInformationDto;
 import albaAyo.albaayo.commute.repository.CommuteRepository;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.repository.CompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.repository.MemberRepository;
-import albaAyo.albaayo.notice.domain.Notice;
-import albaAyo.albaayo.schedule.domain.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +30,6 @@ public class CommuteService {
     private final CompanyRepository companyRepository;
 
     public void goToWork(RequestCommuteDto request) {
-
-        Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
-                () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
             Commute findCommute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             commuteGeneration(request, findCommute);
@@ -58,9 +53,6 @@ public class CommuteService {
     }
 
     public void offWork(RequestCommuteDto request) {
-
-        Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
-                () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
             Commute commute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             if (commute != null && commute.getEndTime() == null) {
@@ -106,5 +98,27 @@ public class CommuteService {
             list.add(ResponseCommuteListDto.builder().id(commute.getId()).startTime(startTime).EndTime(endTime).build());
         }
         return list;
+    }
+
+    public ResponsePayInformationDto thisMonthPayInfo(Long workerId, Long companyId) {
+        List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, LocalDateTime.now());
+        return new ResponsePayInformationDto(payCalculation(commutes));
+    }
+
+    public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
+        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
+        List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
+        return new ResponsePayInformationDto(payCalculation(commutes));
+    }
+
+    private int payCalculation(List<Commute> commutes) {
+        int sum = 0;
+        for (Commute commute : commutes) {
+            if (commute.getEndTime() != null) {
+                long workingMinutes = ChronoUnit.MINUTES.between(commute.getStartTime(), commute.getEndTime());
+                sum += (int) workingMinutes;
+            }
+        }
+        return (sum/10) * (8720/6);
     }
 }

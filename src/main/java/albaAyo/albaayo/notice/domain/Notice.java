@@ -37,7 +37,7 @@ public class Notice extends BaseTimeEntity {
     @OneToMany(mappedBy = "notice", cascade = {CascadeType.REMOVE})
     private List<NoticeImage> noticeImages = new ArrayList<>();
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 50, nullable = false)
     private String title;
 
     @Column(length = 1000, nullable = false)

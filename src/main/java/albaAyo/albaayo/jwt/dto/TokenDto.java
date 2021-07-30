@@ -16,6 +16,7 @@ public class TokenDto {
     private String refreshToken;
     private Long accessTokenExpiresIn;
     private Long id;
+    private String userId;
     private String name;
     private Role role;
 }

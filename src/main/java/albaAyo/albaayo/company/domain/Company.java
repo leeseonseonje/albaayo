@@ -1,7 +1,7 @@
 package albaAyo.albaayo.company.domain;
 
 import albaAyo.albaayo.BaseTimeEntity;
-import albaAyo.albaayo.chat.Chat;
+import albaAyo.albaayo.chat.domain.Chat;
 import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.company.dto.RequestCompanyDto;
 import albaAyo.albaayo.member.domain.Member;

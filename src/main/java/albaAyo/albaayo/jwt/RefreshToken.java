@@ -17,9 +17,8 @@ public class RefreshToken {
 
     private String token;
 
-    public RefreshToken updateValue(String token) {
+    public void updateValue(String token) {
         this.token = token;
-        return this;
     }
 
     @Builder

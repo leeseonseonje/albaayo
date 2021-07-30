@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,9 +24,7 @@ public class ChatController {
 
     @MessageMapping("/company")
     public void companyChatting(RequestChattingMessage message) {
-        System.out.println("message = " + message.getMessage());
 
-        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         ResponseChatMessage response = ResponseChatMessage.builder().memberId(message.getMemberId())
                 .name(message.getName()).message(message.getMessage()).time(LocalDateTime.now()).build();
         messagingTemplate.convertAndSend("/recv/company/" + message.getCompanyId(), response);

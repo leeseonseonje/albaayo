@@ -1,7 +1,11 @@
 package albaAyo.albaayo.company.repository;
 
+import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.domain.QCompany;
+import albaAyo.albaayo.company.domain.QJoinCompany;
 import albaAyo.albaayo.company.dto.CompanyDto;
+import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
+import albaAyo.albaayo.member.domain.QMember;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -9,6 +13,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static albaAyo.albaayo.company.domain.QCompany.*;
+import static albaAyo.albaayo.company.domain.QJoinCompany.*;
+import static albaAyo.albaayo.member.domain.QMember.*;
 
 
 public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
@@ -31,5 +37,34 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .where(company.member.id.eq(id))
                 .orderBy(company.name.asc())
                 .fetch();
+    }
+
+    @Override
+    public List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long companyId) {
+        return queryFactory
+                .select(Projections.constructor(ResponseCompanyWorkerListDto.class,
+                        member.id, member.name, member.birth, member.role))
+                .distinct()
+                .from(company)
+                .where(company.id.eq(companyId))
+                .join(joinCompany)
+                .on(joinCompany.company.id.eq(companyId)
+                        .and(joinCompany.accept.eq(Accept.ACCEPT)))
+                .join(member)
+                .on(member.id.eq(company.member.id).or(member.id.eq(joinCompany.member.id)))
+                .orderBy(member.role.asc())
+                .fetch();
+    }
+
+    @Override
+    public ResponseCompanyWorkerListDto findCompanyEmployer(Long companyId) {
+        return queryFactory
+                .select(Projections.constructor(ResponseCompanyWorkerListDto.class,
+                        member.id, member.name, member.birth, member.role))
+                .from(company)
+                .where(company.id.eq(companyId))
+                .join(member)
+                .on(member.id.eq(company.member.id))
+                .fetchOne();
     }
 }
