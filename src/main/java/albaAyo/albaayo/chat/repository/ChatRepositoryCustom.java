@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ChatRepositoryCustom {
 
-    List<Chat> chatContents(Long companyId);
+    List<ResponseChatMessage> chatContents(Long companyId);
 }

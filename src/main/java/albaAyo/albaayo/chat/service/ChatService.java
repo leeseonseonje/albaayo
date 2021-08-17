@@ -39,10 +39,6 @@ public class ChatService {
 
     //채팅 내용 조회
     public List<ResponseChatMessage> chatContents(Long companyId) {
-        List<Chat> chats = chatRepository.chatContents(companyId);
-        return chats.stream()
-                .map(c -> new ResponseChatMessage(c.getMember().getId(), c.getMember().getName(),
-                        c.getChatContents(), c.getCreatedDate()))
-                .collect(Collectors.toList());
+        return chatRepository.chatContents(companyId);
     }
 }
