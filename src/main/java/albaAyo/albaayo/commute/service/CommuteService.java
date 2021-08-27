@@ -86,6 +86,11 @@ public class CommuteService {
     public List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId) {
         List<Commute> commutes = commuteRepository.commuteList(workerId, companyId);
         List<ResponseCommuteListDto> list = new ArrayList<>();
+        commuteTimetoString(commutes, list);
+        return list;
+    }
+
+    private void commuteTimetoString(List<Commute> commutes, List<ResponseCommuteListDto> list) {
         String startTime = "";
         String endTime = "출근중";
         for (Commute commute : commutes) {
@@ -97,19 +102,19 @@ public class CommuteService {
             }
             list.add(ResponseCommuteListDto.builder().id(commute.getId()).startTime(startTime).EndTime(endTime).build());
         }
-        return list;
-    }
-
-    public ResponsePayInformationDto thisMonthPayInfo(Long workerId, Long companyId) {
-        List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, LocalDateTime.now());
-        return new ResponsePayInformationDto(payCalculation(commutes));
     }
 
     public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
-        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
         return new ResponsePayInformationDto(payCalculation(commutes));
     }
+
+//    public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
+//        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
+//        List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
+//        return new ResponsePayInformationDto(payCalculation(commutes));
+//    }
 
     private int payCalculation(List<Commute> commutes) {
         int sum = 0;

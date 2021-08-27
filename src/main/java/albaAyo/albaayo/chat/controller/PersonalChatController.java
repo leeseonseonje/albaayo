@@ -33,7 +33,7 @@ public class PersonalChatController {
                 .sendMemberId(message.getSendMemberId()).recvMemberId(message.getRecvMemberId())
                 .name(message.getName()).message(message.getMessage()).time(LocalDateTime.now()).build();
 
-        if (message.getSendMemberId() != message.getRecvMemberId()) {
+        if (!message.getSendMemberId().equals(message.getRecvMemberId())) {
             messagingTemplate.convertAndSend("/recv/member/"
                     + message.getSendMemberId() + "/" + message.getRecvMemberId(), response);
             messagingTemplate.convertAndSend("/recv/member/"

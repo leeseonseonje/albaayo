@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface CompanyRepository extends JpaRepository<Company, Long>, CompanyRepositoryCustom {
 
-    List<Company> findByBusinessRegistrationNumber(String businessRegistrationNumber);
+    boolean existsByBusinessRegistrationNumber(String businessRegistrationNumber);
 
     @EntityGraph(attributePaths = {"member", "joinCompanies", "joinCompanies.member"})
     @Query("select c from Company c where c.id = :id")

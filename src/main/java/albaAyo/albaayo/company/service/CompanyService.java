@@ -39,26 +39,11 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final MemberRepository memberRepository;
     private final JoinCompanyRepository joinCompanyRepository;
+    private final CompanyFileService companyFileService;
 
     public Company EmployerCreateCompany(Long id, RequestCompanyDto requestCreatCompanyDto) throws IOException {
 
-        Company company = null;
-        if (requestCreatCompanyDto.getPicture() != null) {
-            UUID uuid = imageUpload(requestCreatCompanyDto);
-
-            company = Company.builder()
-                    .name(requestCreatCompanyDto.getName())
-                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
-                    .location(requestCreatCompanyDto.getLocation())
-                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg")
-                    .build();
-        } else {
-            company = Company.builder()
-                    .name(requestCreatCompanyDto.getName())
-                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
-                    .location(requestCreatCompanyDto.getLocation())
-                    .build();
-        }
+        Company company = companyFileService.companyBuilder(requestCreatCompanyDto);
 
         validateCompany(company);
         Member member =  memberRepository.findById(id).orElseThrow(
@@ -68,42 +53,17 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    private UUID imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
-        byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
-        UUID uuid = UUID.randomUUID();
-        FileImageOutputStream image = new FileImageOutputStream(
-                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg"));
-        image.write(bytes, 0, bytes.length);
-        image.close();
-        return uuid;
-    }
-
     private void validateCompany(Company company) {
 
-        List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(
-                company.getBusinessRegistrationNumber());
-        if (!findCompany.isEmpty()) {
+        if (companyRepository.existsByBusinessRegistrationNumber(company.getBusinessRegistrationNumber())) {
             throw new RuntimeException("이미 존재하는 회사입니다.");
         }
     }
 
     public List<CompanyDto> companies(Long id) throws IOException {
         List<CompanyDto> companies = companyRepository.findCompanies(id);
-        imageDownload(companies);
+        companyFileService.imageDownload(companies);
         return companies;
-    }
-
-    private void imageDownload(List<CompanyDto> companies) throws IOException {
-        for (CompanyDto company : companies) {
-            if (company.getPicture() != null) {
-                Path path = Paths.get(company.getPicture());
-                Resource resource = new InputStreamResource(Files.newInputStream(path));
-                InputStream inputStream = resource.getInputStream();
-                byte[] bytes = inputStream.readAllBytes();
-                String picture = Base64.encodeBase64String(bytes);
-                company.setPicture(picture);
-            }
-        }
     }
 
     public ResponseFindWorkerDto findWorker(String workerId) {
@@ -166,9 +126,85 @@ public class CompanyService {
         Company findCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
-        UUID uuid = imageUpload(request);
+        UUID uuid = companyFileService.imageUpload(request);
         request.setPicture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg");
 
         findCompany.updateCompany(request);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private void imageDownload(List<CompanyDto> companies) throws IOException {
+//        for (CompanyDto company : companies) {
+//            if (company.getPicture() != null) {
+//                Path path = Paths.get(company.getPicture());
+//                Resource resource = new InputStreamResource(Files.newInputStream(path));
+//                InputStream inputStream = resource.getInputStream();
+//                byte[] bytes = inputStream.readAllBytes();
+//                String picture = Base64.encodeBase64String(bytes);
+//                company.setPicture(picture);
+//            }
+//        }
+//    }
+
+
+//    public Company companyBuilder(RequestCompanyDto requestCreatCompanyDto) throws IOException {
+//        Company company;
+//        if (requestCreatCompanyDto.getPicture() != null) {
+//            UUID uuid = imageUpload(requestCreatCompanyDto);
+//
+//            company = Company.builder()
+//                    .name(requestCreatCompanyDto.getName())
+//                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
+//                    .location(requestCreatCompanyDto.getLocation())
+//                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg")
+//                    .build();
+//        } else {
+//            company = Company.builder()
+//                    .name(requestCreatCompanyDto.getName())
+//                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
+//                    .location(requestCreatCompanyDto.getLocation())
+//                    .build();
+//        }
+//        return company;
+//    }
+//
+//    private UUID imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
+//        byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
+//        UUID uuid = UUID.randomUUID();
+//        FileImageOutputStream image = new FileImageOutputStream(
+//                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg"));
+//        image.write(bytes, 0, bytes.length);
+//        image.close();
+//        return uuid;
+//    }
+//
+//    private void validateCompany(Company company) {
+//
+//        List<Company> findCompany = companyRepository.findByBusinessRegistrationNumber(
+//                company.getBusinessRegistrationNumber());
+//        if (!findCompany.isEmpty()) {
+//            throw new RuntimeException("이미 존재하는 회사입니다.");
+//        }
+//    }

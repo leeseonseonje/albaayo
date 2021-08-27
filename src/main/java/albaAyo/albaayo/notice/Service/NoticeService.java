@@ -58,23 +58,6 @@ public class NoticeService {
         }
     }
 
-    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
-
-        List<NoticeImage> result = new ArrayList<>();
-        for (NoticeImageDto noticeImageDto : list) {
-            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
-            UUID uuid = UUID.randomUUID();
-            FileImageOutputStream image = new FileImageOutputStream(
-                    new File("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg"));
-            image.write(bytes, 0, bytes.length);
-            image.close();
-            result.add(NoticeImage.builder().notice(notice)
-                    .image("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg")
-                    .imageContent(noticeImageDto.getImageContent()).build());
-        }
-        return result;
-    }
-
     //공지수정
     public void noticeUpdate(RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
         Notice notice = noticeRepository.findById(requestNoticeUpdateDto.getNoticeId())
@@ -83,19 +66,19 @@ public class NoticeService {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 
+        noticeImageUpdate(requestNoticeUpdateDto, notice, date);
+    }
+
+    private void noticeImageUpdate(RequestNoticeUpdateDto requestNoticeUpdateDto, Notice notice, String date) throws IOException {
         if (requestNoticeUpdateDto.getImageList().isEmpty()) {
             notice.updateNotice(requestNoticeUpdateDto, date);
             noticeImageRepository.noticeImageDelete(notice.getId());
-            
+
         } else {
             notice.updateNotice(requestNoticeUpdateDto, date);
             noticeImageRepository.noticeImageDelete(notice.getId());
             noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
         }
-
-//        System.out.println("\"3333333333333333333333333\" = " + "3333333333333333333333333");
-//        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        notice.updateNotice(requestNoticeUpdateDto, date);
     }
 
     //조회
@@ -123,6 +106,23 @@ public class NoticeService {
             String image = Base64.encodeBase64String(bytes);
             noticeImageDto.setImage(image);
         }
+    }
+
+    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
+
+        List<NoticeImage> result = new ArrayList<>();
+        for (NoticeImageDto noticeImageDto : list) {
+            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
+            UUID uuid = UUID.randomUUID();
+            FileImageOutputStream image = new FileImageOutputStream(
+                    new File("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg"));
+            image.write(bytes, 0, bytes.length);
+            image.close();
+            result.add(NoticeImage.builder().notice(notice)
+                    .image("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg")
+                    .imageContent(noticeImageDto.getImageContent()).build());
+        }
+        return result;
     }
 
     //게시자명 검색

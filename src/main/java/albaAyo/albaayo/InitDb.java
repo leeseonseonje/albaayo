@@ -78,15 +78,13 @@
 ////                    .role(Role.ROLE_WORKER)
 ////                    .build();
 ////
-//            RefreshToken reA = RefreshToken.builder().id("1").token("dd").build();
-//            RefreshToken reB = RefreshToken.builder().id("2").token("dd").build();
 //            em.persist(employerA);
 ////            em.persist(employerB);
 //            em.persist(workerA);
 ////            em.persist(workerB);
 ////            em.persist(workerC);
-//            em.persist(reA);
-//            em.persist(reB);
+////            em.persist(reA);
+////            em.persist(reB);
 ////
 //            Company companyA = Company.builder()
 //                    .name("영진전문대 복현캠퍼스")

@@ -48,16 +48,16 @@ public class CommuteController {
         return commuteService.commuteList(workerId, companyId);
     }
 
-    //급여 조회(이번달)
+    //급여 조회
     @GetMapping("/pay/{workerId}/{companyId}")
-    public ResponsePayInformationDto thisMonthPayInfo(@PathVariable Long workerId, @PathVariable Long companyId) {
-        return commuteService.thisMonthPayInfo(workerId, companyId);
-    }
-
-    //급여 조회(다른달)
-    @GetMapping("/b-pay/{workerId}/{companyId}")
     public ResponsePayInformationDto monthPayInfo(@PathVariable Long workerId, @PathVariable Long companyId,
-                                                  @RequestParam("date") String date) {
+                                                      @RequestParam("date") String date) {
         return commuteService.monthPayInfo(workerId, companyId, date);
     }
+
+//    @GetMapping("/b-pay/{workerId}/{companyId}")
+//    public ResponsePayInformationDto monthPayInfo(@PathVariable Long workerId, @PathVariable Long companyId,
+//                                                  @RequestParam("date") String date) {
+//        return commuteService.monthPayInfo(workerId, companyId, date);
+//    }
 }
