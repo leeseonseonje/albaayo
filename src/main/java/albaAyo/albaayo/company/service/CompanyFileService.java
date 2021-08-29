@@ -23,35 +23,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyFileService {
 
-    public Company companyBuilder(RequestCompanyDto requestCreatCompanyDto) throws IOException {
-        Company company;
-        if (requestCreatCompanyDto.getPicture() != null) {
-            UUID uuid = imageUpload(requestCreatCompanyDto);
+    public static final String URL = "C:\\Users\\seon\\groupImage\\";
 
-            company = Company.builder()
-                    .name(requestCreatCompanyDto.getName())
-                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
-                    .location(requestCreatCompanyDto.getLocation())
-                    .picture("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg")
-                    .build();
-        } else {
-            company = Company.builder()
-                    .name(requestCreatCompanyDto.getName())
-                    .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
-                    .location(requestCreatCompanyDto.getLocation())
-                    .build();
+    public Company companyBuilder(RequestCompanyDto requestCreatCompanyDto) throws IOException {
+        Company company = Company.builder()
+                .name(requestCreatCompanyDto.getName())
+                .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
+                .location(requestCreatCompanyDto.getLocation())
+                .build();
+        if (requestCreatCompanyDto.getPicture() != null) {
+            String url = imageUpload(requestCreatCompanyDto);
+            company.companyPictureSetting(url);
         }
         return company;
     }
 
-    public UUID imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
+    public String imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
         byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
-        UUID uuid = UUID.randomUUID();
+        String url = URL + UUID.randomUUID().toString() + ".jpeg";
         FileImageOutputStream image = new FileImageOutputStream(
-                new File("C:\\Users\\seon\\groupImage\\" + uuid.toString() + ".jpeg"));
+                new File(url));
         image.write(bytes, 0, bytes.length);
         image.close();
-        return uuid;
+        return url;
     }
 
     public void imageDownload(List<CompanyDto> companies) throws IOException {
@@ -59,9 +53,7 @@ public class CompanyFileService {
             if (company.getPicture() != null) {
                 Path path = Paths.get(company.getPicture());
                 Resource resource = new InputStreamResource(Files.newInputStream(path));
-                InputStream inputStream = resource.getInputStream();
-                byte[] bytes = inputStream.readAllBytes();
-                String picture = Base64.encodeBase64String(bytes);
+                String picture = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
                 company.setPicture(picture);
             }
         }

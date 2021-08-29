@@ -52,7 +52,7 @@ public class NoticeService {
                 .title(requestNoticeDto.getTitle()).contents(requestNoticeDto.getContents()).date(date).build();
         Notice savedNotice = noticeRepository.save(notice);
 
-        if (requestNoticeDto.getImage().size() != 0) {
+        if (!requestNoticeDto.getImage().isEmpty()) {
             List<NoticeImage> noticeImages = imageUpload(requestNoticeDto.getImage(), savedNotice);
             noticeImageRepository.saveAll(noticeImages);
         }
@@ -125,33 +125,8 @@ public class NoticeService {
         return result;
     }
 
-    //게시자명 검색
-//    public List<Notice> findNoticeByName(Long company_id,String name) {
-//        queryFactory  = new JPAQueryFactory(em);
-//        List<Notice> result = queryFactory
-//                .select(notice)
-//                .from(notice).join(notice.member,QMember.member).join(notice.company,QCompany.company)
-//                .where(notice.member.name.eq(name) , notice.company.id.eq(company_id))
-//                .fetch();
-//
-//        return result;
-//    }
-
-    //공지 제목 검색
-//    public List<Notice> findNoticeBytitle(Long company_id,String title) {
-//        queryFactory = new JPAQueryFactory(em);
-//        List<Notice> result = queryFactory
-//                .select(notice)
-//                .from(notice).join(notice.company, QCompany.company)
-//                .where(notice.company.id.eq(company_id), notice.title.eq(title))
-//                .fetch();
-//        return result;
-//    }
-
     //공지 삭제
     public void removeNotice(Long noticeId) {
-//        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글 입니다."));
-//        noticeRepository.delete(notice);
         noticeImageRepository.noticeImageDelete(noticeId);
         noticeRepository.noticeDelete(noticeId);
     }

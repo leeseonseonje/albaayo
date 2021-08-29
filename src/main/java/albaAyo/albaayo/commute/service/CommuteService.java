@@ -110,12 +110,6 @@ public class CommuteService {
         return new ResponsePayInformationDto(payCalculation(commutes));
     }
 
-//    public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
-//        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
-//        List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
-//        return new ResponsePayInformationDto(payCalculation(commutes));
-//    }
-
     private int payCalculation(List<Commute> commutes) {
         int sum = 0;
         for (Commute commute : commutes) {

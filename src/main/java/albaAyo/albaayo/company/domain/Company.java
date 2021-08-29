@@ -67,9 +67,13 @@ public class Company extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void updateCompany(RequestCompanyDto request) {
+    public void updateCompany(RequestCompanyDto request, String url) {
         this.name = request.getName();
         this.location = request.getLocation();
-        this.picture = request.getPicture();
+        this.picture = url;
+    }
+
+    public void companyPictureSetting(String picture) {
+        this.picture = picture;
     }
 }

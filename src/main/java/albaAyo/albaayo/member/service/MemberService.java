@@ -83,9 +83,7 @@ public class MemberService {
     }
 
     public void logout(Long memberId) {
-        RefreshToken refreshToken = refreshTokenRepository.findById(memberId.toString())
-                .orElseThrow(() -> new RuntimeException("없는 ID 입니다."));
-        refreshTokenRepository.delete(refreshToken);
+        refreshTokenRepository.refreshTokenDelete(memberId.toString());
     }
 
     private TokenDto createTokenDto(Authentication authentication) {
@@ -95,7 +93,6 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("없는 ID 입니다."));
 
         tokenDto.setId(member.getId());
-        System.out.println(member.getId());
         tokenDto.setUserId(member.getUserId());
         tokenDto.setName(member.getName());
         tokenDto.setRole(member.getRole());

@@ -48,9 +48,7 @@ public class MemberController {
 
     @GetMapping("/logout/{memberId}")
     public void logout(@PathVariable Long memberId) {
-        System.out.println("1 = " + 1);
         memberService.logout(memberId);
-        System.out.println("1 = " + 2);
     }
 
     @PostMapping(value = "/test/file")
