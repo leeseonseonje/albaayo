@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyFileService {
+public class CompanyImageService {
 
     public static final String URL = "C:\\Users\\seon\\groupImage\\";
 
@@ -58,5 +57,4 @@ public class CompanyFileService {
             }
         }
     }
-
 }

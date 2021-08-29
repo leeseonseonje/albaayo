@@ -1,12 +1,9 @@
 package albaAyo.albaayo.company.service;
 
 import albaAyo.albaayo.company.domain.Company;
-import albaAyo.albaayo.company.domain.JoinCompany;
-import albaAyo.albaayo.company.domain.Accept;
 import albaAyo.albaayo.company.dto.*;
 import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.company.repository.CompanyRepository;
-import albaAyo.albaayo.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.domain.Role;
 import albaAyo.albaayo.member.repository.MemberRepository;
@@ -24,12 +21,12 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final MemberRepository memberRepository;
-    private final CompanyFileService companyFileService;
+    private final CompanyImageService companyImageService;
     private final CompanyValidationService companyValidationService;
 
     public Company EmployerCreateCompany(Long id, RequestCompanyDto requestCreatCompanyDto) throws IOException {
 
-        Company company = companyFileService.companyBuilder(requestCreatCompanyDto);
+        Company company = companyImageService.companyBuilder(requestCreatCompanyDto);
 
         companyValidationService.validateCompany(company);
 
@@ -42,7 +39,7 @@ public class CompanyService {
 
     public List<CompanyDto> companies(Long id) throws IOException {
         List<CompanyDto> companies = companyRepository.findCompanies(id);
-        companyFileService.imageDownload(companies);
+        companyImageService.imageDownload(companies);
         return companies;
     }
 
@@ -90,7 +87,7 @@ public class CompanyService {
         Company findCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
-        String url = companyFileService.imageUpload(request);
+        String url = companyImageService.imageUpload(request);
         findCompany.updateCompany(request, url);
     }
 }

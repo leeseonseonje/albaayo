@@ -23,24 +23,12 @@ import java.util.List;
 public class WorkerCompanyService {
 
     private final JoinCompanyRepository joinCompanyRepository;
+    private final CompanyImageService companyImageService;
 
     public List<CompanyDto> acceptCompanyList(Long workerId, Accept accept) throws IOException {
         List<CompanyDto> companies = joinCompanyRepository.acceptCompanyList(workerId, accept);
-        imageToByte(companies);
+        companyImageService.imageDownload(companies);
         return companies;
-    }
-
-    private void imageToByte(List<CompanyDto> companies) throws IOException {
-        for (CompanyDto company : companies) {
-            if (company.getPicture() != null) {
-                Path path = Paths.get(company.getPicture());
-                Resource resource = new InputStreamResource(Files.newInputStream(path));
-                InputStream inputStream = resource.getInputStream();
-                byte[] bytes = inputStream.readAllBytes();
-                String picture = Base64.encodeBase64String(bytes);
-                company.setPicture(picture);
-            }
-        }
     }
 
     public Long notAcceptCompanyCount(Long workerId) {

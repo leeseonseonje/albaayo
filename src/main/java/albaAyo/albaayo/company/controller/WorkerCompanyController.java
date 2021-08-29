@@ -39,10 +39,7 @@ public class WorkerCompanyController {
 
     // 수락한 그룹 리스트
     @GetMapping("/worker/{workerId}/company")
-    public Result<List<CompanyDto>> acceptCompanyList(@RequestHeader(value="Authorization") String token
-            , @PathVariable("workerId") Long workerId) throws IOException {
-
-        System.out.println("token = " + token);
+    public Result<List<CompanyDto>> acceptCompanyList(@PathVariable("workerId") Long workerId) throws IOException {
 
         List<CompanyDto> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
         Long count = workerCompanyService.notAcceptCompanyCount(workerId);
