@@ -37,6 +37,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NoticeService {
 
+    public static final String URL = "C:\\Users\\seon\\groupNotice\\";
+
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final NoticeRepository noticeRepository;
@@ -52,9 +54,12 @@ public class NoticeService {
                 .title(requestNoticeDto.getTitle()).contents(requestNoticeDto.getContents()).date(date).build();
         Notice savedNotice = noticeRepository.save(notice);
 
+        imageSave(requestNoticeDto, savedNotice);
+    }
+
+    private void imageSave(RequestNoticeDto requestNoticeDto, Notice savedNotice) throws IOException {
         if (!requestNoticeDto.getImage().isEmpty()) {
-            List<NoticeImage> noticeImages = imageUpload(requestNoticeDto.getImage(), savedNotice);
-            noticeImageRepository.saveAll(noticeImages);
+           imageUpload(requestNoticeDto.getImage(), savedNotice);
         }
     }
 
@@ -65,19 +70,16 @@ public class NoticeService {
 
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-
         noticeImageUpdate(requestNoticeUpdateDto, notice, date);
     }
 
+    //수정(효율)
     private void noticeImageUpdate(RequestNoticeUpdateDto requestNoticeUpdateDto, Notice notice, String date) throws IOException {
-        if (requestNoticeUpdateDto.getImageList().isEmpty()) {
-            notice.updateNotice(requestNoticeUpdateDto, date);
-            noticeImageRepository.noticeImageDelete(notice.getId());
+        notice.updateNotice(requestNoticeUpdateDto, date);
+        noticeImageRepository.noticeImageDelete(notice.getId());
 
-        } else {
-            notice.updateNotice(requestNoticeUpdateDto, date);
-            noticeImageRepository.noticeImageDelete(notice.getId());
-            noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
+        if (!requestNoticeUpdateDto.getImageList().isEmpty()) {
+            imageUpload(requestNoticeUpdateDto.getImageList(), notice);
         }
     }
 
@@ -86,48 +88,43 @@ public class NoticeService {
         return noticeRepository.noticeList(companyId, PageRequest.of(page, 20));
     }
 
+    //그룹바이
     public ResponseNoticeDto noticeContent(Long noticeId) throws IOException {
-        ResponseNoticeDto notice = noticeRepository.noticeContent(noticeId);
+        ResponseNoticeDto noticeDto = noticeRepository.noticeContent(noticeId);
         List<NoticeImageDto> imageList = noticeImageRepository.findNoticeImageDto(noticeId);
         if (imageList != null) {
             imageDownload(imageList);
-            notice.setImageList(imageList);
+            noticeDto.setImageList(imageList);
         }
-        System.out.println("\"성공\" = " + "성공");
-        return notice;
+        return noticeDto;
+    }
+
+    public void imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
+
+        for (NoticeImageDto noticeImageDto : list) {
+            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
+            UUID uuid = UUID.randomUUID();
+            FileImageOutputStream image = new FileImageOutputStream(
+                    new File(URL + uuid.toString() + ".jpeg"));
+            image.write(bytes, 0, bytes.length);
+            image.close();
+            notice.getNoticeImages().add(NoticeImage.builder().notice(notice)
+                    .image(URL + uuid.toString() + ".jpeg")
+                    .imageContent(noticeImageDto.getImageContent()).build());
+        }
     }
 
     private void imageDownload(List<NoticeImageDto> imageList) throws IOException {
         for (NoticeImageDto noticeImageDto : imageList) {
             Path path = Paths.get(noticeImageDto.getImage());
             Resource resource = new InputStreamResource(Files.newInputStream(path));
-            InputStream inputStream = resource.getInputStream();
-            byte[] bytes = inputStream.readAllBytes();
-            String image = Base64.encodeBase64String(bytes);
+            String image = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
             noticeImageDto.setImage(image);
         }
     }
 
-    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
-
-        List<NoticeImage> result = new ArrayList<>();
-        for (NoticeImageDto noticeImageDto : list) {
-            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
-            UUID uuid = UUID.randomUUID();
-            FileImageOutputStream image = new FileImageOutputStream(
-                    new File("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg"));
-            image.write(bytes, 0, bytes.length);
-            image.close();
-            result.add(NoticeImage.builder().notice(notice)
-                    .image("C:\\Users\\seon\\groupNotice\\" + uuid.toString() + ".jpeg")
-                    .imageContent(noticeImageDto.getImageContent()).build());
-        }
-        return result;
-    }
-
     //공지 삭제
     public void removeNotice(Long noticeId) {
-        noticeImageRepository.noticeImageDelete(noticeId);
         noticeRepository.noticeDelete(noticeId);
     }
 }

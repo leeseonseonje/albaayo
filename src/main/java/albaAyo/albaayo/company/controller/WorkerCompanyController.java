@@ -1,8 +1,6 @@
 package albaAyo.albaayo.company.controller;
 
-import albaAyo.albaayo.company.dto.CompanyAcceptDto;
 import albaAyo.albaayo.company.dto.CompanyDto;
-import albaAyo.albaayo.company.dto.RequestCompanyAcceptDto;
 import albaAyo.albaayo.company.dto.Result;
 import albaAyo.albaayo.company.service.WorkerCompanyService;
 import lombok.RequiredArgsConstructor;
