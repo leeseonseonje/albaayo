@@ -59,7 +59,7 @@ public class NoticeService {
 
     private void imageSave(RequestNoticeDto requestNoticeDto, Notice savedNotice) throws IOException {
         if (!requestNoticeDto.getImage().isEmpty()) {
-           imageUpload(requestNoticeDto.getImage(), savedNotice);
+           noticeImageRepository.saveAll(imageUpload(requestNoticeDto.getImage(), savedNotice));
         }
     }
 
@@ -79,7 +79,7 @@ public class NoticeService {
         noticeImageRepository.noticeImageDelete(notice.getId());
 
         if (!requestNoticeUpdateDto.getImageList().isEmpty()) {
-            imageUpload(requestNoticeUpdateDto.getImageList(), notice);
+            noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
         }
     }
 
@@ -99,7 +99,9 @@ public class NoticeService {
         return noticeDto;
     }
 
-    public void imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
+    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
+
+        List<NoticeImage> result = new ArrayList<>();
 
         for (NoticeImageDto noticeImageDto : list) {
             byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
@@ -108,10 +110,12 @@ public class NoticeService {
                     new File(URL + uuid.toString() + ".jpeg"));
             image.write(bytes, 0, bytes.length);
             image.close();
-            notice.getNoticeImages().add(NoticeImage.builder().notice(notice)
+            result.add(NoticeImage.builder().notice(notice)
                     .image(URL + uuid.toString() + ".jpeg")
                     .imageContent(noticeImageDto.getImageContent()).build());
         }
+
+        return result;
     }
 
     private void imageDownload(List<NoticeImageDto> imageList) throws IOException {
@@ -125,6 +129,7 @@ public class NoticeService {
 
     //공지 삭제
     public void removeNotice(Long noticeId) {
-        noticeRepository.noticeDelete(noticeId);
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글 입니다."));
+        noticeRepository.delete(notice);
     }
 }

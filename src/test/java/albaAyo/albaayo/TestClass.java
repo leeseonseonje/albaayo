@@ -2,6 +2,9 @@ package albaAyo.albaayo;
 
 import albaAyo.albaayo.member.domain.Member;
 import albaAyo.albaayo.member.service.MemberService;
+import albaAyo.albaayo.notice.domain.Notice;
+import albaAyo.albaayo.notice.domain.NoticeImage;
+import albaAyo.albaayo.notice.repository.NoticeRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +31,8 @@ public class TestClass {
     AuthenticationManagerBuilder authenticationManagerBuilder;
     @Autowired
     MemberService memberService;
+    @Autowired
+    NoticeRepository noticeRepository;
 
     @BeforeEach
     public void init() {
@@ -47,5 +52,15 @@ public class TestClass {
     @Test
     public void logoutTest() {
         memberService.logout(1L);
+    }
+
+    @Test
+    public void noticeTest() {
+        Notice notice = noticeRepository.findById(8L).get();
+        System.out.println("notice.getTitle() = " + notice.getTitle());
+
+        for (NoticeImage noticeImage : notice.getNoticeImages()) {
+            int x = 0;
+        }
     }
 }

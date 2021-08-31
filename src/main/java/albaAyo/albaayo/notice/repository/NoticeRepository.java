@@ -7,8 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long>, NoticeRepositoryCustom {
-
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("delete from Notice n where n.id = :noticeId")
-    void noticeDelete(@Param("noticeId") Long noticeId);
 }
