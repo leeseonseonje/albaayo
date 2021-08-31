@@ -2,6 +2,7 @@ package albaAyo.albaayo.notice.repository;
 
 import albaAyo.albaayo.company.domain.QCompany;
 import albaAyo.albaayo.member.domain.QMember;
+import albaAyo.albaayo.notice.domain.Notice;
 import albaAyo.albaayo.notice.domain.QNotice;
 import albaAyo.albaayo.notice.dto.ResponseNoticeDto;
 import albaAyo.albaayo.notice.dto.ResponseNoticeListDto;
@@ -50,18 +51,5 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);
-    }
-
-    @Override
-    public ResponseNoticeDto noticeContent(Long noticeId) {
-        return queryFactory
-                .select(Projections.constructor(ResponseNoticeDto.class,
-                        QNotice.notice.id, QMember.member.id, QMember.member.name, QNotice.notice.title, QNotice.notice.contents,
-                        QNotice.notice.date))
-                .from(QNotice.notice)
-                .where(QNotice.notice.id.eq(noticeId))
-                .join(QMember.member)
-                .on(QNotice.notice.member.id.eq(QMember.member.id))
-                .fetchOne();
     }
 }

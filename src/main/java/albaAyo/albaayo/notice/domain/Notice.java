@@ -5,7 +5,9 @@ import albaAyo.albaayo.commute.Commute;
 import albaAyo.albaayo.company.domain.Company;
 import albaAyo.albaayo.company.domain.JoinCompany;
 import albaAyo.albaayo.member.domain.Member;
+import albaAyo.albaayo.notice.dto.NoticeImageDto;
 import albaAyo.albaayo.notice.dto.RequestNoticeUpdateDto;
+import albaAyo.albaayo.notice.dto.ResponseNoticeDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.*;
 
@@ -66,6 +69,17 @@ public class Notice extends BaseTimeEntity {
 
     public void changeTitle(String title){
         this.title = title;
+    }
+
+    public ResponseNoticeDto noticeDtoBuilder(Notice notice, List<NoticeImageDto> list) {
+
+        return ResponseNoticeDto.builder().noticeId(notice.getId())
+                .memberId(notice.getMember().getId())
+                .name(notice.getMember().getName())
+                .title(notice.getTitle())
+                .contents(notice.getContents())
+                .date(notice.getDate())
+                .imageList(list).build();
     }
 
 }

@@ -14,9 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,11 +86,11 @@ public class CommuteService {
     public List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId) {
         List<Commute> commutes = commuteRepository.commuteList(workerId, companyId);
         List<ResponseCommuteListDto> list = new ArrayList<>();
-        commuteTimetoString(commutes, list);
+        commuteTimeToString(commutes, list);
         return list;
     }
 
-    private void commuteTimetoString(List<Commute> commutes, List<ResponseCommuteListDto> list) {
+    private void commuteTimeToString(List<Commute> commutes, List<ResponseCommuteListDto> list) {
         String startTime = "";
         String endTime = "출근중";
         for (Commute commute : commutes) {
@@ -105,19 +105,9 @@ public class CommuteService {
     }
 
     public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
-        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+        LocalDateTime time = localDate.atStartOfDay();
         List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
-        return new ResponsePayInformationDto(payCalculation(commutes));
-    }
-
-    private int payCalculation(List<Commute> commutes) {
-        int sum = 0;
-        for (Commute commute : commutes) {
-            if (commute.getEndTime() != null) {
-                long workingMinutes = ChronoUnit.MINUTES.between(commute.getStartTime(), commute.getEndTime());
-                sum += (int) workingMinutes;
-            }
-        }
-        return (sum/10) * (8720/6);
+        return new ResponsePayInformationDto(commutes.get(0).payCalculation(commutes));
     }
 }

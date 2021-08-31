@@ -11,12 +11,6 @@ import java.util.List;
 
 public interface NoticeImageRepository extends JpaRepository<NoticeImage, Long> {
 
-    @Query("select new albaAyo.albaayo.notice.dto.NoticeImageDto(n.image, n.imageContent) from NoticeImage n where n.notice.id = :noticeId")
-    List<NoticeImageDto> findNoticeImageDto(@Param("noticeId") Long noticeId);
-
-    @Query("select n from NoticeImage n where n.notice.id = :noticeId")
-    List<NoticeImage> findNoticeImage(@Param("noticeId") Long noticeId);
-
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from NoticeImage n where n.notice.id = :noticeId")
     void noticeImageDelete(@Param("noticeId") Long noticeId);

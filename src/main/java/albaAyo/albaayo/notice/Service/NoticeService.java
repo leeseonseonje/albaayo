@@ -31,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -88,15 +89,15 @@ public class NoticeService {
         return noticeRepository.noticeList(companyId, PageRequest.of(page, 20));
     }
 
-    //그룹바이
     public ResponseNoticeDto noticeContent(Long noticeId) throws IOException {
-        ResponseNoticeDto noticeDto = noticeRepository.noticeContent(noticeId);
-        List<NoticeImageDto> imageList = noticeImageRepository.findNoticeImageDto(noticeId);
-        if (imageList != null) {
-            imageDownload(imageList);
-            noticeDto.setImageList(imageList);
-        }
-        return noticeDto;
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글 입니다."));
+
+        List<NoticeImageDto> noticeImageDtos = notice.getNoticeImages().stream()
+                .map(m -> new NoticeImageDto(m.getImage(), m.getImageContent()))
+                .collect(Collectors.toList());
+        List<NoticeImageDto> list = imageDownload(noticeImageDtos);
+
+        return notice.noticeDtoBuilder(notice, list);
     }
 
     public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
@@ -118,13 +119,14 @@ public class NoticeService {
         return result;
     }
 
-    private void imageDownload(List<NoticeImageDto> imageList) throws IOException {
+    private List<NoticeImageDto> imageDownload(List<NoticeImageDto> imageList) throws IOException {
         for (NoticeImageDto noticeImageDto : imageList) {
             Path path = Paths.get(noticeImageDto.getImage());
             Resource resource = new InputStreamResource(Files.newInputStream(path));
             String image = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
             noticeImageDto.setImage(image);
         }
+        return imageList;
     }
 
     //공지 삭제

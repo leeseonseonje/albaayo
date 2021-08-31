@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Entity
 @Getter
@@ -45,5 +47,17 @@ public class Commute{
 
     public void offWorkTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public int payCalculation(List<Commute> commutes) {
+        int sum = 0;
+        for (Commute commute : commutes) {
+            if (commute.getEndTime() != null) {
+                long workingMinutes = ChronoUnit.MINUTES.between(commute.getStartTime(), commute.getEndTime());
+                sum += (int) workingMinutes;
+            }
+        }
+        System.out.println("sum = " + sum);
+        return (sum/10) * (8720/6);
     }
 }
