@@ -23,8 +23,7 @@ public class PersonalChatController {
     private final PersonalChatService personalChatService;
     private final SimpMessageSendingOperations messagingTemplate;
 
-    //채팅 전송?
-
+    //1:1채팅 전송 & 저장
     @MessageMapping("/member")
     public void personalChatting(RequestPersonalChatMessage message) {
 
@@ -45,7 +44,7 @@ public class PersonalChatController {
         personalChatService.saveChat(message);
     }
 
-    //채팅내역 조회
+    //1:1채팅 내역 조회
     @GetMapping("/chat/{myMemberId}/{memberId}")
     public List<ResponsePersonalChatMessage> chatContents(@PathVariable Long myMemberId,
                                                           @PathVariable Long memberId) {

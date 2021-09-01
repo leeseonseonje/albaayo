@@ -40,7 +40,7 @@ public class CompanyController {
         return companyService.findWorker(workerId);
     }
 
-    //그룹 메인
+    //그룹 메인(소속회원 리스트)
     @GetMapping("/company/{companyId}")
     public List<ResponseCompanyWorkerListDto> companyMain(@PathVariable("companyId") Long companyId) {
         return companyService.companyMain(companyId);

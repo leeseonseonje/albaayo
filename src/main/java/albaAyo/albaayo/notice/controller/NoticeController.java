@@ -18,17 +18,20 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
+    //공지 등록
     @PostMapping("/notice/{memberId}/{companyId}")
     public void noticeRegister(@PathVariable Long memberId, @PathVariable Long companyId,
                                @RequestBody RequestNoticeDto requestNoticeDto) throws IOException {
         noticeService.noticeRegister(memberId, companyId, requestNoticeDto);
     }
 
-    @PostMapping("/notice")
+    //공지 수정
+    @PatchMapping("/notice")
     public void noticeUpdate(@RequestBody RequestNoticeUpdateDto requestNoticeUpdateDto) throws IOException {
         noticeService.noticeUpdate(requestNoticeUpdateDto);
     }
 
+    //공지사항 목록
     @GetMapping("/notice/{companyId}/{page}")
     public List<ResponseNoticeListDto> noticeList(@PathVariable Long companyId, @PathVariable int page) {
 
@@ -36,11 +39,13 @@ public class NoticeController {
         return result.getContent();
     }
 
+    //공지사항 내용
     @GetMapping("/notice/{noticeId}")
     public ResponseNoticeDto noticeContent(@PathVariable Long noticeId) throws IOException {
         return noticeService.noticeContent(noticeId);
     }
 
+    //공지사항 삭제
     @DeleteMapping("/notice/{noticeId}")
     public void removeNotice(@PathVariable Long noticeId) {
         noticeService.removeNotice(noticeId);

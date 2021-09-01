@@ -22,6 +22,7 @@ public class ChatController {
     private final ChatService chatService;
     private final SimpMessageSendingOperations messagingTemplate;
 
+    //그룹채팅 전송 & 저장
     @MessageMapping("/company")
     public void companyChatting(RequestChattingMessage message) {
 
@@ -32,6 +33,7 @@ public class ChatController {
         chatService.saveChat(message);
     }
 
+    //그룹채팅 내역 조회
     @GetMapping("/chat/{companyId}")
     public List<ResponseChatMessage> chatContents(@PathVariable Long companyId) {
         return chatService.chatContents(companyId);

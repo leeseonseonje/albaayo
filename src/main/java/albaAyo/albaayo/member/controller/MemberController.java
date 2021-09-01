@@ -18,13 +18,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    //회원 가입
+    //회원 가입(사장님)
     @PostMapping("/employer/signup")
     public CreateMemberResponse employerSignup(@RequestBody @Valid CreateMemberRequest request) {
         return memberService.employerSignup(request);
     }
 
-    //회원 가입
+    //회원 가입(직원)
     @PostMapping("/worker/signup")
     public CreateMemberResponse workerSignup(@RequestBody @Valid CreateMemberRequest request) {
         return memberService.workerSignup(request);
@@ -41,23 +41,25 @@ public class MemberController {
         }
     }
 
+    //로그인
     @PostMapping("/login")
     public TokenDto login(@RequestBody LoginMemberRequest request) {
         return memberService.login(request);
     }
 
+    //로그아웃
     @GetMapping("/logout/{memberId}")
     public void logout(@PathVariable Long memberId) {
         memberService.logout(memberId);
     }
 
-    @PostMapping(value = "/test/file")
-    public String fileTest(MultipartFile file) throws IOException {
-        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-        String filePath = rootPath + "\\" + file.getOriginalFilename();
-        File dest = new File(filePath);
-        file.transferTo(dest); // 파일 업로드 작업 수행
-        return "";
-    }
+//    @PostMapping(value = "/test/file")
+//    public String fileTest(MultipartFile file) throws IOException {
+//        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+//        String filePath = rootPath + "\\" + file.getOriginalFilename();
+//        File dest = new File(filePath);
+//        file.transferTo(dest); // 파일 업로드 작업 수행
+//        return "";
+//    }
 }
 
