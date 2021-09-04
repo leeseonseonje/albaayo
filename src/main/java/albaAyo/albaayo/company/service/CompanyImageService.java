@@ -40,7 +40,7 @@ public class CompanyImageService {
     public void imageDownload(List<CompanyDto> companies) throws IOException {
         for (CompanyDto company : companies) {
             if (company.getPicture() != null) {
-                Path path = Paths.get(company.getPicture());
+                Path path = Paths.get(URL + company.getPicture() + ".jpg");
                 Resource resource = new InputStreamResource(Files.newInputStream(path));
                 String picture = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
                 company.setPicture(picture);
