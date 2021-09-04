@@ -2,6 +2,7 @@ package albaAyo.albaayo.company.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,5 +22,5 @@ public class RequestCompanyDto {
     @NotBlank(message = "사업자 번호를 입력해 주세요.")
     private String businessRegistrationNumber;
 
-    private String picture;
+    private MultipartFile image;
 }

@@ -8,6 +8,7 @@ import albaAyo.albaayo.company.service.CompanyService;
 import albaAyo.albaayo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -27,9 +28,8 @@ public class CompanyController {
 
     //그룹 생성
     @PostMapping("/employer/{id}/company")
-    public CompanyDto createCompanyController(@PathVariable Long id,
-                                              @RequestBody @Valid RequestCompanyDto requestCreatCompanyDto) throws IOException {
-        Company company = companyService.EmployerCreateCompany(id, requestCreatCompanyDto);
+    public CompanyDto createCompanyController(@PathVariable Long id, @ModelAttribute RequestCompanyDto request) throws IOException {
+        Company company = companyService.EmployerCreateCompany(id, request);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
     }

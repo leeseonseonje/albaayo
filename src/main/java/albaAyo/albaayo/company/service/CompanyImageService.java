@@ -8,6 +8,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
@@ -24,27 +25,16 @@ public class CompanyImageService {
 
     public static final String URL = "/home/ec2-user/groupImage/";
 
-    public Company companyBuilder(RequestCompanyDto requestCreatCompanyDto) throws IOException {
+    public Company companyBuilder(RequestCompanyDto request) throws IOException {
         Company company = Company.builder()
-                .name(requestCreatCompanyDto.getName())
-                .businessRegistrationNumber(requestCreatCompanyDto.getBusinessRegistrationNumber())
-                .location(requestCreatCompanyDto.getLocation())
+                .name(request.getName())
+                .businessRegistrationNumber(request.getBusinessRegistrationNumber())
+                .location(request.getLocation())
                 .build();
-        if (requestCreatCompanyDto.getPicture() != null) {
-            String url = imageUpload(requestCreatCompanyDto);
-            company.companyPictureSetting(url);
+        if (!request.getImage().isEmpty()) {
+            company.companyPictureSetting(imageUpload(request.getImage()));
         }
         return company;
-    }
-
-    public String imageUpload(RequestCompanyDto requestCreatCompanyDto) throws IOException {
-        byte[] bytes = Base64.decodeBase64(requestCreatCompanyDto.getPicture());
-        String url = URL + UUID.randomUUID().toString() + ".jpeg";
-        FileImageOutputStream image = new FileImageOutputStream(
-                new File(url));
-        image.write(bytes, 0, bytes.length);
-        image.close();
-        return url;
     }
 
     public void imageDownload(List<CompanyDto> companies) throws IOException {
@@ -56,5 +46,11 @@ public class CompanyImageService {
                 company.setPicture(picture);
             }
         }
+    }
+
+    public String imageUpload(MultipartFile multipartFile) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        multipartFile.transferTo(new File(URL + uuid + ".jpg"));
+        return uuid;
     }
 }
