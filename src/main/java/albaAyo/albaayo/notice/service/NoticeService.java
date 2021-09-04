@@ -1,4 +1,4 @@
-package albaAyo.albaayo.notice.Service;
+package albaAyo.albaayo.notice.service;
 
 
 import albaAyo.albaayo.company.domain.Company;
@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +37,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NoticeService {
 
-    public static final String URL = "C:\\Users\\seon\\groupNotice\\";
+    public static final String URL = "/home/ec2-user/groupNotice/";
 
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;

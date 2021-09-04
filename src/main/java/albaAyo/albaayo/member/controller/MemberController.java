@@ -53,13 +53,13 @@ public class MemberController {
         memberService.logout(memberId);
     }
 
-//    @PostMapping(value = "/test/file")
-//    public String fileTest(MultipartFile file) throws IOException {
-//        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-//        String filePath = rootPath + "\\" + file.getOriginalFilename();
-//        File dest = new File(filePath);
-//        file.transferTo(dest); // 파일 업로드 작업 수행
-//        return "";
-//    }
+    @PostMapping(value = "/test/file")
+    public String fileTest(MultipartFile file) throws IOException {
+        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+        String filePath = rootPath + "\\" + file.getOriginalFilename();
+        File dest = new File(filePath);
+        file.transferTo(dest); // 파일 업로드 작업 수행
+        return "";
+    }
 }
 

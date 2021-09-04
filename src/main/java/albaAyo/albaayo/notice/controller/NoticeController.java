@@ -1,6 +1,6 @@
 package albaAyo.albaayo.notice.controller;
 
-import albaAyo.albaayo.notice.Service.NoticeService;
+import albaAyo.albaayo.notice.service.NoticeService;
 import albaAyo.albaayo.notice.dto.RequestNoticeDto;
 import albaAyo.albaayo.notice.dto.RequestNoticeUpdateDto;
 import albaAyo.albaayo.notice.dto.ResponseNoticeDto;
