@@ -61,10 +61,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     refreshTokenRepository.delete(findRefreshToken);
                     refreshTokenRepository.save(RefreshToken.builder().id(id).token(token.getRefreshToken()).build());
                     log.info("accessToken: {}, refreshToken: {}", token.getAccessToken(), token.getRefreshToken());
-//
-//                    String requestURI = request.getRequestURI();
-//                    RequestDispatcher dispatcher = request.getRequestDispatcher(requestURI);
-//                    dispatcher.forward(request, response);
                 }
             }
         filterChain.doFilter(request, response);

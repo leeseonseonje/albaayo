@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyImageService {
 
-    public static final String URL = "/home/ec2-user/groupImage/";
+    public static final String URL = "C:\\Users\\seon\\groupImage\\";
 
     public Company companyBuilder(RequestCompanyDto request) throws IOException {
         Company company = Company.builder()

@@ -7,6 +7,8 @@ import albaAyo.albaayo.company.dto.company_main_dto.ResponseCompanyWorkerListDto
 import albaAyo.albaayo.company.service.CompanyService;
 import albaAyo.albaayo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +34,7 @@ public class CompanyController {
         Company company = companyService.EmployerCreateCompany(id, request);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
+//        return new UrlResource("file:" + "C:\\Users\\seon\\groupImage\\" + company.getPicture() + ".jpg");
     }
 
     //근로자 조회
