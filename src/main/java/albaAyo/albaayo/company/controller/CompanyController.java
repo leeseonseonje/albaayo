@@ -34,7 +34,6 @@ public class CompanyController {
         Company company = companyService.EmployerCreateCompany(id, request);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
-//        return new UrlResource("file:" + "C:\\Users\\seon\\groupImage\\" + company.getPicture() + ".jpg");
     }
 
     //근로자 조회
