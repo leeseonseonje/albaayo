@@ -1,12 +1,10 @@
 package albaAyo.albaayo;
 
-import albaAyo.albaayo.commute.Commute;
-import albaAyo.albaayo.company.domain.Accept;
-import albaAyo.albaayo.company.domain.Company;
-import albaAyo.albaayo.company.domain.JoinCompany;
-import albaAyo.albaayo.jwt.RefreshToken;
-import albaAyo.albaayo.member.domain.Member;
-import albaAyo.albaayo.member.domain.Role;
+import albaAyo.albaayo.domains.commute.Commute;
+import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.config.jwt.RefreshToken;
+import albaAyo.albaayo.domains.member.domain.Member;
+import albaAyo.albaayo.domains.member.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

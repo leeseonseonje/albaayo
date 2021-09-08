@@ -1,12 +1,11 @@
 package albaAyo.albaayo;
 
-import albaAyo.albaayo.member.domain.Member;
-import albaAyo.albaayo.member.service.MemberService;
-import albaAyo.albaayo.notice.domain.Notice;
-import albaAyo.albaayo.notice.domain.NoticeImage;
-import albaAyo.albaayo.notice.dto.NoticeImageDto;
-import albaAyo.albaayo.notice.dto.ResponseNoticeDto;
-import albaAyo.albaayo.notice.repository.NoticeRepository;
+import albaAyo.albaayo.domains.member.domain.Member;
+import albaAyo.albaayo.domains.member.service.MemberService;
+import albaAyo.albaayo.domains.notice.domain.Notice;
+import albaAyo.albaayo.domains.notice.dto.NoticeImageDto;
+import albaAyo.albaayo.domains.notice.dto.ResponseNoticeDto;
+import albaAyo.albaayo.domains.notice.repository.NoticeRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

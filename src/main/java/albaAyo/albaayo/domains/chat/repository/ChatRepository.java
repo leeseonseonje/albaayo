@@ -1,0 +1,8 @@
+package albaAyo.albaayo.domains.chat.repository;
+
+import albaAyo.albaayo.domains.chat.domain.Chat;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChatRepository extends JpaRepository<Chat, Long>, ChatRepositoryCustom {
+
+}
