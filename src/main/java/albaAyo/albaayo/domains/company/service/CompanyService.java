@@ -1,9 +1,11 @@
 package albaAyo.albaayo.domains.company.service;
 
+import albaAyo.albaayo.config.fcm.FcmService;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.dto.*;
 import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
+import albaAyo.albaayo.domains.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
 import albaAyo.albaayo.domains.member.repository.MemberRepository;
@@ -13,15 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CompanyService {
 
-    private final CompanyRepository companyRepository;
+    private final FcmService fcmService;
     private final MemberRepository memberRepository;
+    private final CompanyRepository companyRepository;
     private final CompanyImageService companyImageService;
+    private final JoinCompanyRepository joinCompanyRepository;
     private final CompanyValidationService companyValidationService;
 
     public Company EmployerCreateCompany(Long id, RequestCompanyDto requestCreatCompanyDto) throws IOException {
@@ -62,12 +67,13 @@ public class CompanyService {
         return workerList;
     }
 
-    public Member inviteWorker(Long id, RequestInviteWorkerDto request) {
+    public Member inviteWorker(Long id, RequestInviteWorkerDto request) throws ExecutionException, InterruptedException {
 
         Member member = memberRepository.findByUserId(request.getUserId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
 
-        companyValidationService.memberRoleValidation(id, member);
+        Company company = companyValidationService.memberRoleValidation(id, member);
+        fcmNotification(member, company);
         return member;
     }
 
@@ -81,6 +87,12 @@ public class CompanyService {
                 () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
         companyRepository.delete(findCompany);
+    }
+
+    private void fcmNotification(Member member, Company company) throws ExecutionException, InterruptedException {
+        String fcmBody = company.getName() + "에서 초대가 왔습니다.";
+        System.out.println("member.getFcmToken() = " + member.getFcmToken());
+        fcmService.sendMessage(member.getFcmToken(), company.getName(), fcmBody);
     }
 
     public void updateCompany(Long companyId, RequestCompanyDto request) throws IOException {

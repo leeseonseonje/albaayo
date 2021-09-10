@@ -35,6 +35,7 @@ public class Member {
 
     private String picture;
 
+    @Column(unique = true)
     private String fcmToken;
 
     @Enumerated(EnumType.STRING)
@@ -56,19 +57,7 @@ public class Member {
         this.picture = picture;
     }
 
-//    public Member update(String name, String picture) {
-//        this.name = name;
-//        this.picture = picture;
-//        return this;
-//    }
-
-//    public Worker changeWorker(Member member) {
-//        return Worker.builder()
-//                .email(member.getEmail())
-//                .name(member.getName())
-//                .picture(member.getPicture())
-//                .birth(member.getBirth())
-//                .role(Role.WORKER)
-//                .build();
-//    }
+    public void fcmTokenSetting(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
 }

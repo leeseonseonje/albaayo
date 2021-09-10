@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +22,8 @@ public class NoticeController {
     //공지 등록
     @PostMapping("/notice/{memberId}/{companyId}")
     public void noticeRegister(@PathVariable Long memberId, @PathVariable Long companyId,
-                               @RequestBody RequestNoticeDto requestNoticeDto) throws IOException {
+                               @RequestBody RequestNoticeDto requestNoticeDto)
+            throws IOException, ExecutionException, InterruptedException {
         noticeService.noticeRegister(memberId, companyId, requestNoticeDto);
     }
 

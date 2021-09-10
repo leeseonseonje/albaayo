@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class PersonalChatController {
 
     //1:1채팅 전송 & 저장
     @MessageMapping("/member")
-    public void personalChatting(RequestPersonalChatMessage message) {
+    public void personalChatting(RequestPersonalChatMessage message) throws ExecutionException, InterruptedException {
 
         System.out.println("message = " + message.getMessage());
         ResponsePersonalChatMessage response = ResponsePersonalChatMessage.builder()
@@ -35,10 +36,11 @@ public class PersonalChatController {
             messagingTemplate.convertAndSend("/recv/member/"
                     + message.getRecvMemberId() + "/" + message.getSendMemberId(), response);
         } else {
+            //내게쓰기
             messagingTemplate.convertAndSend("/recv/member/"
                     + message.getSendMemberId() + "/" + message.getRecvMemberId(), response);
         }
-        personalChatService.saveChat(message);
+        personalChatService.saveChatAndNotification(message);
     }
 
     //1:1채팅 내역 조회

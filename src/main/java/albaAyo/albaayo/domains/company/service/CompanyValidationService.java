@@ -26,18 +26,18 @@ public class CompanyValidationService {
         }
     }
 
-    public void memberRoleValidation(Long id, Member member) {
+    public Company memberRoleValidation(Long id, Member member) {
         if (member.getRole() == Role.ROLE_WORKER) {
             Company company = companyRepository.findById(id).orElseThrow(
                     () -> new RuntimeException("존재하지 않는 회사 입니다."));
 
-            validateDuplicateInvite(member, company);
+            return validateDuplicateInvite(member, company);
         } else {
             throw new RuntimeException("근로자가 아닙니다.");
         }
     }
 
-    public void validateDuplicateInvite(Member member, Company company) {
+    public Company validateDuplicateInvite(Member member, Company company) {
         JoinCompany findJoinCompany = joinCompanyRepository.findJoinCompany(company.getId(), member.getId());
         if (findJoinCompany == null) {
             joinCompanyRepository.save(JoinCompany.builder()
@@ -45,6 +45,8 @@ public class CompanyValidationService {
                     .company(company)
                     .accept(Accept.NOT_ACCEPT)
                     .build());
+
+            return company;
         } else {
             throw new RuntimeException("이미 초대한 근로자 입니다.");
         }

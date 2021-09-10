@@ -10,6 +10,7 @@ import java.util.List;
 
 import static albaAyo.albaayo.domains.company.domain.QCompany.*;
 import static albaAyo.albaayo.domains.company.domain.QJoinCompany.*;
+import static albaAyo.albaayo.domains.member.domain.QMember.*;
 
 
 public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
@@ -53,5 +54,18 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
                 .set(joinCompany.accept, Accept.ACCEPT)
                 .where(joinCompany.member.id.eq(workerId).and(joinCompany.company.id.eq(companyId)))
                 .execute();
+    }
+
+    @Override
+    public List<String> companyWorkers(Long companyId, Long memberId) {
+        return queryFactory
+                .select(member.fcmToken)
+                .from(joinCompany)
+                .where(joinCompany.company.id.eq(companyId)
+                        .and(joinCompany.accept.eq(Accept.ACCEPT))
+                        .and(joinCompany.member.id.ne(memberId)))
+                .join(member)
+                .on(joinCompany.member.id.eq(member.id))
+                .fetch();
     }
 }

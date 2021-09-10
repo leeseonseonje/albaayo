@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -78,12 +81,27 @@ public class MemberService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
+        fcmTokenSetting(request);
         // 5. 토큰 발급
         return tokenDto;
     }
 
+    private void fcmTokenSetting(LoginMemberRequest request) {
+
+//        List<Member> fcmToken = memberRepository.findByFcmToken(request.getFcmToken());
+//        if (!fcmToken.isEmpty()) {
+//            fcmToken.get(0).fcmTokenSetting(null);
+//        }
+        Member member = memberRepository.findByUserId(request.getUserId()).orElseGet(Member::new);
+
+        member.fcmTokenSetting(request.getFcmToken());
+    }
+
     public void logout(Long memberId) {
         refreshTokenRepository.refreshTokenDelete(memberId.toString());
+        Member member = memberRepository.findById(memberId).orElseGet(Member::new);
+        member.fcmTokenSetting(null);
+
     }
 
     private TokenDto createTokenDto(Authentication authentication) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static albaAyo.albaayo.domains.company.domain.Accept.*;
 
@@ -25,13 +26,15 @@ public class WorkerCompanyController {
 
     //초대 수락
     @PostMapping("/worker/{workerId}/{companyId}/invite")
-    public void acceptCompany(@PathVariable Long workerId, @PathVariable Long companyId) {
+    public void acceptCompany(@PathVariable Long workerId, @PathVariable Long companyId)
+            throws ExecutionException, InterruptedException {
         workerCompanyService.acceptCompany(workerId, companyId);
     }
 
     //초대 거절
     @DeleteMapping("/worker/{workerId}/{companyId}/invite")
-    public void notAcceptCompany(@PathVariable() Long workerId, @PathVariable Long companyId) {
+    public void notAcceptCompany(@PathVariable() Long workerId, @PathVariable Long companyId)
+            throws ExecutionException, InterruptedException {
         workerCompanyService.notAcceptCompany(workerId, companyId);
     }
 
@@ -47,7 +50,8 @@ public class WorkerCompanyController {
 
     //그룹 퇴장
     @DeleteMapping("/company/{workerId}/{companyId}")
-    public void companyExit(@PathVariable Long workerId, @PathVariable Long companyId) {
+    public void companyExit(@PathVariable Long workerId, @PathVariable Long companyId)
+            throws ExecutionException, InterruptedException {
         workerCompanyService.companyExit(workerId, companyId);
     }
 }

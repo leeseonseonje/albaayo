@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,13 +20,13 @@ public class CommuteController {
 
     //출근
     @PostMapping("/commute/go-to-work")
-    public void goToWork(@RequestBody RequestCommuteDto request) {
+    public void goToWork(@RequestBody RequestCommuteDto request) throws ExecutionException, InterruptedException {
         commuteService.goToWork(request);
     }
 
     //퇴근
     @PostMapping("/commute/off-work")
-    public void offWork(@RequestBody RequestCommuteDto request) {
+    public void offWork(@RequestBody RequestCommuteDto request) throws ExecutionException, InterruptedException {
         commuteService.offWork(request);
     }
 

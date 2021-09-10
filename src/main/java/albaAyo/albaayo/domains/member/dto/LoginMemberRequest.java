@@ -12,6 +12,7 @@ public class LoginMemberRequest {
     private String userId;
     @NotNull
     private String password;
+    private String fcmToken;
 
 
     public UsernamePasswordAuthenticationToken toAuthentication() {

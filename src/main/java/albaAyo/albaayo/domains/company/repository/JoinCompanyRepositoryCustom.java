@@ -13,5 +13,5 @@ public interface JoinCompanyRepositoryCustom {
 
     void companyAccept(Long workerId, Long companyId);
 
-
+    List<String> companyWorkers(Long companyId, Long memberId);
 }

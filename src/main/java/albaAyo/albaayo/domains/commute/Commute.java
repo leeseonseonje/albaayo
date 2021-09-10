@@ -60,4 +60,6 @@ public class Commute{
         System.out.println("sum = " + sum);
         return (sum/10) * (8720/6);
     }
+
+
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class ScheduleController {
 
     //일정 등록
     @PostMapping("/schedule")
-    public void registerSchedule(@RequestBody @Valid RequestScheduleDto request) {
+    public void registerSchedule(@RequestBody @Valid RequestScheduleDto request) throws ExecutionException, InterruptedException {
         scheduleService.registerSchedule(request);
     }
 

@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 	implementation 'com.querydsl:querydsl-jpa'
     implementation 'junit:junit:4.12'
 	implementation 'junit:junit:4.12'

@@ -1,12 +1,14 @@
 package albaAyo.albaayo;
 
 import albaAyo.albaayo.domains.member.domain.Member;
+import albaAyo.albaayo.domains.member.repository.MemberRepository;
 import albaAyo.albaayo.domains.member.service.MemberService;
 import albaAyo.albaayo.domains.notice.domain.Notice;
 import albaAyo.albaayo.domains.notice.dto.NoticeImageDto;
 import albaAyo.albaayo.domains.notice.dto.ResponseNoticeDto;
 import albaAyo.albaayo.domains.notice.repository.NoticeRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class TestClass {
     MemberService memberService;
     @Autowired
     NoticeRepository noticeRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @BeforeEach
     public void init() {
@@ -61,12 +65,6 @@ public class TestClass {
     public void noticeTest() {
         Notice notice = noticeRepository.findById(48L).get();
 
-//        System.out.println("notice = " + notice.getMember().getName());
-//        System.out.println("notice.getCompany().getName() = " + notice.getCompany().getName());
-//        System.out.println("notice.getNoticeImages().size() = " + notice.getNoticeImages().size());
-//        System.out.println("notice.getNoticeImages().size() = " + notice.getNoticeImages().get(0));
-//        System.out.println("notice.getNoticeImages().size() = " + notice.getNoticeImages().get(1));
-
         List<NoticeImageDto> collect = notice.getNoticeImages().stream()
                 .map(m -> new NoticeImageDto(m.getImage(), m.getImageContent()))
                 .collect(Collectors.toList());
@@ -86,5 +84,23 @@ public class TestClass {
         System.out.println("build.getNoticeId() = " + build.getContents());
         System.out.println("build.getNoticeId() = " + build.getDate());
         System.out.println("build.getNoticeId() = " + build.getImageList().size());
+    }
+
+    @Test
+    public void nullTest() {
+        Member member = memberRepository.findByFcmToken("dsa");
+        System.out.println("dsad = " + member);
+        Assertions.assertThat(member).isNull();
+    }
+
+    @Test
+    public void nullTest2() {
+        Member member = memberRepository.findById(1L).get();
+        member.fcmTokenSetting("ddddd");
+        System.out.println(member.getFcmToken());
+        Assertions.assertThat(member.getFcmToken()).isEqualTo("ddddd");
+        member.fcmTokenSetting(null);
+        System.out.println(member.getFcmToken());
+        Assertions.assertThat(member.getFcmToken()).isNull();
     }
 }

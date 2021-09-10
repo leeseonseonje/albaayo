@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +48,7 @@ public class CompanyController {
     //근로자 초대
     @PostMapping("/company/invite/{companyId}")
     public ResponseFindWorkerDto inviteWorker(@PathVariable("companyId") Long companyId,
-                             @RequestBody @Valid RequestInviteWorkerDto request) {
+                             @RequestBody @Valid RequestInviteWorkerDto request) throws ExecutionException, InterruptedException {
         Member member = companyService.inviteWorker(companyId, request);
 
         return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());

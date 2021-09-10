@@ -11,6 +11,8 @@ public class RequestScheduleDto {
 
     private Long companyId;
 
+    private Long memberId;
+
     private String workSchedule;
 
     private String date;

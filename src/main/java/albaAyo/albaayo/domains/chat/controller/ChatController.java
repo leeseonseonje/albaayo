@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,13 +25,13 @@ public class ChatController {
 
     //그룹채팅 전송 & 저장
     @MessageMapping("/company")
-    public void companyChatting(RequestChattingMessage message) {
+    public void companyChatting(RequestChattingMessage message) throws ExecutionException, InterruptedException {
 
         ResponseChatMessage response = ResponseChatMessage.builder().memberId(message.getMemberId())
                 .name(message.getName()).message(message.getMessage()).time(LocalDateTime.now()).build();
         messagingTemplate.convertAndSend("/recv/company/" + message.getCompanyId(), response);
 
-        chatService.saveChat(message);
+        chatService.saveChatAndNotification(message);
     }
 
     //그룹채팅 내역 조회

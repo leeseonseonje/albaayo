@@ -1,5 +1,6 @@
 package albaAyo.albaayo.domains.commute.service;
 
+import albaAyo.albaayo.config.fcm.FcmService;
 import albaAyo.albaayo.domains.commute.Commute;
 import albaAyo.albaayo.domains.commute.dto.RequestCommuteDto;
 import albaAyo.albaayo.domains.commute.dto.RequestUpdateCommuteDto;
@@ -19,23 +20,25 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CommuteService {
 
+    private final FcmService fcmService;
     private final CommuteRepository commuteRepository;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
 
-    public void goToWork(RequestCommuteDto request) {
+    public void goToWork(RequestCommuteDto request) throws ExecutionException, InterruptedException {
 
             Commute findCommute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             commuteGeneration(request, findCommute);
     }
 
-    private void commuteGeneration(RequestCommuteDto request, Commute findCommute) {
+    private void commuteGeneration(RequestCommuteDto request, Commute findCommute) throws ExecutionException, InterruptedException {
         if (findCommute == null || findCommute.getEndTime() != null) {
             Member member = memberRepository.findById(request.getWorkerId()).orElseThrow(
                     () -> new RuntimeException("존재하지 않는 회원 입니다."));
@@ -47,16 +50,29 @@ public class CommuteService {
                     startTime(LocalDateTime.now()).build();
 
             commuteRepository.save(commute);
+
+            fcmNotification(member, company, "출근");
         } else {
             throw new RuntimeException("퇴근을 하지 않았습니다.");
         }
     }
 
-    public void offWork(RequestCommuteDto request) {
+    private void fcmNotification(Member member, Company company, String state) throws ExecutionException, InterruptedException {
+        String fcmBody = member.getName() + "님이 " + state + "하셨습니다.";
+        fcmService.sendMessage(company.getMember().getFcmToken(), company.getName(), fcmBody);
+    }
+
+    public void offWork(RequestCommuteDto request) throws ExecutionException, InterruptedException {
 
             Commute commute = commuteRepository.commute(request.getWorkerId(), request.getCompanyId());
             if (commute != null && commute.getEndTime() == null) {
                 commute.offWorkTime(LocalDateTime.now());
+
+                Member member = memberRepository.findById(request.getWorkerId()).orElseThrow(
+                        () -> new RuntimeException("존재하지 않는 회원 입니다."));
+                Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
+                        () -> new RuntimeException("존재하지 않는 회사 입니다."));
+                fcmNotification(member, company, "퇴근");
             } else {
                 throw new RuntimeException("출근을 하지 않았습니다.");
             }
@@ -86,11 +102,10 @@ public class CommuteService {
     public List<ResponseCommuteListDto> commuteList(Long workerId, Long companyId) {
         List<Commute> commutes = commuteRepository.commuteList(workerId, companyId);
         List<ResponseCommuteListDto> list = new ArrayList<>();
-        commuteTimeToString(commutes, list);
-        return list;
+        return commuteTimeToString(commutes, list);
     }
 
-    private void commuteTimeToString(List<Commute> commutes, List<ResponseCommuteListDto> list) {
+    public List<ResponseCommuteListDto> commuteTimeToString(List<Commute> commutes, List<ResponseCommuteListDto> list) {
         String startTime = "";
         String endTime = "출근중";
         for (Commute commute : commutes) {
@@ -102,6 +117,7 @@ public class CommuteService {
             }
             list.add(ResponseCommuteListDto.builder().id(commute.getId()).startTime(startTime).EndTime(endTime).build());
         }
+        return list;
     }
 
     public ResponsePayInformationDto monthPayInfo(Long workerId, Long companyId, String date) {
