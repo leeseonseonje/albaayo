@@ -61,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     refreshTokenRepository.save(RefreshToken.builder().id(id).token(token.getRefreshToken()).build());
                     log.info("accessToken: {}, refreshToken: {}", token.getAccessToken(), token.getRefreshToken());
                 } else {
-                    throw new SecurityException("");
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
             }
         filterChain.doFilter(request, response);
