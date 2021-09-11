@@ -41,13 +41,15 @@ public class JwtFilter extends OncePerRequestFilter {
                     log.debug("유효한 JWT 토큰이 없습니다");
                 }
 
+
+
             } catch (ExpiredJwtException e) {
-                e.printStackTrace();
                 String id = e.getClaims().getSubject();
-                System.out.println("id = " + id);
                 RefreshToken findRefreshToken = refreshTokenRepository.findById(id).orElseThrow(
                         () -> new RuntimeException("존재 하지 않는 회원 입니다."));
-                if (findRefreshToken != null) {
+//                String refreshToken = request.getHeader("RefreshToken");
+//                if (refreshToken.equals(findRefreshToken.getToken())) {
+                  if (findRefreshToken != null) {
                     Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(
                             () -> new RuntimeException("dsa"));
                     Authentication authentication =
@@ -58,6 +60,8 @@ public class JwtFilter extends OncePerRequestFilter {
                     refreshTokenRepository.delete(findRefreshToken);
                     refreshTokenRepository.save(RefreshToken.builder().id(id).token(token.getRefreshToken()).build());
                     log.info("accessToken: {}, refreshToken: {}", token.getAccessToken(), token.getRefreshToken());
+                } else {
+                    throw new SecurityException("");
                 }
             }
         filterChain.doFilter(request, response);
