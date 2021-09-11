@@ -1,7 +1,8 @@
 package albaAyo.albaayo.config.config;
 
 import albaAyo.albaayo.config.jwt.*;
-import albaAyo.albaayo.domains.member.repository.MemberRepository;
+import albaAyo.albaayo.config.jwt.dto.JwtService;
+import albaAyo.albaayo.domains.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,8 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -66,12 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout/*").permitAll()
                 .antMatchers("/chat-socket/*").permitAll()
-                .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider, refreshTokenRepository,
-                        memberRepository));
+                .apply(new JwtSecurityConfig(tokenProvider, jwtService));
 
     }
 }

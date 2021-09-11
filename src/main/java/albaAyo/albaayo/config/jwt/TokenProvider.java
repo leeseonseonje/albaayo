@@ -37,7 +37,7 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds;
+        this.tokenValidityInMilliseconds = 1000;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TokenProvider implements InitializingBean {
 
     public TokenDto createToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();

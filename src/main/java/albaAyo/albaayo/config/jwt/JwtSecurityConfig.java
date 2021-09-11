@@ -1,6 +1,6 @@
 package albaAyo.albaayo.config.jwt;
 
-import albaAyo.albaayo.domains.member.repository.MemberRepository;
+import albaAyo.albaayo.config.jwt.dto.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,13 +11,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
     @Override
     public void configure(HttpSecurity http) {
-        JwtFilter customFilter = new JwtFilter(tokenProvider, refreshTokenRepository,
-                memberRepository);
+        JwtFilter customFilter = new JwtFilter(tokenProvider, jwtService);
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
