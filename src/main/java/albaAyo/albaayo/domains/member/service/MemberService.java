@@ -88,11 +88,12 @@ public class MemberService {
 
     private void fcmTokenSetting(LoginMemberRequest request) {
 
-//        List<Member> fcmToken = memberRepository.findByFcmToken(request.getFcmToken());
-//        if (!fcmToken.isEmpty()) {
-//            fcmToken.get(0).fcmTokenSetting(null);
-//        }
         Member member = memberRepository.findByUserId(request.getUserId()).orElseGet(Member::new);
+
+        Member fcmToken = memberRepository.findByFcmToken(request.getFcmToken());
+        if (fcmToken != (null)) {
+            fcmToken.fcmTokenSetting(null);
+        }
 
         member.fcmTokenSetting(request.getFcmToken());
     }
