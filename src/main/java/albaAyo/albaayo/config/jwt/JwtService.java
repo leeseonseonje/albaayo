@@ -34,7 +34,7 @@ public class JwtService {
 //                if (refreshToken.equals(findRefreshToken.getToken())) {
         if (findRefreshToken != null) {
             Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(
-                    () -> new RuntimeException("dsa"));
+                    () -> new RuntimeException("존재하지 않는 회원입니다."));
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(member.getId(), member.getPassword());
             TokenDto token = tokenProvider.createToken(authentication);
