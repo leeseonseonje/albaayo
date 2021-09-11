@@ -1,8 +1,9 @@
-package albaAyo.albaayo.config.jwt.dto;
+package albaAyo.albaayo.config.jwt;
 
 import albaAyo.albaayo.config.jwt.RefreshToken;
 import albaAyo.albaayo.config.jwt.RefreshTokenRepository;
 import albaAyo.albaayo.config.jwt.TokenProvider;
+import albaAyo.albaayo.config.jwt.dto.TokenDto;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

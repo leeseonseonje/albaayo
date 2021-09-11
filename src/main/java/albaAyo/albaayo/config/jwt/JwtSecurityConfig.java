@@ -1,6 +1,5 @@
 package albaAyo.albaayo.config.jwt;
 
-import albaAyo.albaayo.config.jwt.dto.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

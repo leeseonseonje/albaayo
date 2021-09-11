@@ -1,8 +1,7 @@
 package albaAyo.albaayo.config.config;
 
 import albaAyo.albaayo.config.jwt.*;
-import albaAyo.albaayo.config.jwt.dto.JwtService;
-import albaAyo.albaayo.domains.member.service.MemberService;
+import albaAyo.albaayo.config.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

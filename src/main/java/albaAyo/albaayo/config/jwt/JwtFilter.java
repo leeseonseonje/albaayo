@@ -1,6 +1,5 @@
 package albaAyo.albaayo.config.jwt;
 
-import albaAyo.albaayo.config.jwt.dto.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
