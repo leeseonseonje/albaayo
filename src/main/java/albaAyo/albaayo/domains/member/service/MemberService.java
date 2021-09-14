@@ -92,14 +92,14 @@ public class MemberService {
     }
 
     private void fcmTokenSetting(LoginMemberRequest request) {
-
-        Member member = memberRepository.findByUserId(request.getUserId()).orElseGet(Member::new);
-        Member fcmToken = memberRepository.findByFcmToken(request.getFcmToken());
-        if (fcmToken != (null)) {
-            fcmToken.fcmTokenSetting(null);
+        if (request.getFcmToken() != null) {
+            Member member = memberRepository.findByUserId(request.getUserId()).orElseGet(Member::new);
+            Member fcmToken = memberRepository.findByFcmToken(request.getFcmToken());
+            if (fcmToken != (null)) {
+                fcmToken.fcmTokenSetting(null);
+            }
+            member.fcmTokenSetting(request.getFcmToken());
         }
-
-        member.fcmTokenSetting(request.getFcmToken());
     }
 
     public void logout(Long memberId) {

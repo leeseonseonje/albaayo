@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -39,8 +40,11 @@ public class FcmService {
     }
 
     public void sendMessage(String token, String title, String body) throws ExecutionException, InterruptedException {
-        Message message = makeMessage(token, title, body);
-        FirebaseMessaging.getInstance().sendAsync(message).get();
+
+        if (token != null) {
+            Message message = makeMessage(token, title, body);
+            FirebaseMessaging.getInstance().sendAsync(message).get();
+        }
     }
 
     private Message makeMessage(String token, String title, String body) {
@@ -51,8 +55,12 @@ public class FcmService {
     }
 
     public void sendMulticastMessage(List<String> fcmTokens, String title, String body) throws ExecutionException, InterruptedException {
-        MulticastMessage multicastMessage = makeMulticastMessage(fcmTokens, title, body);
-        FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage).get();
+
+        fcmTokens.removeAll(Arrays.asList("", null));
+        if (!fcmTokens.isEmpty()) {
+            MulticastMessage multicastMessage = makeMulticastMessage(fcmTokens, title, body);
+            FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage).get();
+        }
     }
 
     private MulticastMessage makeMulticastMessage(List<String> fcmTokens, String title, String body) {

@@ -20,15 +20,15 @@ public class CompanyController {
     private final CompanyService companyService;
 
     //그룹 목록
-    @GetMapping("/employer/{id}/company")
-    public List<CompanyDto> companiesController(@PathVariable Long id) throws IOException {
-        return companyService.companies(id);
+    @GetMapping("/employer/{memberId}/company")
+    public List<CompanyDto> companiesController(@PathVariable Long memberId) throws IOException {
+        return companyService.companies(memberId);
     }
 
     //그룹 생성
-    @PostMapping("/employer/{id}/company")
-    public CompanyDto createCompanyController(@PathVariable Long id, @ModelAttribute RequestCompanyDto request) throws IOException {
-        Company company = companyService.EmployerCreateCompany(id, request);
+    @PostMapping("/employer/{memberId}/company")
+    public CompanyDto createCompanyController(@PathVariable Long memberId, @ModelAttribute RequestCompanyDto request) throws IOException {
+        Company company = companyService.EmployerCreateCompany(memberId, request);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
     }

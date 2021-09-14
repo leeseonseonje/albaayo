@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,5 +103,23 @@ public class TestClass {
         member.fcmTokenSetting(null);
         System.out.println(member.getFcmToken());
         Assertions.assertThat(member.getFcmToken()).isNull();
+    }
+
+    @Test
+    public void typeCheck() {
+        String s = "string";
+        Integer i = 1;
+        int x = 0;
+        Long id = 1L;
+        List<String> list = new ArrayList<>();
+        list.add("s");
+        list.add("s");
+        list.add("s");
+        list.add("s");
+
+        System.out.println(s.getClass().getName());
+        System.out.println(i.getClass().getName());
+        System.out.println(id.getClass().getName());
+        System.out.println(list.getClass().getName());
     }
 }
