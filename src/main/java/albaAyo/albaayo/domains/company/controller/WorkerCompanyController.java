@@ -33,7 +33,7 @@ public class WorkerCompanyController {
 
     //초대 거절
     @DeleteMapping("/worker/{workerId}/{companyId}/invite")
-    public void notAcceptCompany(@PathVariable() Long workerId, @PathVariable Long companyId)
+    public void notAcceptCompany(@PathVariable Long workerId, @PathVariable Long companyId)
             throws ExecutionException, InterruptedException {
         workerCompanyService.notAcceptCompany(workerId, companyId);
     }

@@ -34,9 +34,9 @@ public class CompanyController {
     }
 
     //근로자 조회
-    @GetMapping("/company/worker/{workerId}")
-    public ResponseFindWorkerDto workerFind(@PathVariable String workerId) {
-        return companyService.findWorker(workerId);
+    @GetMapping("/company/worker/{workerUserId}")
+    public ResponseFindWorkerDto workerFind(@PathVariable String workerUserId) {
+        return companyService.findWorker(workerUserId);
     }
 
     //그룹 메인(소속회원 리스트)
@@ -48,7 +48,7 @@ public class CompanyController {
     //근로자 초대
     @PostMapping("/company/invite/{companyId}")
     public ResponseFindWorkerDto inviteWorker(@PathVariable("companyId") Long companyId,
-                             @RequestBody @Valid RequestInviteWorkerDto request) throws ExecutionException, InterruptedException {
+                                              @RequestBody @Valid RequestInviteWorkerDto request) throws ExecutionException, InterruptedException {
         Member member = companyService.inviteWorker(companyId, request);
 
         return new ResponseFindWorkerDto(member.getUserId(), member.getName(), member.getBirth());

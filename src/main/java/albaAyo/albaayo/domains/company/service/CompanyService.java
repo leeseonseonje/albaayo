@@ -99,7 +99,7 @@ public class CompanyService {
         Company findCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
-        String url = companyImageService.imageUpload(request.getImage());
+        String url = companyImageService.imageUpload(request.getPicture());
         findCompany.updateCompany(request, url);
     }
 }

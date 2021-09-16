@@ -67,9 +67,7 @@ public class TokenProvider implements InitializingBean {
                 .compact();
 
         return TokenDto.builder()
-                .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .accessTokenExpiresIn(validity.getTime())
                 .refreshToken(refreshToken)
                 .build();
     }

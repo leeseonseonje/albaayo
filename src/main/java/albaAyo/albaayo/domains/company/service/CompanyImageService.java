@@ -33,12 +33,12 @@ public class CompanyImageService {
                 .location(request.getLocation())
                 .build();
 
-        log.info("image={}", request.getImage());
-        if (request.getImage() == null) {
+        log.info("image={}", request.getPicture());
+        if (request.getPicture() == null) {
             return company;
         }
-        else if (!request.getImage().isEmpty()) {
-            company.companyPictureSetting(imageUpload(request.getImage()));
+        else if (!request.getPicture().isEmpty()) {
+            company.companyPictureSetting(imageUpload(request.getPicture()));
         }
         return company;
     }
