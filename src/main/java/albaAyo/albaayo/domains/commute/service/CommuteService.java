@@ -124,6 +124,10 @@ public class CommuteService {
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         LocalDateTime time = localDate.atStartOfDay();
         List<Commute> commutes = commuteRepository.monthCommuteList(workerId, companyId, time);
-        return new ResponsePayInformationDto(commutes.get(0).payCalculation(commutes));
+        if (!commutes.isEmpty()) {
+            return new ResponsePayInformationDto(commutes.get(0).payCalculation(commutes));
+        } else {
+            return new ResponsePayInformationDto(0);
+        }
     }
 }

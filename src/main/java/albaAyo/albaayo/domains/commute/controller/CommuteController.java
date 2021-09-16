@@ -53,6 +53,6 @@ public class CommuteController {
     @GetMapping("/pay/{workerId}/{companyId}")
     public ResponsePayInformationDto monthPayInfo(@PathVariable Long workerId, @PathVariable Long companyId,
                                                       @RequestParam("date") String date) {
-        return commuteService.monthPayInfo(workerId, companyId, date);
+            return commuteService.monthPayInfo(workerId, companyId, date);
     }
 }
