@@ -1,8 +1,7 @@
 package albaAyo.albaayo.domains.company.repository;
 
 import albaAyo.albaayo.domains.company.domain.Accept;
-import albaAyo.albaayo.domains.company.dto.CompanyDto;
-import com.querydsl.core.types.Projections;
+import albaAyo.albaayo.domains.company.domain.Company;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -24,11 +23,10 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
     }
 
     @Override
-    public List<CompanyDto> acceptCompanyList(Long workerId, Accept accept) {
+    public List<Company> acceptCompanyList(Long workerId, Accept accept) {
 
         return queryFactory
-                .select(Projections.constructor(CompanyDto.class,
-                        company.id, company.name, company.location, company.picture))
+                .select(company)
                 .from(joinCompany)
                 .join(company)
                 .on(company.eq(joinCompany.company))

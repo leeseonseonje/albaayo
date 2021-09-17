@@ -78,10 +78,10 @@ public class Company extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void updateCompany(RequestCompanyDto request, String uuid) {
+    public void updateCompany(RequestCompanyDto request, String picture) {
         this.name = request.getName();
         this.location = request.getLocation();
-        this.picture = uuid;
+        this.picture = picture;
     }
 
     public void companyPictureSetting(String picture) {
@@ -92,6 +92,14 @@ public class Company extends BaseTimeEntity {
         String path = url + UUID.randomUUID().toString() + ".jpg";
         multipartFile.transferTo(new File(path));
         return path;
+    }
+
+    public void imageDownload(Company company) throws IOException {
+        if (company.getPicture() != null) {
+            Path path = Paths.get(company.getPicture());
+            Resource resource = new InputStreamResource(Files.newInputStream(path));
+            this.picture = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
+        }
     }
 
     public void imageDelete(String path) throws IOException {

@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,9 @@ public class CompanyController {
     //그룹 목록
     @GetMapping("/employer/{memberId}/company")
     public List<CompanyDto> companiesController(@PathVariable Long memberId) throws IOException {
-        return companyService.companies(memberId);
+        List<Company> companies = companyService.companies(memberId);
+        return companies.stream().map(CompanyDto::new)
+                .collect(Collectors.toList());
     }
 
     //그룹 생성

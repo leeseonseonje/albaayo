@@ -1,12 +1,13 @@
 package albaAyo.albaayo.domains.company.dto;
 
+import albaAyo.albaayo.domains.company.domain.Company;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class CompanyDto {
 
     private Long companyId;
@@ -19,5 +20,12 @@ public class CompanyDto {
         this.name = name;
         this.location = location;
         this.picture = picture;
+    }
+
+    public CompanyDto(Company company) {
+        this.companyId = company.getId();
+        this.name = company.getName();
+        this.location = company.getLocation();
+        this.picture = company.getPicture();
     }
 }

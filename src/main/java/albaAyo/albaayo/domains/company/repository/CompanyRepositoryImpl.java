@@ -1,6 +1,7 @@
 package albaAyo.albaayo.domains.company.repository;
 
 import albaAyo.albaayo.domains.company.domain.Accept;
+import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import com.querydsl.core.types.Projections;
@@ -26,10 +27,9 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
 
 
     @Override
-    public List<CompanyDto> findCompanies(Long id) {
+    public List<Company> findCompanies(Long id) {
         return queryFactory
-                .select(Projections.constructor(CompanyDto.class,
-                        company.id, company.name, company.location, company.picture))
+                .select(company)
                 .from(company)
                 .where(company.member.id.eq(id))
                 .orderBy(company.name.asc())

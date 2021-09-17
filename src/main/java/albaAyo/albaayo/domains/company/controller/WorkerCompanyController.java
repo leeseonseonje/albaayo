@@ -1,5 +1,6 @@
 package albaAyo.albaayo.domains.company.controller;
 
+import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.Result;
 import albaAyo.albaayo.domains.company.service.WorkerCompanyService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static albaAyo.albaayo.domains.company.domain.Accept.*;
 
@@ -21,7 +23,9 @@ public class WorkerCompanyController {
     //수락하지 않은 그룹리스트
     @GetMapping("/worker/{workerId}/company/invite")
     public List<CompanyDto> notAcceptCompanyList(@PathVariable Long workerId) throws IOException {
-        return workerCompanyService.notAcceptCompanyList(workerId, NOT_ACCEPT);
+
+        return workerCompanyService.notAcceptCompanyList(workerId, NOT_ACCEPT)
+                .stream().map(CompanyDto::new).collect(Collectors.toList());
     }
 
     //초대 수락
@@ -42,10 +46,12 @@ public class WorkerCompanyController {
     @GetMapping("/worker/{workerId}/company")
     public Result<List<CompanyDto>> acceptCompanyList(@PathVariable("workerId") Long workerId) throws IOException {
 
-        List<CompanyDto> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
+        List<Company> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
+        List<CompanyDto> result = companies.stream().map(CompanyDto::new)
+                .collect(Collectors.toList());
         Long count = workerCompanyService.notAcceptCompanyCount(workerId);
 
-        return new Result<>(companies, count);
+        return new Result<>(result, count);
     }
 
     //그룹 퇴장

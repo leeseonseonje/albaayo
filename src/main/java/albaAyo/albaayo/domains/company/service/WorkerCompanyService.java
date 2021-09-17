@@ -9,10 +9,16 @@ import albaAyo.albaayo.domains.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,12 +30,13 @@ public class WorkerCompanyService {
     private final FcmService fcmService;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
-    private final CompanyImageService companyImageService;
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public List<CompanyDto> acceptCompanyList(Long workerId, Accept accept) throws IOException {
-        List<CompanyDto> companies = joinCompanyRepository.acceptCompanyList(workerId, accept);
-        companyImageService.imageDownload(companies);
+    public List<Company> acceptCompanyList(Long workerId, Accept accept) throws IOException {
+        List<Company> companies = joinCompanyRepository.acceptCompanyList(workerId, accept);
+        for (Company company : companies) {
+            company.imageDownload(company);
+        }
         return companies;
     }
 
@@ -37,7 +44,7 @@ public class WorkerCompanyService {
         return joinCompanyRepository.notAcceptCompanyCount(workerId);
     }
 
-    public List<CompanyDto> notAcceptCompanyList(Long workerId, Accept accept) {
+    public List<Company> notAcceptCompanyList(Long workerId, Accept accept) {
         return joinCompanyRepository.acceptCompanyList(workerId, accept);
     }
 

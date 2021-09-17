@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 public class CompanyService {
 
     @Value("${path.company}")
-    private String url;
+    private String path;
 
     private final FcmService fcmService;
     private final MemberRepository memberRepository;
@@ -63,7 +63,7 @@ public class CompanyService {
             return company;
         }
         else if (!request.getPicture().isEmpty()) {
-            company.companyPictureSetting(company.imageUpload(request.getPicture(), url));
+            company.companyPictureSetting(company.imageUpload(request.getPicture(), path));
         }
         return company;
     }
@@ -101,21 +101,12 @@ public class CompanyService {
         }
     }
 
-    public List<CompanyDto> companies(Long id) throws IOException {
-        List<CompanyDto> companies = companyRepository.findCompanies(id);
-        ImageDownload(companies);
-        return companies;
-    }
-
-    private void ImageDownload(List<CompanyDto> companies) throws IOException {
-        for (CompanyDto company : companies) {
-            if (company.getPicture() != null) {
-                Path path = Paths.get(company.getPicture());
-                Resource resource = new InputStreamResource(Files.newInputStream(path));
-                String picture = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
-                company.setPicture(picture);
-            }
+    public List<Company> companies(Long id) throws IOException {
+        List<Company> companies = companyRepository.findCompanies(id);
+        for (Company company : companies) {
+            company.imageDownload(company);
         }
+        return companies;
     }
 
     public ResponseFindWorkerDto findWorker(String workerId) {
@@ -169,8 +160,8 @@ public class CompanyService {
         Company findCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
-        String path = findCompany.imageUpload(request.getPicture(), url);
-        findCompany.updateCompany(request, path);
-        findCompany.imageDelete(url);
+        String picture = findCompany.imageUpload(request.getPicture(), path);
+        findCompany.updateCompany(request, picture);
+        findCompany.imageDelete(path);
     }
 }
