@@ -26,9 +26,9 @@ public class CompanyController {
     }
 
     //그룹 생성
-    @PostMapping("/employer/{memberId}/company")
-    public CompanyDto createCompanyController(@PathVariable Long memberId, @ModelAttribute RequestCompanyDto request) throws IOException {
-        Company company = companyService.EmployerCreateCompany(memberId, request);
+    @PostMapping("/employer/{employerId}/company")
+    public CompanyDto createCompanyController(@PathVariable Long employerId, @ModelAttribute RequestCompanyDto request) throws IOException {
+        Company company = companyService.EmployerCreateCompany(employerId, request);
 
         return new CompanyDto(company.getId(), company.getName(), company.getLocation(), company.getPicture());
     }

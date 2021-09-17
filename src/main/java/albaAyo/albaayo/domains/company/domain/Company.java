@@ -3,6 +3,7 @@ package albaAyo.albaayo.domains.company.domain;
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.domains.chat.domain.Chat;
 import albaAyo.albaayo.domains.commute.Commute;
+import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.RequestCompanyDto;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.notice.domain.Notice;
@@ -10,10 +11,20 @@ import albaAyo.albaayo.domains.schedule.domain.Schedule;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -67,13 +78,24 @@ public class Company extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void updateCompany(RequestCompanyDto request, String url) {
+    public void updateCompany(RequestCompanyDto request, String uuid) {
         this.name = request.getName();
         this.location = request.getLocation();
-        this.picture = url;
+        this.picture = uuid;
     }
 
     public void companyPictureSetting(String picture) {
         this.picture = picture;
+    }
+
+    public String imageUpload(MultipartFile multipartFile, String url) throws IOException {
+        String path = url + UUID.randomUUID().toString() + ".jpg";
+        multipartFile.transferTo(new File(path));
+        return path;
+    }
+
+    public void imageDelete(String path) throws IOException {
+        Path file = Paths.get(path);
+        Files.delete(file);
     }
 }

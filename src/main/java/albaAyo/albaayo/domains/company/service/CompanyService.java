@@ -1,7 +1,9 @@
 package albaAyo.albaayo.domains.company.service;
 
 import albaAyo.albaayo.config.fcm.FcmService;
+import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import albaAyo.albaayo.domains.company.dto.*;
 import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
@@ -10,10 +12,17 @@ import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
 import albaAyo.albaayo.domains.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -22,30 +31,91 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class CompanyService {
 
+    @Value("${path.company}")
+    private String url;
+
     private final FcmService fcmService;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
-    private final CompanyImageService companyImageService;
     private final JoinCompanyRepository joinCompanyRepository;
-    private final CompanyValidationService companyValidationService;
 
-    public Company EmployerCreateCompany(Long id, RequestCompanyDto requestCreatCompanyDto) throws IOException {
+    public Company EmployerCreateCompany(Long employerId, RequestCompanyDto requestCreatCompanyDto) throws IOException {
 
-        Company company = companyImageService.companyBuilder(requestCreatCompanyDto);
+        Company company = companyBuilder(requestCreatCompanyDto);
 
-        companyValidationService.validateCompany(company);
+        validateCompany(company);
 
-        Member member =  memberRepository.findById(id).orElseThrow(
+        Member member =  memberRepository.findById(employerId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원 입니다."));
 
         company.employerCreateCompany(member);
         return companyRepository.save(company);
     }
 
+    public Company companyBuilder(RequestCompanyDto request) throws IOException {
+        Company company = Company.builder()
+                .name(request.getName())
+                .businessRegistrationNumber(request.getBusinessRegistrationNumber())
+                .location(request.getLocation())
+                .build();
+
+        if (request.getPicture() == null) {
+            return company;
+        }
+        else if (!request.getPicture().isEmpty()) {
+            company.companyPictureSetting(company.imageUpload(request.getPicture(), url));
+        }
+        return company;
+    }
+
+    public void validateCompany(Company company) {
+
+        if (companyRepository.existsByBusinessRegistrationNumber(company.getBusinessRegistrationNumber())) {
+            throw new RuntimeException("이미 존재하는 회사입니다.");
+        }
+    }
+
+    public Company memberRoleValidation(Long id, Member member) {
+        if (member.getRole() == Role.ROLE_WORKER) {
+            Company company = companyRepository.findById(id).orElseThrow(
+                    () -> new RuntimeException("존재하지 않는 회사 입니다."));
+
+            return validateDuplicateInvite(member, company);
+        } else {
+            throw new RuntimeException("근로자가 아닙니다.");
+        }
+    }
+
+    public Company validateDuplicateInvite(Member member, Company company) {
+        JoinCompany findJoinCompany = joinCompanyRepository.findJoinCompany(company.getId(), member.getId());
+        if (findJoinCompany == null) {
+            joinCompanyRepository.save(JoinCompany.builder()
+                    .member(member)
+                    .company(company)
+                    .accept(Accept.NOT_ACCEPT)
+                    .build());
+
+            return company;
+        } else {
+            throw new RuntimeException("이미 초대한 근로자 입니다.");
+        }
+    }
+
     public List<CompanyDto> companies(Long id) throws IOException {
         List<CompanyDto> companies = companyRepository.findCompanies(id);
-        companyImageService.imageDownload(companies);
+        ImageDownload(companies);
         return companies;
+    }
+
+    private void ImageDownload(List<CompanyDto> companies) throws IOException {
+        for (CompanyDto company : companies) {
+            if (company.getPicture() != null) {
+                Path path = Paths.get(company.getPicture());
+                Resource resource = new InputStreamResource(Files.newInputStream(path));
+                String picture = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
+                company.setPicture(picture);
+            }
+        }
     }
 
     public ResponseFindWorkerDto findWorker(String workerId) {
@@ -72,7 +142,7 @@ public class CompanyService {
         Member member = memberRepository.findByUserId(request.getUserId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 이용자 입니다."));
 
-        Company company = companyValidationService.memberRoleValidation(id, member);
+        Company company = memberRoleValidation(id, member);
         fcmNotification(member, company);
         return member;
     }
@@ -99,7 +169,8 @@ public class CompanyService {
         Company findCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
 
-        String url = companyImageService.imageUpload(request.getPicture());
-        findCompany.updateCompany(request, url);
+        String path = findCompany.imageUpload(request.getPicture(), url);
+        findCompany.updateCompany(request, path);
+        findCompany.imageDelete(url);
     }
 }

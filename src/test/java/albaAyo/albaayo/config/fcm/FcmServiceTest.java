@@ -2,13 +2,13 @@ package albaAyo.albaayo.config.fcm;
 
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.repository.MemberRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -48,7 +48,6 @@ class FcmServiceTest {
 
         List<String> list = new ArrayList<>();
 
-
-        System.out.println(list.isEmpty());
+        Assertions.assertThat(list).isEmpty();
     }
 }

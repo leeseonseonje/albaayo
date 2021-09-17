@@ -1,5 +1,7 @@
 package albaAyo.albaayo.domains.company.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class RequestCompanyDto {
 
     @Size(max = 50, message = "최대 50자 입니다.")
