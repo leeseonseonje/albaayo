@@ -37,6 +37,21 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
                 .fetch();
     }
 
+//    @Override
+//    public List<Company> acceptCompanyList(Long workerId, Accept accept) {
+//
+//        return queryFactory
+//                .select(company) -> select는 company
+//                .from(joinCompany) -> from은 joinCompany
+//                .join(joinCompany.company, company).fetch join()
+//                .where(joinCompany.member.id.eq(workerId)
+//	              .and(joinCompany.accept.eq(accept)))
+//                .orderBy(company.name.asc())
+//                .fetch();
+
+//                  =>객체그래프가 맞지않음
+//	                ->fetch join을 사용하면 에러가남
+//    }
 
     @Override
     public Long notAcceptCompanyCount(Long workerId) {
