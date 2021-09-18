@@ -2,12 +2,14 @@ package albaAyo.albaayo.domains.company.repository;
 
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 
 import java.util.List;
 
 public interface JoinCompanyRepositoryCustom {
 
     List<Company> acceptCompanyList(Long workerId, Accept accept);
+    List<JoinCompany> test(Long workerId, Accept accept);
 
     Long notAcceptCompanyCount(Long workerId);
 

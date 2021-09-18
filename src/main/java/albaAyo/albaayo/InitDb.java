@@ -1,8 +1,10 @@
 package albaAyo.albaayo;
 
 import albaAyo.albaayo.domains.commute.Commute;
+import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.config.jwt.RefreshToken;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +61,72 @@ public class InitDb {
             em.persist(B);
             em.persist(employerA);
             em.persist(workerA);
+
+            Company companyA = Company.builder()
+                    .name("companyA")
+                    .location("das")
+                    .businessRegistrationNumber("1234567890")
+                    .build();
+
+            Company companyB = Company.builder()
+                    .name("companyB")
+                    .location("da")
+                    .businessRegistrationNumber("123478")
+                    .build();
+
+            Company companyC = Company.builder()
+                    .name("companyC")
+                    .location("d")
+                    .businessRegistrationNumber("12367890")
+                    .build();
+            Company companyD = Company.builder()
+                    .name("companyD")
+                    .location("dadass")
+                    .businessRegistrationNumber("190")
+                    .build();
+
+            Company companyE = Company.builder()
+                    .name("companyE")
+                    .location("dasdassdadsa")
+                    .businessRegistrationNumber("1")
+                    .build();
+
+            em.persist(companyA);
+            em.persist(companyB);
+            em.persist(companyC);
+            em.persist(companyD);
+            em.persist(companyE);
+
+            JoinCompany jA = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyA)
+                    .member(workerA)
+                    .build();
+            JoinCompany jB = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyB)
+                    .member(workerA)
+                    .build();
+            JoinCompany C = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyC)
+                    .member(workerA)
+                    .build();
+            JoinCompany D = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyD)
+                    .member(workerA)
+                    .build();
+            JoinCompany E = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyE)
+                    .member(workerA)
+                    .build();
+            em.persist(jA);
+            em.persist(jB);
+            em.persist(C);
+            em.persist(D);
+            em.persist(E);
         }
     }
 }

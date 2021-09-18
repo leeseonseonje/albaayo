@@ -1,8 +1,10 @@
 package albaAyo.albaayo.domains.company.controller;
 
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.Result;
+import albaAyo.albaayo.domains.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.domains.company.service.WorkerCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

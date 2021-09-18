@@ -3,6 +3,7 @@ package albaAyo.albaayo;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
+import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
 import albaAyo.albaayo.domains.company.repository.JoinCompanyRepository;
 import albaAyo.albaayo.domains.member.domain.Member;
@@ -24,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jdo.annotations.Join;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,78 +136,19 @@ public class TestClass {
 
     @Test
     public void joinTest() {
-        Company companyA = Company.builder()
-                .name("companyA")
-                .location("das")
-                .businessRegistrationNumber("1234567890")
-                .build();
-
-        Company companyB = Company.builder()
-                .name("companyB")
-                .location("da")
-                .businessRegistrationNumber("123478")
-                .build();
-
-        Company companyC = Company.builder()
-                .name("companyC")
-                .location("d")
-                .businessRegistrationNumber("12367890")
-                .build();
-        Company companyD = Company.builder()
-                .name("companyD")
-                .location("dadass")
-                .businessRegistrationNumber("190")
-                .build();
-
-        Company companyE = Company.builder()
-                .name("companyE")
-                .location("dasdassdadsa")
-                .businessRegistrationNumber("1")
-                .build();
-
-        companyRepository.save(companyA);
-        companyRepository.save(companyB);
-        companyRepository.save(companyC);
-        companyRepository.save(companyD);
-        companyRepository.save(companyE);
-
-        Member member = memberRepository.findById(2L).get();
-        JoinCompany A = JoinCompany.builder()
-                .accept(Accept.ACCEPT)
-                .company(companyA)
-                .member(member)
-                .build();
-        JoinCompany B = JoinCompany.builder()
-                .accept(Accept.ACCEPT)
-                .company(companyB)
-                .member(member)
-                .build();
-        JoinCompany C = JoinCompany.builder()
-                .accept(Accept.ACCEPT)
-                .company(companyC)
-                .member(member)
-                .build();
-        JoinCompany D = JoinCompany.builder()
-                .accept(Accept.ACCEPT)
-                .company(companyD)
-                .member(member)
-                .build();
-        JoinCompany E = JoinCompany.builder()
-                .accept(Accept.ACCEPT)
-                .company(companyE)
-                .member(member)
-                .build();
-        joinCompanyRepository.save(A);
-        joinCompanyRepository.save(B);
-        joinCompanyRepository.save(C);
-        joinCompanyRepository.save(D);
-        joinCompanyRepository.save(E);
 
         System.out.println("==================================================================================");
-        List<Company> companies = joinCompanyRepository.acceptCompanyList(member.getId(), Accept.ACCEPT);
+        List<JoinCompany> joinCompanies = joinCompanyRepository.test(2L, Accept.ACCEPT);
+        List<Company> companies = joinCompanyRepository.acceptCompanyList(2L, Accept.ACCEPT);
 
-        for (Company company : companies) {
-            System.out.println("company = " + company.getName());
+        List<CompanyDto> collect = companies.stream().map(c -> new CompanyDto(c)).collect(Collectors.toList());
+        for (CompanyDto companyDto : collect) {
+            System.out.println("companyDto = " + companyDto.getName());
+        }
+
+        for (JoinCompany joinCompany : joinCompanies) {
+            System.out.println("joinCompany = " + joinCompany.getCompany().getName());
+            System.out.println("joinCompany = " + joinCompany.getMember().getName());
         }
 
     }

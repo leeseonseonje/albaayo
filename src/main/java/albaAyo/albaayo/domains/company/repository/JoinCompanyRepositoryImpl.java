@@ -2,6 +2,7 @@ package albaAyo.albaayo.domains.company.repository;
 
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -28,8 +29,21 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
         return queryFactory
                 .select(company)
                 .from(joinCompany)
-                .join(company)
-                .on(company.eq(joinCompany.company))
+                .join(joinCompany.company, company)
+                .where(joinCompany.member.id.eq(workerId)
+                        .and(joinCompany.accept.eq(accept)))
+                .orderBy(company.name.asc())
+                .fetch();
+    }
+
+    //테스트 쿼리
+    @Override
+    public List<JoinCompany> test(Long workerId, Accept accept) {
+        return queryFactory
+                .select(joinCompany)
+                .from(joinCompany)
+                .join(joinCompany.company, company).fetchJoin()
+                .join(joinCompany.member, member).fetchJoin()
                 .where(joinCompany.member.id.eq(workerId)
                         .and(joinCompany.accept.eq(accept)))
                 .orderBy(company.name.asc())

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface JoinCompanyRepository extends JpaRepository<JoinCompany, Long>, JoinCompanyRepositoryCustom {
 
     @Query("select j from JoinCompany j where j.company.id = :companyId and j.member.id = :workerId")
