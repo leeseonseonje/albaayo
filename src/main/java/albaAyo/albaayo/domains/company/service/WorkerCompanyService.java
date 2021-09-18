@@ -3,6 +3,7 @@ package albaAyo.albaayo.domains.company.service;
 import albaAyo.albaayo.config.fcm.FcmService;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
 import albaAyo.albaayo.domains.company.repository.JoinCompanyRepository;
@@ -32,19 +33,19 @@ public class WorkerCompanyService {
     private final CompanyRepository companyRepository;
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public List<Company> acceptCompanyList(Long workerId, Accept accept) throws IOException {
-        List<Company> companies = joinCompanyRepository.acceptCompanyList(workerId, accept);
-        for (Company company : companies) {
-            company.imageDownload(company);
+    public List<JoinCompany> acceptCompanyList(Long workerId, Accept accept) throws IOException {
+        List<JoinCompany> joinCompanies = joinCompanyRepository.acceptCompanyList(workerId, accept);
+        for (JoinCompany joinCompany : joinCompanies) {
+            joinCompany.getCompany().imageDownload(joinCompany.getCompany());
         }
-        return companies;
+        return joinCompanies;
     }
 
     public Long notAcceptCompanyCount(Long workerId) {
         return joinCompanyRepository.notAcceptCompanyCount(workerId);
     }
 
-    public List<Company> notAcceptCompanyList(Long workerId, Accept accept) {
+    public List<JoinCompany> notAcceptCompanyList(Long workerId, Accept accept) {
         return joinCompanyRepository.acceptCompanyList(workerId, accept);
     }
 

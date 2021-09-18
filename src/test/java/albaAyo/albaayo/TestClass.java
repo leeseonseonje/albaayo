@@ -137,19 +137,11 @@ public class TestClass {
     @Test
     public void joinTest() {
 
-        System.out.println("==================================================================================");
-        List<JoinCompany> joinCompanies = joinCompanyRepository.test(2L, Accept.ACCEPT);
-        List<Company> companies = joinCompanyRepository.acceptCompanyList(2L, Accept.ACCEPT);
+        List<JoinCompany> joinCompanies = joinCompanyRepository.acceptCompanyList(2L, Accept.ACCEPT);
 
-        List<CompanyDto> collect = companies.stream().map(c -> new CompanyDto(c)).collect(Collectors.toList());
+        List<CompanyDto> collect = joinCompanies.stream().map(CompanyDto::new).collect(Collectors.toList());
         for (CompanyDto companyDto : collect) {
             System.out.println("companyDto = " + companyDto.getName());
         }
-
-        for (JoinCompany joinCompany : joinCompanies) {
-            System.out.println("joinCompany = " + joinCompany.getCompany().getName());
-            System.out.println("joinCompany = " + joinCompany.getMember().getName());
-        }
-
     }
 }

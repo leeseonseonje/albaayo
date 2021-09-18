@@ -24,21 +24,8 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
     }
 
     @Override
-    public List<Company> acceptCompanyList(Long workerId, Accept accept) {
+    public List<JoinCompany> acceptCompanyList(Long workerId, Accept accept) {
 
-        return queryFactory
-                .select(company)
-                .from(joinCompany)
-                .join(joinCompany.company, company)
-                .where(joinCompany.member.id.eq(workerId)
-                        .and(joinCompany.accept.eq(accept)))
-                .orderBy(company.name.asc())
-                .fetch();
-    }
-
-    //테스트 쿼리
-    @Override
-    public List<JoinCompany> test(Long workerId, Accept accept) {
         return queryFactory
                 .select(joinCompany)
                 .from(joinCompany)
@@ -49,6 +36,7 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
                 .orderBy(company.name.asc())
                 .fetch();
     }
+
 
     @Override
     public Long notAcceptCompanyCount(Long workerId) {

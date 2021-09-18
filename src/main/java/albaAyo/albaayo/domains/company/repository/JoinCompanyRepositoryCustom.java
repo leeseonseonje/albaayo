@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface JoinCompanyRepositoryCustom {
 
-    List<Company> acceptCompanyList(Long workerId, Accept accept);
-    List<JoinCompany> test(Long workerId, Accept accept);
+    List<JoinCompany> acceptCompanyList(Long workerId, Accept accept);
 
     Long notAcceptCompanyCount(Long workerId);
 

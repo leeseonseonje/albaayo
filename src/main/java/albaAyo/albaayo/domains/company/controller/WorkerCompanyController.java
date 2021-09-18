@@ -48,7 +48,7 @@ public class WorkerCompanyController {
     @GetMapping("/worker/{workerId}/company")
     public Result<List<CompanyDto>> acceptCompanyList(@PathVariable("workerId") Long workerId) throws IOException {
 
-        List<Company> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
+        List<JoinCompany> companies = workerCompanyService.acceptCompanyList(workerId, ACCEPT);
         List<CompanyDto> result = companies.stream().map(CompanyDto::new)
                 .collect(Collectors.toList());
         Long count = workerCompanyService.notAcceptCompanyCount(workerId);
