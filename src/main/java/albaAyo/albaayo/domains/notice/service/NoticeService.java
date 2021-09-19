@@ -14,6 +14,7 @@ import albaAyo.albaayo.domains.notice.repository.NoticeImageRepository;
 import albaAyo.albaayo.domains.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NoticeService {
 
-    public static final String URL = "/home/ec2-user/groupNotice/";
+    @Value("${path.notice}")
+    private String path;
 
     private final FcmService fcmService;
     private final MemberRepository memberRepository;
@@ -65,7 +67,7 @@ public class NoticeService {
 
     private void imageSave(RequestNoticeDto requestNoticeDto, Notice savedNotice) throws IOException {
         if (!requestNoticeDto.getImage().isEmpty()) {
-           noticeImageRepository.saveAll(imageUpload(requestNoticeDto.getImage(), savedNotice));
+           noticeImageRepository.saveAll(savedNotice.imageUpload(requestNoticeDto.getImage(), savedNotice, path));
         }
     }
 
@@ -96,7 +98,7 @@ public class NoticeService {
         noticeImageRepository.noticeImageDelete(notice.getId());
 
         if (!requestNoticeUpdateDto.getImageList().isEmpty()) {
-            noticeImageRepository.saveAll(imageUpload(requestNoticeUpdateDto.getImageList(), notice));
+            noticeImageRepository.saveAll(notice.imageUpload(requestNoticeUpdateDto.getImageList(), notice, path));
         }
     }
 
@@ -111,38 +113,9 @@ public class NoticeService {
         List<NoticeImageDto> noticeImageDtos = notice.getNoticeImages().stream()
                 .map(m -> new NoticeImageDto(m.getImage(), m.getImageContent()))
                 .collect(Collectors.toList());
-        List<NoticeImageDto> list = imageDownload(noticeImageDtos);
+        List<NoticeImageDto> list = notice.imageDownload(noticeImageDtos);
 
         return notice.noticeDtoBuilder(notice, list);
-    }
-
-    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice) throws IOException {
-
-        List<NoticeImage> result = new ArrayList<>();
-
-        for (NoticeImageDto noticeImageDto : list) {
-            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
-            UUID uuid = UUID.randomUUID();
-            FileImageOutputStream image = new FileImageOutputStream(
-                    new File(URL + uuid.toString() + ".jpeg"));
-            image.write(bytes, 0, bytes.length);
-            image.close();
-            result.add(NoticeImage.builder().notice(notice)
-                    .image(URL + uuid.toString() + ".jpeg")
-                    .imageContent(noticeImageDto.getImageContent()).build());
-        }
-
-        return result;
-    }
-
-    private List<NoticeImageDto> imageDownload(List<NoticeImageDto> imageList) throws IOException {
-        for (NoticeImageDto noticeImageDto : imageList) {
-            Path path = Paths.get(noticeImageDto.getImage());
-            Resource resource = new InputStreamResource(Files.newInputStream(path));
-            String image = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
-            noticeImageDto.setImage(image);
-        }
-        return imageList;
     }
 
     //공지 삭제

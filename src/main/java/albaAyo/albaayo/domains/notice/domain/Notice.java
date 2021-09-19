@@ -9,11 +9,21 @@ import albaAyo.albaayo.domains.notice.dto.ResponseNoticeDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 
+import javax.imageio.stream.FileImageOutputStream;
 import javax.persistence.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static javax.persistence.FetchType.*;
 
@@ -60,16 +70,11 @@ public class Notice extends BaseTimeEntity {
         this.contents = requestNoticeUpdateDto.getContents();
         this.date = date;
     }
-    public void changeContents(String contents) {
-        this.contents = contents;
-    }
-
     public void changeTitle(String title){
         this.title = title;
     }
 
     public ResponseNoticeDto noticeDtoBuilder(Notice notice, List<NoticeImageDto> list) {
-
         return ResponseNoticeDto.builder().noticeId(notice.getId())
                 .memberId(notice.getMember().getId())
                 .name(notice.getMember().getName())
@@ -77,6 +82,35 @@ public class Notice extends BaseTimeEntity {
                 .contents(notice.getContents())
                 .date(notice.getDate())
                 .imageList(list).build();
+    }
+
+    public List<NoticeImage> imageUpload(List<NoticeImageDto> list, Notice notice, String path) throws IOException {
+
+        List<NoticeImage> result = new ArrayList<>();
+
+        for (NoticeImageDto noticeImageDto : list) {
+            byte[] bytes = Base64.decodeBase64(noticeImageDto.getImage());
+            UUID uuid = UUID.randomUUID();
+            FileImageOutputStream image = new FileImageOutputStream(
+                    new File(path + uuid.toString() + ".jpeg"));
+            image.write(bytes, 0, bytes.length);
+            image.close();
+            result.add(NoticeImage.builder().notice(notice)
+                    .image(path + uuid.toString() + ".jpeg")
+                    .imageContent(noticeImageDto.getImageContent()).build());
+        }
+
+        return result;
+    }
+
+    public List<NoticeImageDto> imageDownload(List<NoticeImageDto> imageList) throws IOException {
+        for (NoticeImageDto noticeImageDto : imageList) {
+            Path path = Paths.get(noticeImageDto.getImage());
+            Resource resource = new InputStreamResource(Files.newInputStream(path));
+            String image = Base64.encodeBase64String(resource.getInputStream().readAllBytes());
+            noticeImageDto.setImage(image);
+        }
+        return imageList;
     }
 
 }
