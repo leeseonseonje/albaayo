@@ -35,7 +35,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
                         QNotice.notice.id, QMember.member.name, QNotice.notice.title, QNotice.notice.date))
                 .from(QNotice.notice)
                 .where(QNotice.notice.company.id.eq(companyId))
-                .join(company).fetchJoin()
+                .join(company)
                 .on(QNotice.notice.company.id.eq(company.id))
                 .join(QMember.member)
                 .on(QNotice.notice.member.id.eq(QMember.member.id))

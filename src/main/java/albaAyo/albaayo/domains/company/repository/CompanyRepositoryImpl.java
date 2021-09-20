@@ -43,7 +43,6 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                         member.id, member.name, member.birth, member.role))
                 .distinct()
                 .from(company)
-                .where(company.id.eq(companyId))
                 .join(joinCompany)
                 .on(joinCompany.company.id.eq(companyId)
                         .and(joinCompany.accept.eq(Accept.ACCEPT)))
@@ -59,9 +58,8 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .select(Projections.constructor(ResponseCompanyWorkerListDto.class,
                         member.id, member.name, member.birth, member.role))
                 .from(company)
+                .join(company.member, member)
                 .where(company.id.eq(companyId))
-                .join(member)
-                .on(member.id.eq(company.member.id))
                 .fetchOne();
     }
 }
