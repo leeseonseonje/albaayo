@@ -1,53 +1,59 @@
 package albaAyo.albaayo.domains.company.service;
 
+import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
-import albaAyo.albaayo.domains.company.dto.RequestCompanyDto;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
+import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
-import albaAyo.albaayo.domains.member.repository.MemberRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
+@Transactional
+@SpringBootTest
 class CompanyServiceTest {
 
-    @InjectMocks
-    CompanyService companyService;
+    @Value("${admin.pw}")
+    private String pw;
 
+    @Autowired
+    EntityManager em;
 
-    @Mock
+    @Autowired
     CompanyRepository companyRepository;
 
-    @Mock
-    MemberRepository memberRepository;
-
     @Test
-    public void 그룹생성() throws IOException {
-        Member member = Member.builder()
-                .userId("userId")
-                .role(Role.ROLE_EMPLOYER)
-                .email("22@bb.com")
-                .birth("1999.02.20")
-                .name("memberA")
-                .password("passs")
-                .build();
-        RequestCompanyDto request = RequestCompanyDto.builder()
-                .name("companyA")
-                .location("seoul")
-                .businessRegistrationNumber("1234567890").build();
-        Member savedMember = Mockito.doReturn(Member.class).when(memberRepository).save(member);
+    public void 그룹인원목록() throws IOException {
+        List<ResponseCompanyWorkerListDto> companyWorkerList = companyRepository.findCompanyWorkerList(6L);
+        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
+            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
+        }
+        if (companyWorkerList.isEmpty()) {
+            companyWorkerList.add(companyRepository.findCompanyEmployer(6L));
+        }
 
-        Company company = companyService.EmployerCreateCompany(savedMember.getId(), request);
+        Assertions.assertThat(companyWorkerList.get(0).getMemberId()).isEqualTo(1L);
 
-        assertThat(company.getName()).isEqualTo("companyA");
+        List<ResponseCompanyWorkerListDto> companyWorkerListB = companyRepository.findCompanyWorkerList(7L);
+        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
+            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
+        }
+        if (companyWorkerListB.isEmpty()) {
+            companyWorkerListB.add(companyRepository.findCompanyEmployer(6L));
+        }
+
+        Assertions.assertThat(companyWorkerListB.get(0).getMemberId()).isEqualTo(1L);
     }
 }

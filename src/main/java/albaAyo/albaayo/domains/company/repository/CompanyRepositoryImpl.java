@@ -2,11 +2,13 @@ package albaAyo.albaayo.domains.company.repository;
 
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
+import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import javax.jdo.annotations.Join;
 import javax.persistence.EntityManager;
 import java.util.List;
 

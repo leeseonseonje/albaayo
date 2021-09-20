@@ -41,16 +41,43 @@ public class InitDb {
                     .userId("employer")
                     .password(pw)
                     .email("memberA@gmail.com")
-                    .name("memberA")
+                    .name("employerA")
                     .birth("1998년 3월 17일")
                     .role(Role.ROLE_EMPLOYER)
                     .build();
 
             Member workerA = Member.builder()
-                    .userId("worker")
+                    .userId("worewweqwker")
                     .password(pw)
-                    .email("memberB@g.com")
-                    .name("memberB")
+                    .email("mecxzbmberB@g.com")
+                    .name("workerA")
+                    .birth("1998년 2월 9일")
+                    .role(Role.ROLE_WORKER)
+                    .build();
+
+            Member workerB = Member.builder()
+                    .userId("workdasdasdaser")
+                    .password(pw)
+                    .email("memberdasdasB@g.com")
+                    .name("workerB")
+                    .birth("1998년 2월 9일")
+                    .role(Role.ROLE_WORKER)
+                    .build();
+
+            Member workerC = Member.builder()
+                    .userId("workedasr")
+                    .password(pw)
+                    .email("mdasemberB@g.com")
+                    .name("workerC")
+                    .birth("1998년 2월 9일")
+                    .role(Role.ROLE_WORKER)
+                    .build();
+
+            Member workerD = Member.builder()
+                    .userId("wordasker")
+                    .password(pw)
+                    .email("membdaserB@g.com")
+                    .name("workerD")
                     .birth("1998년 2월 9일")
                     .role(Role.ROLE_WORKER)
                     .build();
@@ -61,6 +88,9 @@ public class InitDb {
             em.persist(B);
             em.persist(employerA);
             em.persist(workerA);
+            em.persist(workerB);
+            em.persist(workerC);
+            em.persist(workerD);
 
             Company companyA = Company.builder()
                     .name("companyA")
@@ -98,19 +128,34 @@ public class InitDb {
             em.persist(companyC);
             companyC.employerCreateCompany(employerA);
             em.persist(companyD);
-            companyD.employerCreateCompany(employerA);
+//            companyD.employerCreateCompany(employerA);
             em.persist(companyE);
-            companyE.employerCreateCompany(employerA);
+//            companyE.employerCreateCompany(employerA);
 
-            JoinCompany jA = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyA)
-                    .member(workerA)
-                    .build();
+//            JoinCompany jA = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyA)
+//                    .member(workerA)
+//                    .build();
             JoinCompany jB = JoinCompany.builder()
                     .accept(Accept.ACCEPT)
                     .company(companyB)
                     .member(workerA)
+                    .build();
+            JoinCompany jB1 = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyB)
+                    .member(workerB)
+                    .build();
+            JoinCompany jB2 = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyB)
+                    .member(workerC)
+                    .build();
+            JoinCompany jB3 = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyB)
+                    .member(workerD)
                     .build();
             JoinCompany C = JoinCompany.builder()
                     .accept(Accept.ACCEPT)
@@ -127,8 +172,11 @@ public class InitDb {
                     .company(companyE)
                     .member(workerA)
                     .build();
-            em.persist(jA);
+//            em.persist(jA);
             em.persist(jB);
+            em.persist(jB1);
+            em.persist(jB2);
+            em.persist(jB3);
             em.persist(C);
             em.persist(D);
             em.persist(E);
