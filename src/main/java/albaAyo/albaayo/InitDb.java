@@ -55,42 +55,12 @@ public class InitDb {
                     .role(Role.ROLE_WORKER)
                     .build();
 
-            Member workerB = Member.builder()
-                    .userId("workedsar")
-                    .password(pw)
-                    .email("membdaserB@g.com")
-                    .name("memberBdsa")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
-
-            Member workerC = Member.builder()
-                    .userId("workerdsa")
-                    .password(pw)
-                    .email("medasmberB@g.com")
-                    .name("memberB")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
-
-            Member workerD = Member.builder()
-                    .userId("workerddassa")
-                    .password(pw)
-                    .email("memdasbdaserB@g.com")
-                    .name("memberB")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
-
             RefreshToken A = RefreshToken.builder().id("1").token("222").build();
             RefreshToken B = RefreshToken.builder().id("2").token("2222").build();
             em.persist(A);
             em.persist(B);
             em.persist(employerA);
             em.persist(workerA);
-            em.persist(workerB);
-            em.persist(workerC);
-            em.persist(workerD);
 
             Company companyA = Company.builder()
                     .name("companyA")
@@ -132,30 +102,15 @@ public class InitDb {
             em.persist(companyE);
             companyE.employerCreateCompany(employerA);
 
-//            JoinCompany jA = JoinCompany.builder()
-//                    .accept(Accept.ACCEPT)
-//                    .company(companyA)
-//                    .member(workerA)
-//                    .build();
+            JoinCompany jA = JoinCompany.builder()
+                    .accept(Accept.ACCEPT)
+                    .company(companyA)
+                    .member(workerA)
+                    .build();
             JoinCompany jB = JoinCompany.builder()
                     .accept(Accept.ACCEPT)
                     .company(companyB)
                     .member(workerA)
-                    .build();
-            JoinCompany jB1 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerB)
-                    .build();
-            JoinCompany jB2 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerC)
-                    .build();
-            JoinCompany jB3 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerD)
                     .build();
             JoinCompany C = JoinCompany.builder()
                     .accept(Accept.ACCEPT)
@@ -172,11 +127,8 @@ public class InitDb {
                     .company(companyE)
                     .member(workerA)
                     .build();
-//            em.persist(jA);
+            em.persist(jA);
             em.persist(jB);
-            em.persist(jB1);
-            em.persist(jB2);
-            em.persist(jB3);
             em.persist(C);
             em.persist(D);
             em.persist(E);
