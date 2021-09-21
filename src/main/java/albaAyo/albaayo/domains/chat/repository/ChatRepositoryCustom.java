@@ -7,4 +7,6 @@ import java.util.List;
 public interface ChatRepositoryCustom {
 
     List<ResponseChatMessage> chatContents(Long companyId);
+
+    Long companyChatHistoryCount(Long companyId);
 }

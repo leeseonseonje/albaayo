@@ -22,8 +22,9 @@ public class ChatRepositoryImpl implements ChatRepositoryCustom {
 
     @Override
         public List<ResponseChatMessage> chatContents(Long companyId) {
-        return queryFactory.select(Projections.constructor(ResponseChatMessage.class,
-                member.id, member.name, chat.chatContents, chat.createdDate))
+        return queryFactory
+                .select(Projections.constructor(ResponseChatMessage.class,
+                        member.id, member.name, chat.chatContents, chat.createdDate))
                 .from(chat)
                 .where(chat.company.id.eq(companyId))
                 .join(member)
@@ -32,12 +33,11 @@ public class ChatRepositoryImpl implements ChatRepositoryCustom {
                 .fetch();
     }
 
-    public void test(Long companyId) {
-         queryFactory.select(chat)
-                .from(chat)
+    @Override
+    public Long companyChatHistoryCount(Long companyId) {
+        return queryFactory
+                .selectFrom(chat)
                 .where(chat.company.id.eq(companyId))
-                .join(member).fetchJoin()
-                .orderBy(chat.createdDate.asc())
-                .fetch();
+                .fetchCount();
     }
 }

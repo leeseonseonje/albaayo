@@ -38,6 +38,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .fetch();
     }
 
+    //직원이 없을경우 join_company 테이블이 비어있으므로 empty list가 조회된다.
     @Override
     public List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long companyId) {
         return queryFactory
@@ -54,6 +55,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .fetch();
     }
 
+    //직원이 없을경우
     @Override
     public ResponseCompanyWorkerListDto findCompanyEmployer(Long companyId) {
         return queryFactory
@@ -64,4 +66,5 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .where(company.id.eq(companyId))
                 .fetchOne();
     }
+
 }

@@ -1,6 +1,7 @@
 package albaAyo.albaayo.domains.company.service;
 
 import albaAyo.albaayo.config.fcm.FcmService;
+import albaAyo.albaayo.domains.chat.repository.ChatRepository;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
@@ -35,6 +36,7 @@ public class CompanyService {
     private String path;
 
     private final FcmService fcmService;
+    private final ChatRepository chatRepository;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final JoinCompanyRepository joinCompanyRepository;
@@ -152,7 +154,6 @@ public class CompanyService {
 
     private void fcmNotification(Member member, Company company) throws ExecutionException, InterruptedException {
         String fcmBody = company.getName() + "에서 초대가 왔습니다.";
-        System.out.println("member.getFcmToken() = " + member.getFcmToken());
         fcmService.sendMessage(member.getFcmToken(), company.getName(), fcmBody);
     }
 
