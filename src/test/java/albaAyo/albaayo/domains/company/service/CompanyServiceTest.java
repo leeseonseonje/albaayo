@@ -74,25 +74,32 @@ class CompanyServiceTest {
     }
 
     @Test
-    public void 그룹인원목록() throws IOException {
-        List<ResponseCompanyWorkerListDto> companyWorkerList = companyRepository.findCompanyWorkerList(6L);
-        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
-            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
-        }
-        if (companyWorkerList.isEmpty()) {
-            companyWorkerList.add(companyRepository.findCompanyEmployer(6L));
-        }
-
-        assertThat(companyWorkerList.get(0).getMemberId()).isEqualTo(1L);
+    public void 그룹인원목록() {
+//        List<ResponseCompanyWorkerListDto> companyWorkerList = companyRepository.findCompanyWorkerList(6L);
+//        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
+//            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
+//        }
+//        if (companyWorkerList.isEmpty()) {
+//            companyWorkerList.add(companyRepository.findCompanyEmployer(6L));
+//        }
+//
+//        assertThat(companyWorkerList.get(0).getMemberId()).isEqualTo(1L);
 
         List<ResponseCompanyWorkerListDto> companyWorkerListB = companyRepository.findCompanyWorkerList(7L);
-        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
+        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerListB) {
             System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
+//            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getChatCount());
         }
         if (companyWorkerListB.isEmpty()) {
             companyWorkerListB.add(companyRepository.findCompanyEmployer(6L));
         }
 
         assertThat(companyWorkerListB.get(0).getMemberId()).isEqualTo(1L);
+    }
+
+    @Test
+    public void t() {
+        Long test = companyRepository.test();
+        System.out.println("test = " + test);
     }
 }

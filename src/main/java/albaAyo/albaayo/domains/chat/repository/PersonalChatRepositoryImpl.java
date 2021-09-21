@@ -1,6 +1,7 @@
 package albaAyo.albaayo.domains.chat.repository;
 
 import albaAyo.albaayo.domains.chat.dto.ResponsePersonalChatMessage;
+import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorkerListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -22,7 +23,8 @@ public class PersonalChatRepositoryImpl implements PersonalChatRepositoryCustom 
 
     @Override
     public List<ResponsePersonalChatMessage> personalChatContents(Long myMemberId, Long memberId) {
-        return queryFactory.select(Projections.constructor(ResponsePersonalChatMessage.class,
+        return queryFactory
+                .select(Projections.constructor(ResponsePersonalChatMessage.class,
                 personalChat.sendMember.id, personalChat.recvMember.id, member.name, personalChat.chatContent,
                 personalChat.createdDate))
                 .from(personalChat)
@@ -31,6 +33,14 @@ public class PersonalChatRepositoryImpl implements PersonalChatRepositoryCustom 
                 .join(member)
                 .on(member.id.eq(personalChat.sendMember.id))
                 .orderBy(personalChat.createdDate.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<Long> personalChatHistoryCount(List<ResponseCompanyWorkerListDto> list) {
+        return queryFactory
+                .select(personalChat.count())
+                .from(personalChat)
                 .fetch();
     }
 }

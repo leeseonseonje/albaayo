@@ -1,5 +1,6 @@
 package albaAyo.albaayo.domains.company.repository;
 
+import albaAyo.albaayo.domains.chat.domain.QPersonalChat;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
@@ -12,6 +13,7 @@ import javax.jdo.annotations.Join;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static albaAyo.albaayo.domains.chat.domain.QPersonalChat.*;
 import static albaAyo.albaayo.domains.company.domain.QCompany.*;
 import static albaAyo.albaayo.domains.company.domain.QJoinCompany.*;
 import static albaAyo.albaayo.domains.member.domain.QMember.*;
@@ -43,7 +45,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
     public List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long companyId) {
         return queryFactory
                 .select(Projections.constructor(ResponseCompanyWorkerListDto.class,
-                        member.id, member.name, member.birth, member.role))
+                        member.id, member.name, member.birth, member.role, personalChat.count()))
                 .distinct()
                 .from(company)
                 .join(joinCompany)
@@ -51,6 +53,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                         .and(joinCompany.accept.eq(Accept.ACCEPT)))
                 .join(member)
                 .on(member.id.eq(company.member.id).or(member.id.eq(joinCompany.member.id)))
+                .join(personalChat.recvMember, member)
                 .orderBy(member.role.asc())
                 .fetch();
     }
@@ -64,6 +67,15 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .from(company)
                 .join(company.member, member)
                 .where(company.id.eq(companyId))
+                .fetchOne();
+    }
+
+    @Override
+    public Long test() {
+        return queryFactory
+                .select(member.count())
+                .from(member)
+                .where(member.id.eq(1L))
                 .fetchOne();
     }
 
