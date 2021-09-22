@@ -43,9 +43,10 @@ public class CompanyController {
     }
 
     //그룹 메인(소속회원 리스트)
-    @GetMapping("/company/{companyId}")
-    public List<ResponseCompanyWorkerListDto> companyMain(@PathVariable("companyId") Long companyId) {
-        return companyService.companyMain(companyId);
+    @GetMapping("{memberId}/company/{companyId}") // "/{memberId}/company/{companyId}"
+    public Result<List<ResponseCompanyWorkerListDto>> companyMain(@PathVariable Long memberId,
+                                                          @PathVariable Long companyId) {
+        return companyService.companyMain(memberId, companyId);
     }
 
     //근로자 초대

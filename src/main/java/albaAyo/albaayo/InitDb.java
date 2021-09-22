@@ -1,5 +1,6 @@
 package albaAyo.albaayo;
 
+import albaAyo.albaayo.domains.chat.domain.PersonalChat;
 import albaAyo.albaayo.domains.commute.Commute;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
@@ -180,6 +181,32 @@ public class InitDb {
             em.persist(C);
             em.persist(D);
             em.persist(E);
+
+            PersonalChat pchA1 = PersonalChat.builder().chatContent("pchA1").sendMember(employerA).recvMember(workerA).build();
+            PersonalChat pchA2 = PersonalChat.builder().chatContent("pchA2").sendMember(employerA).recvMember(workerA).build();
+            PersonalChat pchA3 = PersonalChat.builder().chatContent("pchA3").sendMember(employerA).recvMember(workerA).build();
+
+            PersonalChat pchB1 = PersonalChat.builder().chatContent("pchB1").sendMember(employerA).recvMember(workerB).build();
+            PersonalChat pchB2 = PersonalChat.builder().chatContent("pchB2").sendMember(employerA).recvMember(workerB).build();
+
+            PersonalChat pchC1 = PersonalChat.builder().chatContent("pchC1").sendMember(employerA).recvMember(workerC).build();
+            PersonalChat pchC2 = PersonalChat.builder().chatContent("pchC2").sendMember(employerA).recvMember(workerC).build();
+            PersonalChat pchC3 = PersonalChat.builder().chatContent("pchC3").sendMember(employerA).recvMember(workerC).build();
+            PersonalChat pchC4 = PersonalChat.builder().chatContent("pchC4").sendMember(employerA).recvMember(workerC).build();
+            PersonalChat pchC5 = PersonalChat.builder().chatContent("pchC5").sendMember(employerA).recvMember(workerC).build();
+
+            em.persist(pchA1);
+            em.persist(pchA2);
+            em.persist(pchA3);
+
+            em.persist(pchB1);
+            em.persist(pchB2);
+
+            em.persist(pchC1);
+            em.persist(pchC2);
+            em.persist(pchC3);
+            em.persist(pchC4);
+            em.persist(pchC5);
         }
     }
 }

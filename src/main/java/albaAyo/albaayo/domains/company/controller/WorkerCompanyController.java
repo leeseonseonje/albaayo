@@ -23,7 +23,7 @@ public class WorkerCompanyController {
     private final WorkerCompanyService workerCompanyService;
 
     //수락하지 않은 그룹리스트
-    @GetMapping("/worker/{workerId}/company/invite")
+    @GetMapping("/worker/{workerId}/company/invite") // /worker/{workerId}/invite
     public List<CompanyDto> notAcceptCompanyList(@PathVariable Long workerId) throws IOException {
 
         return workerCompanyService.notAcceptCompanyList(workerId, NOT_ACCEPT)

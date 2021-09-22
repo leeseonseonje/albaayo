@@ -122,12 +122,13 @@ public class CompanyService {
         }
     }
 
-    public List<ResponseCompanyWorkerListDto> companyMain(Long companyId) {
-        List<ResponseCompanyWorkerListDto> workerList = companyRepository.findCompanyWorkerList(companyId);
+    public Result<List<ResponseCompanyWorkerListDto>> companyMain(Long memberId, Long companyId) {
+        List<ResponseCompanyWorkerListDto> workerList = companyRepository.findCompanyWorkerList(memberId, companyId);
         if (workerList.isEmpty()) {
             workerList.add(companyRepository.findCompanyEmployer(companyId));
         }
-        return workerList;
+        Long count = chatRepository.companyChatHistoryCount(companyId);
+        return new Result<>(workerList, count);
     }
 
     public Member inviteWorker(Long id, RequestInviteWorkerDto request) throws ExecutionException, InterruptedException {

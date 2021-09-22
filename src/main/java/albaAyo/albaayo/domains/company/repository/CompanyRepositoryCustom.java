@@ -11,7 +11,7 @@ public interface CompanyRepositoryCustom {
 
     List<Company> findCompanies(Long id);
 
-    List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long companyId);
+    List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long memberId, Long companyId);
 
     ResponseCompanyWorkerListDto findCompanyEmployer(Long companyId);
 

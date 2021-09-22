@@ -1,7 +1,9 @@
 package albaAyo.albaayo.domains.company.service;
 
 import albaAyo.albaayo.domains.chat.domain.Chat;
+import albaAyo.albaayo.domains.chat.domain.PersonalChat;
 import albaAyo.albaayo.domains.chat.repository.ChatRepository;
+import albaAyo.albaayo.domains.chat.repository.PersonalChatRepository;
 import albaAyo.albaayo.domains.company.domain.Accept;
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
@@ -9,6 +11,8 @@ import albaAyo.albaayo.domains.company.dto.company_main_dto.ResponseCompanyWorke
 import albaAyo.albaayo.domains.company.repository.CompanyRepository;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
+import albaAyo.albaayo.domains.member.repository.MemberRepository;
+import albaAyo.albaayo.domains.member.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -37,6 +39,8 @@ class CompanyServiceTest {
     CompanyRepository companyRepository;
     @Autowired
     ChatRepository chatRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     public void companyChatHistoryCountTest() {
@@ -74,26 +78,68 @@ class CompanyServiceTest {
     }
 
     @Test
-    public void 그룹인원목록() {
-//        List<ResponseCompanyWorkerListDto> companyWorkerList = companyRepository.findCompanyWorkerList(6L);
-//        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
-//            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
-//        }
-//        if (companyWorkerList.isEmpty()) {
-//            companyWorkerList.add(companyRepository.findCompanyEmployer(6L));
-//        }
-//
-//        assertThat(companyWorkerList.get(0).getMemberId()).isEqualTo(1L);
+    public void pchCount() {
+        Member employerA = memberRepository.findById(1L).get();
+        Member workerA = memberRepository.findById(2L).get();
+        Member workerB = memberRepository.findById(3L).get();
+        Member workerC = memberRepository.findById(4L).get();
 
-        List<ResponseCompanyWorkerListDto> companyWorkerListB = companyRepository.findCompanyWorkerList(7L);
+        PersonalChat pchA1 = PersonalChat.builder().chatContent("pchA1").sendMember(employerA).recvMember(workerA).build();
+        PersonalChat pchA2 = PersonalChat.builder().chatContent("pchA2").sendMember(employerA).recvMember(workerA).build();
+        PersonalChat pchA3 = PersonalChat.builder().chatContent("pchA3").sendMember(employerA).recvMember(workerA).build();
+
+        PersonalChat pchB1 = PersonalChat.builder().chatContent("pchB1").sendMember(employerA).recvMember(workerB).build();
+        PersonalChat pchB2 = PersonalChat.builder().chatContent("pchB2").sendMember(employerA).recvMember(workerB).build();
+
+        PersonalChat pchC1 = PersonalChat.builder().chatContent("pchC1").sendMember(employerA).recvMember(workerC).build();
+        PersonalChat pchC2 = PersonalChat.builder().chatContent("pchC2").sendMember(employerA).recvMember(workerC).build();
+        PersonalChat pchC3 = PersonalChat.builder().chatContent("pchC3").sendMember(employerA).recvMember(workerC).build();
+        PersonalChat pchC4 = PersonalChat.builder().chatContent("pchC4").sendMember(employerA).recvMember(workerC).build();
+        PersonalChat pchC5 = PersonalChat.builder().chatContent("pchC5").sendMember(employerA).recvMember(workerC).build();
+
+        em.persist(pchA1);
+        em.persist(pchA2);
+        em.persist(pchA3);
+
+        em.persist(pchB1);
+        em.persist(pchB2);
+
+        em.persist(pchC1);
+        em.persist(pchC2);
+        em.persist(pchC3);
+        em.persist(pchC4);
+        em.persist(pchC5);
+
+        List<ResponseCompanyWorkerListDto> companyWorkerListB = companyRepository.findCompanyWorkerList(1L, 7L);
+        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerListB) {
+            System.out.println("responseCompanyWorkerListDto.getMemberId = " + responseCompanyWorkerListDto.getMemberId());
+            System.out.println("responseCompanyWorkerListDto.getChatCount = " + responseCompanyWorkerListDto.getChatCount());
+        }
+    }
+
+    @Test
+    public void 그룹인원목록() {
+        List<ResponseCompanyWorkerListDto> companyWorkerList = companyRepository.findCompanyWorkerList(1L, 6L);
+        if (companyWorkerList.isEmpty()) {
+            companyWorkerList.add(companyRepository.findCompanyEmployer(6L));
+        }
+        for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerList) {
+            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
+            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getChatCount());
+        }
+
+        assertThat(companyWorkerList.get(0).getMemberId()).isEqualTo(1L);
+        System.out.println("=============================================");
+        List<ResponseCompanyWorkerListDto> companyWorkerListB = companyRepository.findCompanyWorkerList(1L, 7L);
         for (ResponseCompanyWorkerListDto responseCompanyWorkerListDto : companyWorkerListB) {
             System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getMemberName());
-//            System.out.println("responseCompanyWorkerListDto.getMemberName() = " + responseCompanyWorkerListDto.getChatCount());
+            System.out.println("responseCompanyWorkerListDto.getChatCount() = " + responseCompanyWorkerListDto.getChatCount());
         }
         if (companyWorkerListB.isEmpty()) {
             companyWorkerListB.add(companyRepository.findCompanyEmployer(6L));
         }
-
+        Long count = chatRepository.companyChatHistoryCount(7L);
+        assertThat(count).isEqualTo(0L);
         assertThat(companyWorkerListB.get(0).getMemberId()).isEqualTo(1L);
     }
 
