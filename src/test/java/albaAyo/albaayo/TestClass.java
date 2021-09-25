@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jdo.annotations.Join;
 import javax.persistence.EntityManager;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,5 +144,13 @@ public class TestClass {
         for (CompanyDto companyDto : collect) {
             System.out.println("companyDto = " + companyDto.getName());
         }
+    }
+
+    @Test
+    public void tiem() {
+        String t = "12 : 00";
+        LocalTime parse = LocalTime.parse(t);
+        System.out.println("parse = " + parse);
+        System.out.println("t = " + t);
     }
 }

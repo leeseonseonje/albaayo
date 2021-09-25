@@ -31,16 +31,23 @@ public class JwtService {
 //                if (refreshToken.equals(findRefreshToken.getToken())) {
         if (findRefreshToken != null) {
             Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(
-                    () -> new RuntimeException("존재하지 않는 회원입니다."));
-            Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(member.getId(), member.getPassword());
-            TokenDto token = tokenProvider.createToken(authentication);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                    () -> new RuntimeException("존재하지 않는 회원입니다."));\
+
+            TokenDto token = getTokenDto(member);
+
             response.setHeader("Authorization", token.getAccessToken());
             findRefreshToken.tokenReissue(token.getRefreshToken());
             log.info("accessToken: {}, refreshToken: {}", token.getAccessToken(), token.getRefreshToken());
         } else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
         }
+    }
+
+    private TokenDto getTokenDto(Member member) {
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(member.getId(), member.getPassword());
+        TokenDto token = tokenProvider.createToken(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return token;
     }
 }

@@ -1,5 +1,6 @@
 package albaAyo.albaayo.config.jwt.dto;
 
+import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.member.domain.Role;
 import lombok.*;
 
