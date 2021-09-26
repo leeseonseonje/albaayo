@@ -17,4 +17,13 @@ public class TokenDto {
     private String userId;
     private String name;
     private Role role;
+
+    public TokenDto toEntity(Member member) {
+        return TokenDto.builder()
+                .id(member.getId())
+                .userId(member.getUserId())
+                .name(member.getName())
+                .role(member.getRole())
+                .build();
+    }
 }
