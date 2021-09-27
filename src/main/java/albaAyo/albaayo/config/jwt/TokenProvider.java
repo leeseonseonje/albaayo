@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "auth";
-    private static final String BEARER_TYPE = "bearer";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
