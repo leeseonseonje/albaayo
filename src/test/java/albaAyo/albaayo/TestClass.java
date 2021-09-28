@@ -123,12 +123,14 @@ public class TestClass {
         Integer i = 1;
         int x = 0;
         Long id = 1L;
+        Boolean bo = true;
         List<String> list = new ArrayList<>();
         list.add("s");
         list.add("s");
         list.add("s");
         list.add("s");
 
+        System.out.println(bo.getClass().getName());
         System.out.println(s.getClass().getName());
         System.out.println(i.getClass().getName());
         System.out.println(id.getClass().getName());
