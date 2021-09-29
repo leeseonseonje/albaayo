@@ -21,7 +21,7 @@ public class ChatRepositoryImpl implements ChatRepositoryCustom {
     }
 
     @Override
-        public List<ResponseChatMessage> chatContents(Long companyId) {
+    public List<ResponseChatMessage> chatContents(Long companyId) {
         return queryFactory
                 .select(Projections.constructor(ResponseChatMessage.class,
                         member.id, member.name, chat.chatContents, chat.createdDate))
