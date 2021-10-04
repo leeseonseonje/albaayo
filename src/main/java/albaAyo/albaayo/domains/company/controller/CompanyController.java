@@ -80,7 +80,7 @@ public class CompanyController {
 
     //그룹 정보 수정
     @PatchMapping("/company/{companyId}")
-    public void updateCompany(@PathVariable Long companyId, @RequestBody RequestCompanyDto request) throws IOException {
+    public void updateCompany(@PathVariable Long companyId, @ModelAttribute RequestCompanyDto request) throws IOException {
 
         companyService.updateCompany(companyId, request);
     }
