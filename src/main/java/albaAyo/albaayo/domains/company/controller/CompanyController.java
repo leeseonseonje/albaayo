@@ -43,7 +43,7 @@ public class CompanyController {
     }
 
     //그룹 메인(소속회원 리스트)
-    @GetMapping("{memberId}/company/{companyId}") // "/{memberId}/company/{companyId}"
+    @GetMapping("{memberId}/company/{companyId}")
     public Result<List<ResponseCompanyWorkerListDto>> companyMain(@PathVariable Long memberId,
                                                           @PathVariable Long companyId) {
         return companyService.companyMain(memberId, companyId);
