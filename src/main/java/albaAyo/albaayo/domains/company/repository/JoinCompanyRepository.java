@@ -1,13 +1,10 @@
 package albaAyo.albaayo.domains.company.repository;
 
-import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface JoinCompanyRepository extends JpaRepository<JoinCompany, Long>, JoinCompanyRepositoryCustom {
 

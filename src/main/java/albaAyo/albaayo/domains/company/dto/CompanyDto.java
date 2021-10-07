@@ -2,9 +2,7 @@ package albaAyo.albaayo.domains.company.dto;
 
 import albaAyo.albaayo.domains.company.domain.Company;
 import albaAyo.albaayo.domains.company.domain.JoinCompany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

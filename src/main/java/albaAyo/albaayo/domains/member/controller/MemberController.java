@@ -5,12 +5,7 @@ import albaAyo.albaayo.domains.member.dto.*;
 import albaAyo.albaayo.domains.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.swing.filechooser.FileSystemView;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor

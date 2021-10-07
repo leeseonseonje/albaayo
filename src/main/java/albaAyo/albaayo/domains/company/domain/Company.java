@@ -3,7 +3,6 @@ package albaAyo.albaayo.domains.company.domain;
 import albaAyo.albaayo.BaseTimeEntity;
 import albaAyo.albaayo.domains.chat.domain.Chat;
 import albaAyo.albaayo.domains.commute.Commute;
-import albaAyo.albaayo.domains.company.dto.CompanyDto;
 import albaAyo.albaayo.domains.company.dto.RequestCompanyDto;
 import albaAyo.albaayo.domains.member.domain.Member;
 import albaAyo.albaayo.domains.notice.domain.Notice;
