@@ -13,6 +13,7 @@ public class NoticeImage {
 
     @Id
     @GeneratedValue
+    @Column(name = "notice_image_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

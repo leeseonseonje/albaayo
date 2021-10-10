@@ -16,6 +16,7 @@ public class Location extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "location_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)

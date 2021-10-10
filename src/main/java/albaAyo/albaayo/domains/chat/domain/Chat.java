@@ -19,6 +19,7 @@ public class Chat extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "chat_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

@@ -16,6 +16,7 @@ public class JoinCompany {
 
     @Id
     @GeneratedValue
+    @Column(name = "join_company__id")
     private Long id;
 
     @Enumerated(EnumType.STRING)

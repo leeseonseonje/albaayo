@@ -32,6 +32,7 @@ public class Company extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "company_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

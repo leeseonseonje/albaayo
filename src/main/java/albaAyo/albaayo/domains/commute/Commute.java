@@ -18,6 +18,7 @@ public class Commute{
 
     @Id
     @GeneratedValue
+    @Column(name = "commute_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
