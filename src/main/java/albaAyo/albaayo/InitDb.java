@@ -48,40 +48,40 @@ public class InitDb {
                     .build();
 
             Member workerA = Member.builder()
-                    .userId("worewweqwker")
+                    .userId("worker")
                     .password(pw)
                     .email("mecxzbmberB@g.com")
                     .name("workerA")
                     .birth("1998년 2월 9일")
                     .role(Role.ROLE_WORKER)
                     .build();
-
-            Member workerB = Member.builder()
-                    .userId("workdasdasdaser")
-                    .password(pw)
-                    .email("memberdasdasB@g.com")
-                    .name("workerB")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
-
-            Member workerC = Member.builder()
-                    .userId("workedasr")
-                    .password(pw)
-                    .email("mdasemberB@g.com")
-                    .name("workerC")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
-
-            Member workerD = Member.builder()
-                    .userId("wordasker")
-                    .password(pw)
-                    .email("membdaserB@g.com")
-                    .name("workerD")
-                    .birth("1998년 2월 9일")
-                    .role(Role.ROLE_WORKER)
-                    .build();
+//
+//            Member workerB = Member.builder()
+//                    .userId("workdasdasdaser")
+//                    .password(pw)
+//                    .email("memberdasdasB@g.com")
+//                    .name("workerB")
+//                    .birth("1998년 2월 9일")
+//                    .role(Role.ROLE_WORKER)
+//                    .build();
+//
+//            Member workerC = Member.builder()
+//                    .userId("workedasr")
+//                    .password(pw)
+//                    .email("mdasemberB@g.com")
+//                    .name("workerC")
+//                    .birth("1998년 2월 9일")
+//                    .role(Role.ROLE_WORKER)
+//                    .build();
+//
+//            Member workerD = Member.builder()
+//                    .userId("wordasker")
+//                    .password(pw)
+//                    .email("membdaserB@g.com")
+//                    .name("workerD")
+//                    .birth("1998년 2월 9일")
+//                    .role(Role.ROLE_WORKER)
+//                    .build();
 
             RefreshToken A = RefreshToken.builder().id("1").token("222").build();
             RefreshToken B = RefreshToken.builder().id("2").token("2222").build();
@@ -89,124 +89,124 @@ public class InitDb {
             em.persist(B);
             em.persist(employerA);
             em.persist(workerA);
-            em.persist(workerB);
-            em.persist(workerC);
-            em.persist(workerD);
+//            em.persist(workerB);
+//            em.persist(workerC);
+//            em.persist(workerD);
 
-            Company companyA = Company.builder()
-                    .name("companyA")
-                    .location("das")
-                    .businessRegistrationNumber("1234567890")
-                    .build();
+//            Company companyA = Company.builder()
+//                    .name("companyA")
+//                    .location("das")
+//                    .businessRegistrationNumber("1234567890")
+//                    .build();
+//
+//            Company companyB = Company.builder()
+//                    .name("companyB")
+//                    .location("da")
+//                    .businessRegistrationNumber("123478")
+//                    .build();
+//
+//            Company companyC = Company.builder()
+//                    .name("companyC")
+//                    .location("d")
+//                    .businessRegistrationNumber("12367890")
+//                    .build();
+//            Company companyD = Company.builder()
+//                    .name("companyD")
+//                    .location("dadass")
+//                    .businessRegistrationNumber("190")
+//                    .build();
+//
+//            Company companyE = Company.builder()
+//                    .name("companyE")
+//                    .location("dasdassdadsa")
+//                    .businessRegistrationNumber("1")
+//                    .build();
 
-            Company companyB = Company.builder()
-                    .name("companyB")
-                    .location("da")
-                    .businessRegistrationNumber("123478")
-                    .build();
-
-            Company companyC = Company.builder()
-                    .name("companyC")
-                    .location("d")
-                    .businessRegistrationNumber("12367890")
-                    .build();
-            Company companyD = Company.builder()
-                    .name("companyD")
-                    .location("dadass")
-                    .businessRegistrationNumber("190")
-                    .build();
-
-            Company companyE = Company.builder()
-                    .name("companyE")
-                    .location("dasdassdadsa")
-                    .businessRegistrationNumber("1")
-                    .build();
-
-            em.persist(companyA);
-            companyA.employerCreateCompany(employerA);
-            em.persist(companyB);
-            companyB.employerCreateCompany(employerA);
-            em.persist(companyC);
-            companyC.employerCreateCompany(employerA);
-            em.persist(companyD);
-//            companyD.employerCreateCompany(employerA);
-            em.persist(companyE);
-//            companyE.employerCreateCompany(employerA);
-
-//            JoinCompany jA = JoinCompany.builder()
+//            em.persist(companyA);
+//            companyA.employerCreateCompany(employerA);
+//            em.persist(companyB);
+//            companyB.employerCreateCompany(employerA);
+//            em.persist(companyC);
+//            companyC.employerCreateCompany(employerA);
+//            em.persist(companyD);
+////            companyD.employerCreateCompany(employerA);
+//            em.persist(companyE);
+////            companyE.employerCreateCompany(employerA);
+//
+////            JoinCompany jA = JoinCompany.builder()
+////                    .accept(Accept.ACCEPT)
+////                    .company(companyA)
+////                    .member(workerA)
+////                    .build();
+//            JoinCompany jB = JoinCompany.builder()
 //                    .accept(Accept.ACCEPT)
-//                    .company(companyA)
+//                    .company(companyB)
 //                    .member(workerA)
 //                    .build();
-            JoinCompany jB = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerA)
-                    .build();
-            JoinCompany jB1 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerB)
-                    .build();
-            JoinCompany jB2 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerC)
-                    .build();
-            JoinCompany jB3 = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyB)
-                    .member(workerD)
-                    .build();
-            JoinCompany C = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyC)
-                    .member(workerA)
-                    .build();
-            JoinCompany D = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyD)
-                    .member(workerA)
-                    .build();
-            JoinCompany E = JoinCompany.builder()
-                    .accept(Accept.ACCEPT)
-                    .company(companyE)
-                    .member(workerA)
-                    .build();
-//            em.persist(jA);
-            em.persist(jB);
-            em.persist(jB1);
-            em.persist(jB2);
-            em.persist(jB3);
-            em.persist(C);
-            em.persist(D);
-            em.persist(E);
+//            JoinCompany jB1 = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyB)
+//                    .member(workerB)
+//                    .build();
+//            JoinCompany jB2 = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyB)
+//                    .member(workerC)
+//                    .build();
+//            JoinCompany jB3 = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyB)
+//                    .member(workerD)
+//                    .build();
+//            JoinCompany C = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyC)
+//                    .member(workerA)
+//                    .build();
+//            JoinCompany D = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyD)
+//                    .member(workerA)
+//                    .build();
+//            JoinCompany E = JoinCompany.builder()
+//                    .accept(Accept.ACCEPT)
+//                    .company(companyE)
+//                    .member(workerA)
+//                    .build();
+////            em.persist(jA);
+//            em.persist(jB);
+//            em.persist(jB1);
+//            em.persist(jB2);
+//            em.persist(jB3);
+//            em.persist(C);
+//            em.persist(D);
+//            em.persist(E);
 
-            PersonalChat pchA1 = PersonalChat.builder().chatContent("pchA1").sendMember(employerA).recvMember(workerA).build();
-            PersonalChat pchA2 = PersonalChat.builder().chatContent("pchA2").sendMember(employerA).recvMember(workerA).build();
-            PersonalChat pchA3 = PersonalChat.builder().chatContent("pchA3").sendMember(employerA).recvMember(workerA).build();
-
-            PersonalChat pchB1 = PersonalChat.builder().chatContent("pchB1").sendMember(employerA).recvMember(workerB).build();
-            PersonalChat pchB2 = PersonalChat.builder().chatContent("pchB2").sendMember(employerA).recvMember(workerB).build();
-
-            PersonalChat pchC1 = PersonalChat.builder().chatContent("pchC1").sendMember(employerA).recvMember(workerC).build();
-            PersonalChat pchC2 = PersonalChat.builder().chatContent("pchC2").sendMember(employerA).recvMember(workerC).build();
-            PersonalChat pchC3 = PersonalChat.builder().chatContent("pchC3").sendMember(employerA).recvMember(workerC).build();
-            PersonalChat pchC4 = PersonalChat.builder().chatContent("pchC4").sendMember(employerA).recvMember(workerC).build();
-            PersonalChat pchC5 = PersonalChat.builder().chatContent("pchC5").sendMember(employerA).recvMember(workerC).build();
-
-            em.persist(pchA1);
-            em.persist(pchA2);
-            em.persist(pchA3);
-
-            em.persist(pchB1);
-            em.persist(pchB2);
-
-            em.persist(pchC1);
-            em.persist(pchC2);
-            em.persist(pchC3);
-            em.persist(pchC4);
-            em.persist(pchC5);
+//            PersonalChat pchA1 = PersonalChat.builder().chatContent("pchA1").sendMember(employerA).recvMember(workerA).build();
+//            PersonalChat pchA2 = PersonalChat.builder().chatContent("pchA2").sendMember(employerA).recvMember(workerA).build();
+//            PersonalChat pchA3 = PersonalChat.builder().chatContent("pchA3").sendMember(employerA).recvMember(workerA).build();
+//
+//            PersonalChat pchB1 = PersonalChat.builder().chatContent("pchB1").sendMember(employerA).recvMember(workerB).build();
+//            PersonalChat pchB2 = PersonalChat.builder().chatContent("pchB2").sendMember(employerA).recvMember(workerB).build();
+//
+//            PersonalChat pchC1 = PersonalChat.builder().chatContent("pchC1").sendMember(employerA).recvMember(workerC).build();
+//            PersonalChat pchC2 = PersonalChat.builder().chatContent("pchC2").sendMember(employerA).recvMember(workerC).build();
+//            PersonalChat pchC3 = PersonalChat.builder().chatContent("pchC3").sendMember(employerA).recvMember(workerC).build();
+//            PersonalChat pchC4 = PersonalChat.builder().chatContent("pchC4").sendMember(employerA).recvMember(workerC).build();
+//            PersonalChat pchC5 = PersonalChat.builder().chatContent("pchC5").sendMember(employerA).recvMember(workerC).build();
+//
+//            em.persist(pchA1);
+//            em.persist(pchA2);
+//            em.persist(pchA3);
+//
+//            em.persist(pchB1);
+//            em.persist(pchB2);
+//
+//            em.persist(pchC1);
+//            em.persist(pchC2);
+//            em.persist(pchC3);
+//            em.persist(pchC4);
+//            em.persist(pchC5);
         }
     }
 }

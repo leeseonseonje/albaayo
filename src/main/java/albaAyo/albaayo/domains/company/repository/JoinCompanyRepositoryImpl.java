@@ -77,7 +77,7 @@ public class JoinCompanyRepositoryImpl implements JoinCompanyRepositoryCustom {
                 .from(joinCompany)
                 .where(joinCompany.company.id.eq(companyId)
                         .and(joinCompany.accept.eq(Accept.ACCEPT))
-                        .and(joinCompany.member.id.ne(memberId)))
+                        .and(joinCompany.member.id.eq(memberId)))
                 .join(member)
                 .on(joinCompany.member.id.eq(member.id))
                 .fetch();
