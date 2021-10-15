@@ -36,7 +36,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom{
                 .fetch();
     }
 
-    //직원이 없을경우 join_company 테이블이 비어있으므로 empty list가 조회된다.
+    //직원이 없을경우 join_company 테이블이 비어있으므로 비어있는 list가 조회된다.
     @Override
     public List<ResponseCompanyWorkerListDto> findCompanyWorkerList(Long memberId, Long companyId) {
         List<ResponseCompanyWorkerListDto> list = queryFactory
