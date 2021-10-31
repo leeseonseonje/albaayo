@@ -35,9 +35,9 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final JoinCompanyRepository joinCompanyRepository;
 
-    public Company EmployerCreateCompany(Long employerId, RequestCompanyDto requestCreatCompanyDto) throws IOException {
+    public Company EmployerCreateCompany(Long employerId, RequestCompanyDto requestCreateCompanyDto) throws IOException {
 
-        Company company = companyBuilder(requestCreatCompanyDto);
+        Company company = companyBuilder(requestCreateCompanyDto);
 
         validateCompany(company);
 
