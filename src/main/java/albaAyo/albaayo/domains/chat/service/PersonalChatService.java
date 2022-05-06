@@ -26,8 +26,10 @@ public class PersonalChatService {
     private final PersonalChatRepository personalChatRepository;
 
     public void saveChatAndNotification(RequestPersonalChatMessage request) throws ExecutionException, InterruptedException {
+
         Member sendMember = memberRepository.findById(request.getSendMemberId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원입니다."));
+
         Member recvMember = memberRepository.findById(request.getRecvMemberId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원입니다."));
 
@@ -35,6 +37,7 @@ public class PersonalChatService {
                 .sendMember(sendMember).recvMember(recvMember)
                 .chatContent(request.getMessage()).build();
         personalChatRepository.save(personalChat);
+
         fcmNotification(recvMember, request);
     }
 

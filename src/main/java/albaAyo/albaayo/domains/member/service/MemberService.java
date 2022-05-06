@@ -68,8 +68,6 @@ public class MemberService {
 
         UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication();
 
-        //  실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         TokenDto tokenDto = createTokenDto(authentication);
@@ -109,10 +107,14 @@ public class MemberService {
         Member member = memberRepository.findById(Long.parseLong(authentication.getName()))
                 .orElseThrow(() -> new RuntimeException("없는 ID 입니다."));
 
+        tokenDataSetting(tokenDto, member);
+        return tokenDto;
+    }
+
+    private void tokenDataSetting(TokenDto tokenDto, Member member) {
         tokenDto.setId(member.getId());
         tokenDto.setUserId(member.getUserId());
         tokenDto.setName(member.getName());
         tokenDto.setRole(member.getRole());
-        return tokenDto;
     }
 }

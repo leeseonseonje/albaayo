@@ -23,6 +23,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static albaAyo.albaayo.domains.company.domain.Accept.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -72,15 +74,18 @@ public class WorkerCompanyService {
         List<String> fcmTokens = joinCompanyRepository.companyWorkers(company.getId(), member.getId());
         fcmTokens.add(company.getMember().getFcmToken());
 
-        if (state.equals("ACCEPT")) {
-            String fcmBody = member.getName() + "님이 " + "함께 일하게 되었습니다.";
+        if (state.equals(ACCEPT.getStatus())) {
+            String fcmBody = ACCEPT.message(member.getId());
             fcmService.sendMulticastMessage(fcmTokens, company.getName(), fcmBody);
-        } else if (state.equals("NOT_ACCEPT")) {
-            String fcmBody = member.getName() + "님이 " + "초대를 거절하셨습니다.";
+
+        } else if (state.equals(NOT_ACCEPT.getStatus())) {
+            String fcmBody = NOT_ACCEPT.message(member.getId());
             fcmService.sendMessage(company.getMember().getFcmToken(), company.getName(), fcmBody);
+
         } else {
             String fcmBody = member.getName() + "님이 " + "퇴장하셨습니다.";
             fcmService.sendMulticastMessage(fcmTokens, company.getName(), fcmBody);
         }
+
     }
 }

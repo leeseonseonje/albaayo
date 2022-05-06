@@ -35,11 +35,14 @@ public class ChatService {
 
         Member findMember = memberRepository.findById(request.getMemberId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회원입니다."));
+
         Company findCompany = companyRepository.findById(request.getCompanyId()).orElseThrow(
                 () -> new RuntimeException("존재하지 않는 회사입니다."));
+
         Chat chat = Chat.builder().member(findMember)
                 .company(findCompany).chatContents(request.getMessage()).build();
         chatRepository.save(chat);
+
         fcmNotification(findCompany, request);
     }
 

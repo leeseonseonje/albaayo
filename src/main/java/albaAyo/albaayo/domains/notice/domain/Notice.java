@@ -58,7 +58,7 @@ public class Notice extends BaseTimeEntity {
     private String date;
 
     @Builder
-    public Notice(Company company, Member member, String title, String contents, String date) {
+    private Notice(Company company, Member member, String title, String contents, String date) {
         this.company = company;
         this.member = member;
         this.title = title;

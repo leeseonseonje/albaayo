@@ -99,12 +99,17 @@ public class NoticeService {
     public ResponseNoticeDto noticeContent(Long noticeId) throws IOException {
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글 입니다."));
 
+        List<NoticeImageDto> list = getNoticeImageDtos(notice);
+
+        return notice.noticeDtoBuilder(notice, list);
+    }
+
+    private List<NoticeImageDto> getNoticeImageDtos(Notice notice) throws IOException {
         List<NoticeImageDto> noticeImageDtos = notice.getNoticeImages().stream()
                 .map(m -> new NoticeImageDto(m.getImage(), m.getImageContent()))
                 .collect(Collectors.toList());
         List<NoticeImageDto> list = notice.imageDownload(noticeImageDtos);
-
-        return notice.noticeDtoBuilder(notice, list);
+        return list;
     }
 
     //공지 삭제
