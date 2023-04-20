@@ -7,7 +7,7 @@
 ## ERD
 ![Albaayo](https://user-images.githubusercontent.com/72899707/233373060-5509ff2d-bc29-4ea7-8d09-7ff7f9c5c1e3.png)
 
-## Do
+## did
 - Spring Boot, Spring Data JPA, QueryDSL을 이용하여 백엔드 개발
 
 - Spring Security를 이용하여 JWT 로그인 구현
