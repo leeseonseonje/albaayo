@@ -16,4 +16,7 @@
 
 - AWS, RDS로 클라우드 서버 구축
 
+## ERD
+![Albaayo](https://user-images.githubusercontent.com/72899707/233373060-5509ff2d-bc29-4ea7-8d09-7ff7f9c5c1e3.png)
+
 ## Process
